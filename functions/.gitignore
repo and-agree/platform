@@ -1,0 +1,11 @@
+# Compiled JavaScript files
+lib/**/*.js
+lib/**/*.js.map
+
+# Testing
+/.coverage
+/.nyc_output
+
+# TypeScript v1 declaration files
+typings/
+node_modules/
