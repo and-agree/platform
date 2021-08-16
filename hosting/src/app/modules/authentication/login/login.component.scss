@@ -1,0 +1,10 @@
+form {
+    display: grid;
+    gap: 1em;
+
+    .actions {
+        display: grid;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+}
