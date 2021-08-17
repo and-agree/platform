@@ -1,0 +1,24 @@
+<h2>Start a new decision</h2>
+<p>Kick-off a new decision by filling in all the relevant information for your team.</p>
+
+<form [formGroup]="decisionForm" (ngSubmit)="createDecision()">
+    <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Title</mat-label>
+        <input matInput required formControlName="subject" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Background</mat-label>
+        <textarea matInput rows="8" required formControlName="content"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Decider(s)</mat-label>
+        <input matInput required formControlName="destination" />
+    </mat-form-field>
+
+    <div class="actions">
+        <button (click)="performCancel()" mat-flat-button color="warn" type="button">Cancel</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="decisionForm.invalid">Engage</button>
+    </div>
+</form>

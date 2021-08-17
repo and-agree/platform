@@ -4,8 +4,9 @@ form {
 
     .actions {
         display: grid;
-        grid-template-columns: min-content;
+        grid-template-columns: min-content min-content;
         align-items: flex-end;
         justify-content: flex-end;
+        gap: 1em;
     }
 }
