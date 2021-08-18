@@ -12,7 +12,7 @@ const emailTemplate = (template: string): string => {
 };
 
 export const DecisionCreate = functions
-    .region('europe-west')
+    .region('europe-west2')
     .firestore.document('/decisions/{decisionId}')
     .onCreate(async (snapshot, context): Promise<void> => {
         setApiKey(functions.config().sendgrid.api_key);
