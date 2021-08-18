@@ -4,6 +4,7 @@
     "scripts": {
         "start": "ng serve",
         "build": "ng build",
+        "build:local": "ng build --configuration=local",
         "lint": "ng lint"
     },
     "private": true,

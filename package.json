@@ -5,10 +5,11 @@
     "scripts": {
         "start": "npm run build:ui && npm run build:api && npm run start:emu",
         "start:emu": "firebase emulators:start",
-        "build:ui": "(cd hosting; npm run build)",
+        "build:ui": "(cd hosting; npm run build:local)",
         "build:api": "(cd functions; npm run build)"
     },
     "dependencies": {
         "firebase-tools": "9.16.0"
-    }
+    },
+    "devDependencies": {}
 }

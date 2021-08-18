@@ -31,7 +31,7 @@
                         "scripts": []
                     },
                     "configurations": {
-                        "development": {
+                        "local": {
                             "buildOptimizer": false,
                             "optimization": false,
                             "vendorChunk": true,
@@ -72,14 +72,14 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
-                        "development": {
-                            "browserTarget": "hosting:build:development"
+                        "local": {
+                            "browserTarget": "hosting:build:local"
                         },
                         "production": {
                             "browserTarget": "hosting:build:production"
                         }
                     },
-                    "defaultConfiguration": "development"
+                    "defaultConfiguration": "local"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",

@@ -14,7 +14,19 @@
 
     <mat-form-field appearance="fill" floatLabel="always">
         <mat-label>Decider(s)</mat-label>
-        <input matInput required formControlName="destination" />
+        <mat-chip-list #deciderList required>
+            <mat-chip *ngFor="let destination of destinations.value; let i = index" [selectable]="false" [removable]="true" (removed)="remove(i)">
+                {{ destination }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input
+                placeholder="Email address..."
+                [matChipInputFor]="deciderList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="add($event)"
+            />
+        </mat-chip-list>
     </mat-form-field>
 
     <div class="actions">
