@@ -17,7 +17,6 @@ export const DecisionCreate = functions
     .onCreate(async (snapshot, context): Promise<void> => {
         setApiKey(functions.config().sendgrid.api_key);
 
-        const batch = admin.firestore().batch();
         const decisionRef = admin.firestore().collection('decisions').doc(context.params.decisionId);
         const decisionData = (await decisionRef.get()).data() as Decision;
 
@@ -30,9 +29,11 @@ export const DecisionCreate = functions
 
         try {
             await send(payload);
-            batch.update(decisionRef, { status: 'PENDING' });
-            await batch.commit();
         } catch (error) {
             console.log(error.message);
         }
+
+        const batch = admin.firestore().batch();
+        batch.update(decisionRef, { status: 'PENDING' });
+        await batch.commit();
     });

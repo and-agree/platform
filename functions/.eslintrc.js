@@ -15,10 +15,12 @@ module.exports = {
     ],
     plugins: ['@typescript-eslint', 'import'],
     rules: {
+        camelcase: ['error', { allow: ['sender_ip'] }],
         indent: ['error', 4],
         'max-len': ['error', { code: 180 }],
         'object-curly-spacing': ['error', 'always'],
         quotes: ['error', 'single'],
         'quote-props': ['error', 'as-needed'],
+        'require-jsdoc': 0,
     },
 };
