@@ -13,15 +13,20 @@ const emailTemplate = (template: string): string => {
 
 export const DecisionCreate = functions
     .region('europe-west2')
+    .runWith({
+        memory: '256MB',
+        timeoutSeconds: 30,
+    })
     .firestore.document('/decisions/{decisionId}')
     .onCreate(async (snapshot, context): Promise<void> => {
         setApiKey(functions.config().sendgrid.api_key);
+        const emailDomain = functions.config().sendgrid.domain;
 
         const decisionRef = admin.firestore().collection('decisions').doc(context.params.decisionId);
         const decisionData = (await decisionRef.get()).data() as Decision;
 
         const to = decisionData.destination;
-        const from = `${decisionData.uid}@test.andagree.com`;
+        const from = `${decisionData.uid}@${emailDomain}`;
         const subject = decisionData.subject;
         const html = await render(emailTemplate('decision.html'), { ...decisionData });
 
