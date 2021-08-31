@@ -3,6 +3,17 @@ a {
     text-decoration: none;
 
     &:hover {
-        color: #ddd
+        color: #ddd;
     }
+}
+
+.spacer {
+    flex: 1;
+}
+
+.user {
+    display: grid;
+    grid-auto-columns: min-content;
+    grid-auto-flow: column;
+    gap: 0.5em;
 }

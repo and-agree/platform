@@ -1,3 +1,10 @@
 <mat-toolbar color="primary">
     <a [routerLink]="['/']">&amp;Agree</a>
+
+    <span class="spacer"></span>
+
+    <div class="user" *agreeAuthenticated="true">
+        <div>{{ user.alias }}</div>
+        <button mat-flat-button color="warn" (click)="performLogout()">Logout</button>
+    </div>
 </mat-toolbar>

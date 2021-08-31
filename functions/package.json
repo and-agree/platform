@@ -4,6 +4,7 @@
     "scripts": {
         "start": "npm run serve",
         "build": "npm run lint && tsc && copyfiles -u 1 src/**/*.html lib",
+        "build:watch": "tsc --watch",
         "lint": "eslint --ext .js,.ts ."
     },
     "private": true,

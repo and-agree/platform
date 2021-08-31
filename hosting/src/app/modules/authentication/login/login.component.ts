@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services';
 
 @Component({
     templateUrl: './login.component.html',
@@ -8,13 +9,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
     public loginForm: FormGroup;
+    public error = '';
 
     private _visibility = false;
 
-    constructor(private form: FormBuilder, private router: Router) {
+    constructor(private form: FormBuilder, private authenticationService: AuthenticationService) {
         this.loginForm = this.form.group({
-            email: [undefined, [Validators.required]],
-            password: [undefined, [Validators.required]],
+            email: [undefined, [Validators.required, Validators.email]],
+            password: [undefined, [Validators.required, Validators.minLength(2)]],
         });
     }
 
@@ -24,12 +26,15 @@ export class LoginComponent {
 
     public toggleVisibility(event: Event): void {
         event.stopPropagation();
-        console.log('boom');
         this._visibility = !this._visibility;
     }
 
     public performLogin(): void {
-        console.log(this.loginForm.getRawValue());
-        this.router.navigate(['/', 'dashboard']);
+        const credentials = this.loginForm.getRawValue();
+
+        this.authenticationService
+            .signIn(credentials.email, credentials.password)
+            .pipe(catchError((err) => (this.error = err.message)))
+            .subscribe();
     }
 }

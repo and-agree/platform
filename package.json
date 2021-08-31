@@ -4,9 +4,10 @@
     "description": "Decisions, decisions....",
     "scripts": {
         "start": "npm run build:ui && npm run build:api && npm run start:emu",
-        "start:emu": "firebase emulators:start",
+        "start:emu": "firebase emulators:start --project and-agree",
         "build:ui": "(cd hosting; npm run build:local)",
-        "build:api": "(cd functions; npm run build)"
+        "build:api": "(cd functions; npm run build)",
+        "postinstall": "(cd hosting; npm i) && (cd functions; npm i)"
     },
     "dependencies": {
         "firebase-tools": "9.16.5"

@@ -1,0 +1,53 @@
+# andAgree
+
+Descision making solution.
+This webapp allows for the creation and management of company decisions.
+All decisions are managed via email communications.
+
+## Developer requirements
+
+- GCP account with Firebase +
+  Google offers a large capacity of free usage, however a card is required onfile to unlock features such as functions.
+
+- SendGrid account +
+  SendGrid offers a free capacity of emails, make sure to register a domain to the account and setup the inbound parser.
+
+- Node 14 +
+  Recommed installing Node using Brew (macOS) or Chocolatey (Windows). Preference is to use the current LTS edition supported by Firebase Functions.
+
+- Angular 12 +
+  Recommend installing this globally using `npm i -g @angular/cli` once Node has been setup.
+
+- Firebase tools +
+  Install this globally using `npm i -g firebase-tools` once Node has been setup.
+
+- Java 11 +
+  This is required to run the local Firebase emulators which are configured to be used.
+
+Once the above have all been installed / configured, perform the following steps;
+
+- Install dependencies +
+  Using the command `npm install` from the root directory note that there is a postinstall step which will iterate and run the install on the subdirectories too.
+
+- Login to firebase +
+  Using the command `firebase login` this will launch a browser to login with your google / firebase credentials.
+
+- Create a hosting environment file +
+  Duplicate the file `hosting/src/environments/environment.ts` and rename it to `environment.local.ts` populate this with the appropriate values for your firebase environment.
+
+- Create a functions environment file +
+  Inside the `functions` folder create a file called `.runtimeconfig.json` insert the below json along with the approprite values for your sendgrid account.
+
+```json
+{
+  "sendgrid": {
+    "api_key": "SENDGRID_API_KEY",
+    "domain": "EMAIL_DOMAIN_NAME"
+  }
+}
+```
+- Run the application +
+  To run locally use the command `npm start` this will launch the firebase emulator from which you can access the emulator suite in a browser on http://localhost:4000 and then choose which area to use.
+
+- Watching for changes +
+  Function changes require a restart of the emulator, once the emulator is launched if making changes, there is an `npm run build:watch` command in the hosting folder that can be run in another terminal session to auotmatically rebuild the frontend.

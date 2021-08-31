@@ -1,0 +1,22 @@
+<h2>Password recovery</h2>
+
+<form [formGroup]="forgottenForm" (submit)="recoverAccount()" autocomplete="off">
+    <div *ngIf="error">{{ error }}</div>
+
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Email address</mat-label>
+        <input matInput required formControlName="email" />
+    </mat-form-field>
+
+    <div class="actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="forgottenForm.invalid">Submit</button>
+    </div>
+
+    <div class="actions">
+        <a [routerLink]="['/', 'auth', 'login']">return to login</a>
+    </div>
+</form>
+
+<div *ngIf="sent">
+    <div brandNotificationMessage>Check your email for further instructions.</div>
+</div>

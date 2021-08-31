@@ -21,7 +21,6 @@ export class DecisionResponseService implements DecisionResponseModel {
 
     public async save(): Promise<void> {
         const decisionId = this.to.split('@')[0];
-        console.log(decisionId);
 
         const decisionRef = await admin.firestore().collection('decisions').doc(decisionId);
         const responseRef = decisionRef.collection('responses').doc();

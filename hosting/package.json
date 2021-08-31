@@ -5,6 +5,7 @@
         "start": "ng serve",
         "build": "ng build",
         "build:local": "ng build --configuration=local",
+        "build:watch": "ng build --configuration=local --watch",
         "lint": "ng lint"
     },
     "private": true,

@@ -2,17 +2,17 @@
 <p>Kick-off a new decision by filling in all the relevant information for your team.</p>
 
 <form [formGroup]="decisionForm" (ngSubmit)="createDecision()">
-    <mat-form-field appearance="fill" floatLabel="always">
+    <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Title</mat-label>
         <input matInput required formControlName="subject" />
     </mat-form-field>
 
-    <mat-form-field appearance="fill" floatLabel="always">
+    <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Background</mat-label>
         <textarea matInput rows="8" required formControlName="content"></textarea>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" floatLabel="always">
+    <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Decider(s)</mat-label>
         <mat-chip-list #deciderList required>
             <mat-chip *ngFor="let destination of destinations.value; let i = index" [selectable]="false" [removable]="true" (removed)="remove(i)">
