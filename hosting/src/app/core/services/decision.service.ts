@@ -1,26 +1,36 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import firebase from 'firebase/app';
-import { from, map, Observable } from 'rxjs';
+import { collection, collectionData, CollectionReference, doc, documentId, Firestore, orderBy, query, serverTimestamp, setDoc } from '@angular/fire/firestore';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Decision } from '../models';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DecisionService {
-    constructor(private angularFirestore: AngularFirestore) {}
+    private decisionCollection: CollectionReference<Decision>;
+
+    constructor(private firestore: Firestore) {
+        this.decisionCollection = collection(this.firestore, 'decisions').withConverter<Decision>({
+            fromFirestore: (snap) => {
+                const { uid, subject, body, destination, status, created } = snap.data();
+                return { uid, subject, body, destination, status, created };
+            },
+            toFirestore: (data: any) => data,
+        });
+    }
 
     public create(destination: string[], subject: string, body: string): Observable<Decision> {
-        const uid = this.angularFirestore.createId();
+        const uid = doc(collection(this.firestore, '_')).id;
         const status = 'CREATED';
-        const created = firebase.firestore.FieldValue.serverTimestamp();
+        const created = serverTimestamp();
         const decision: Decision = { uid, subject, body, destination, status, created };
 
-        const decisionDoc = this.angularFirestore.collection<Decision>('decisions').doc<Decision>(decision.uid);
-        return from(decisionDoc.set(decision)).pipe(map(() => decision));
+        return from(setDoc(doc(this.firestore, `decisions/${uid}`), decision)).pipe(map(() => decision));
     }
 
     public findAll(): Observable<Decision[]> {
-        return this.angularFirestore.collection<Decision>('decisions', (ref) => ref.orderBy('created', 'desc')).valueChanges();
+        const decisionQuery = query<Decision>(this.decisionCollection, orderBy('created', 'desc'));
+        return collectionData(decisionQuery);
     }
 }

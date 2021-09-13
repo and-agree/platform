@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { FieldValue } from '@angular/fire/firestore';
 
 export interface Decision {
     uid: string;
@@ -6,5 +6,5 @@ export interface Decision {
     subject: string;
     body: string;
     status: 'CREATED' | 'PENDING' | 'COMPLETE' | 'ARCHIVED';
-    created: firebase.firestore.FieldValue;
+    created: FieldValue;
 }

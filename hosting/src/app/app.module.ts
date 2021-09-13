@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule, USE_EMULATOR as AUTH_EMULATOR } from '@angular/fire/auth';
-import { AngularFirestoreModule, USE_EMULATOR as FIRESTORE_EMULATOR } from '@angular/fire/firestore';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { connectAuthEmulator, indexedDBLocalPersistence, initializeAuth, provideAuth } from '@angular/fire/auth';
+import {
+    connectFirestoreEmulator,
+    enableMultiTabIndexedDbPersistence,
+    getFirestore,
+    provideFirestore,
+} from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,17 +19,26 @@ import { LayoutComponent } from './layout.component';
 @NgModule({
     declarations: [AppComponent, LayoutComponent],
     imports: [
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFireAuthModule,
-        AngularFirestoreModule,
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         AppBarModule,
-    ],
-    providers: [
-        { provide: AUTH_EMULATOR, useValue: environment.emulator ? ['localhost', 9099] : undefined },
-        { provide: FIRESTORE_EMULATOR, useValue: environment.emulator ? ['localhost', 8080] : undefined },
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAuth(() => {
+            const auth = initializeAuth(getApp(), { persistence: indexedDBLocalPersistence });
+            if (environment.emulator) {
+                connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
+            }
+            return auth;
+        }),
+        provideFirestore(() => {
+            const firestore = getFirestore();
+            if (environment.emulator) {
+                connectFirestoreEmulator(firestore, 'localhost', 8080);
+            }
+            enableMultiTabIndexedDbPersistence(firestore).then(() => true, () => false);;
+            return firestore;
+        }),
     ],
     bootstrap: [AppComponent],
 })

@@ -1,4 +1,4 @@
-export interface User {
+export interface Account {
     uid: string;
     alias: string;
     email: string;
