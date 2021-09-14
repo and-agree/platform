@@ -8,14 +8,13 @@ import {
     signInWithEmailAndPassword,
     signOut,
     updateProfile,
-    user,
     User,
     UserCredential,
     verifyPasswordResetCode,
 } from '@angular/fire/auth';
-import { doc, DocumentSnapshot, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { collection, doc, DocumentSnapshot, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { from, Observable, of, ReplaySubject } from 'rxjs';
+import { from, Observable, of, BehaviorSubject } from 'rxjs';
 import { map, mergeMap, take, tap } from 'rxjs/operators';
 import { Account } from '../models';
 
@@ -23,26 +22,26 @@ import { Account } from '../models';
     providedIn: 'root',
 })
 export class AuthenticationService {
-    public user: ReplaySubject<Account> = new ReplaySubject<Account>(1);
+    public user: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);
 
     constructor(private router: Router, @Optional() private fireAuth: Auth, private firestore: Firestore) {}
 
-    public signIn(email: string, password: string): Observable<void> {
+    public signIn(email: string, password: string): Observable<Account> {
         return from(signInWithEmailAndPassword(this.fireAuth, email, password)).pipe(
             map((credentials: UserCredential) => credentials.user),
-            map((user: User) => this.convertToAccount(user)),
-            map((account: Account) => this.user.next(account)),
+            mergeMap((user: User) => this.retrieveAccount(user.uid)),
             tap(() => this.router.navigate(['/', 'dashboard']))
         );
     }
 
     public register(displayName: string, email: string, password: string): Observable<Account> {
+        const companyId = doc(collection(this.firestore, '_')).id;
+
         return from(createUserWithEmailAndPassword(this.fireAuth, email, password)).pipe(
             map((credentials: UserCredential) => credentials.user),
             mergeMap((user: User) => from(updateProfile(user, { displayName })).pipe(map(() => user))),
-            map((user: User) => this.convertToAccount(user)),
-            mergeMap((account: Account) => this.updateUser(account)),
-            tap((account: Account) => this.user.next(account))
+            mergeMap((user: User) => this.updateUser({ ...user, companyId })),
+            mergeMap((user: User) => this.retrieveAccount(user.uid))
         );
     }
 
@@ -50,7 +49,7 @@ export class AuthenticationService {
         return from(sendPasswordResetEmail(this.fireAuth, email));
     }
 
-    public resetPassword(password: string, code: string): Observable<void> {
+    public resetPassword(password: string, code: string): Observable<Account> {
         return from(verifyPasswordResetCode(this.fireAuth, code)).pipe(
             mergeMap((email) => from(confirmPasswordReset(this.fireAuth, code, password)).pipe(map(() => email))),
             mergeMap((email) => this.signIn(email, password))
@@ -58,23 +57,7 @@ export class AuthenticationService {
     }
 
     public checkLoggedIn(): Observable<Account> {
-        return authState(this.fireAuth).pipe(
-            mergeMap((user) => getDoc(doc(this.firestore, `users/${user.uid}`))),
-            mergeMap((snapshot: DocumentSnapshot<Account>) => {
-                if (snapshot.exists) {
-                    return of(snapshot.data());
-                } else {
-                    return from(user(this.fireAuth)).pipe(
-                        map((currentUser: User) => this.convertToAccount(currentUser)),
-                        mergeMap((account: Account) => this.updateUser(account))
-                    );
-                }
-            }),
-            map((account): Account => {
-                this.user.next(account);
-                return account;
-            })
-        );
+        return authState(this.fireAuth).pipe(mergeMap((user) => this.retrieveAccount(user.uid)));
     }
 
     public logout(): Observable<void> {
@@ -86,19 +69,19 @@ export class AuthenticationService {
         );
     }
 
-    private convertToAccount(firebaseUser: User): Account {
-        if (!firebaseUser) {
-            throw new Error('no user');
-        }
-
-        const uid = firebaseUser.uid;
-        const alias = firebaseUser.displayName;
-        const email = firebaseUser.email;
-
-        return { uid, alias, email };
+    private retrieveAccount(userId: string): Observable<Account> {
+        return from(getDoc(doc(this.firestore, `users/${userId}`))).pipe(
+            map((snapshot: DocumentSnapshot<Account>) => snapshot.data()),
+            tap((account) => this.user.next(account))
+        );
     }
 
-    private updateUser(account: Account): Observable<Account> {
-        return from(setDoc(doc(this.firestore, `users/${account.uid}`), account, { merge: true })).pipe(map(() => account));
+    private updateUser(user: User & Partial<Account>): Observable<User> {
+        const uid = user.uid;
+        const alias = user.displayName;
+        const email = user.email;
+        const companyId = user.companyId;
+
+        return from(setDoc(doc(this.firestore, `users/${user.uid}`), { uid, alias, email, companyId }, { merge: true })).pipe(map(() => user));
     }
 }

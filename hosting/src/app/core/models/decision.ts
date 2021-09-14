@@ -7,4 +7,5 @@ export interface Decision {
     body: string;
     status: 'CREATED' | 'PENDING' | 'COMPLETE' | 'ARCHIVED';
     created: FieldValue;
+    companyId: string;
 }
