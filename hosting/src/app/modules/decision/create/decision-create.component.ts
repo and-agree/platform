@@ -1,28 +1,46 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
-import { DecisionService } from '../../../core/services';
+import { map } from 'rxjs/operators';
+import { AuthenticationService, DecisionService } from '../../../core/services';
 
 @Component({
     templateUrl: './decision-create.component.html',
     styleUrls: ['./decision-create.component.scss'],
 })
 export class DecisionCreateComponent {
-    public decisionForm: FormGroup;
+    public generalForm: FormGroup;
+    public teamForm: FormGroup;
+    public documentForm: FormGroup;
+
+    public deciderCtrl = new FormControl(undefined, Validators.required);
+
+    public user = this.authenticationService.user.value;
     readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-    constructor(private router: Router, private form: FormBuilder, private decisionService: DecisionService) {
-        this.decisionForm = this.form.group({
+    constructor(private router: Router, private form: FormBuilder, private authenticationService: AuthenticationService, private decisionService: DecisionService) {
+        this.generalForm = this.form.group({
+            title: [undefined, [Validators.required]],
+            goal: [undefined, []],
+            background: [undefined, [Validators.required]],
+            instructions: [undefined, []],
+            deadline: [new Date(), [Validators.required]],
+        });
+
+        this.teamForm = this.form.group({
             destination: this.form.array([], [Validators.required]),
-            subject: [undefined, [Validators.required]],
-            content: [undefined, [Validators.required]],
+        });
+
+        this.documentForm = this.form.group({
+            decision: [undefined, []],
+            information: [undefined, []],
         });
     }
 
     get destinations(): FormArray {
-        return <FormArray>this.decisionForm.controls.destination;
+        return <FormArray>this.teamForm.controls.destination;
     }
 
     public add(event: MatChipInputEvent): void {
@@ -47,7 +65,13 @@ export class DecisionCreateComponent {
     }
 
     public createDecision(): void {
-        const decision = this.decisionForm.getRawValue();
-        this.decisionService.create(decision.destination, decision.subject, decision.content).subscribe(() => this.router.navigate(['/', 'dashboard'], { replaceUrl: true }));
+        const general = this.generalForm.getRawValue();
+        const team = this.teamForm.getRawValue();
+        const documents = this.documentForm.getRawValue();
+
+        this.decisionService
+            .create(general, team, documents)
+            .pipe(map((decision) => this.router.navigate(['/', 'decision', 'view', decision.uid], { replaceUrl: true })))
+            .subscribe();
     }
 }

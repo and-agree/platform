@@ -1,0 +1,18 @@
+<div>
+    <p><strong>Title</strong> {{ decision.general.title }}</p>
+    <p><strong>Goal</strong> {{ decision.general.goal }}</p>
+    <p><strong>ID</strong> {{ decision.uid }}</p>
+    <p><strong>Deadline</strong> {{ decision.general.deadline | timestamp }}</p>
+</div>
+
+<h1>Review the decision</h1>
+
+<ng-container *ngIf="decision.responses?.length; else noResponses">
+<div *ngFor="let feedback of decision.responses">
+    <div>{{ feedback.from }}</div>
+    <div>{{ feedback.created | timestamp }}</div>
+    <div class="pre">{{ feedback.body }}</div>
+</div>
+</ng-container>
+
+<ng-template #noResponses>There have not yet been any responses.</ng-template>

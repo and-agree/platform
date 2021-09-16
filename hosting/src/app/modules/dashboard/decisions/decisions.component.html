@@ -2,7 +2,10 @@
 
 <div class="decisions">
     <mat-card *ngFor="let decision of decisions">
-        <h3>{{ decision.subject }}</h3>
+        <h3>{{ decision.general.title }}</h3>
         <p>{{ decision.status }}</p>
+        <a mat-icon-button [routerLink]="['/', 'decision', 'view', decision.uid]">
+            <mat-icon>chevron_right</mat-icon>
+        </a>
     </mat-card>
 </div>

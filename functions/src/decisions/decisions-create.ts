@@ -25,16 +25,16 @@ export const DecisionCreate = functions
         const decisionRef = admin.firestore().collection('decisions').doc(context.params.decisionId);
         const decisionData = (await decisionRef.get()).data() as Decision;
 
-        const to = decisionData.destination;
+        const to = decisionData.team.destination;
         const from = `${decisionData.uid}@${emailDomain}`;
-        const subject = decisionData.subject;
-        const html = await render(emailTemplate('decision.html'), { ...decisionData });
+        const subject = decisionData.general.title;
+        const html = await render(emailTemplate('decision.html'), { ...decisionData.general });
 
         const payload: MailDataRequired = { to, from, subject, html };
 
         try {
             await send(payload);
-        } catch (error) {
+        } catch (error: any) {
             console.log(error.message);
         }
 

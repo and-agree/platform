@@ -2,10 +2,9 @@
     "name": "hosting",
     "version": "0.0.1",
     "scripts": {
-        "start": "ng serve",
+        "start": "ng serve --configuration=local",
         "build": "ng build",
         "build:local": "ng build --configuration=local",
-        "build:watch": "ng build --configuration=local --watch",
         "lint": "ng lint"
     },
     "private": true,

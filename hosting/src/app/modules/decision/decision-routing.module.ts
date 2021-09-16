@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DecisionRetrieveResolve } from './../../core/resolves/decision-retrieve.resolve';
 import { DecisionCreateComponent } from './create/decision-create.component';
 import { DecisionComponent } from './decision.component';
+import { DecisionViewComponent } from './view/decision-view.component';
 
 const routes: Routes = [
     {
@@ -11,6 +13,11 @@ const routes: Routes = [
             {
                 path: 'create',
                 component: DecisionCreateComponent,
+            },
+            {
+                path: 'view/:decisionId',
+                component: DecisionViewComponent,
+                resolve: { decision: DecisionRetrieveResolve },
             },
         ],
     },

@@ -1,15 +1,10 @@
 import { NgModule } from '@angular/core';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, indexedDBLocalPersistence, initializeAuth, provideAuth } from '@angular/fire/auth';
-import {
-    connectFirestoreEmulator,
-    enableMultiTabIndexedDbPersistence,
-    getFirestore,
-    provideFirestore,
-} from '@angular/fire/firestore';
+import { connectFirestoreEmulator, enableMultiTabIndexedDbPersistence, getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +18,7 @@ import { LayoutComponent } from './layout.component';
         AppRoutingModule,
         BrowserAnimationsModule,
         AppBarModule,
+        MatNativeDateModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => {
             const auth = initializeAuth(getApp(), { persistence: indexedDBLocalPersistence });
@@ -36,7 +32,10 @@ import { LayoutComponent } from './layout.component';
             if (environment.emulator) {
                 connectFirestoreEmulator(firestore, 'localhost', 8080);
             }
-            enableMultiTabIndexedDbPersistence(firestore).then(() => true, () => false);;
+            enableMultiTabIndexedDbPersistence(firestore).then(
+                () => true,
+                () => false
+            );
             return firestore;
         }),
     ],
