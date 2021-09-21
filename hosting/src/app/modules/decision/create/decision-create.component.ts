@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { DecisionDocuments, DecisionGeneral, DecisionTeam } from '../../../core/models';
 import { AuthenticationService, DecisionService } from '../../../core/services';
 
 @Component({
@@ -65,9 +66,16 @@ export class DecisionCreateComponent {
     }
 
     public createDecision(): void {
-        const general = this.generalForm.getRawValue();
-        const team = this.teamForm.getRawValue();
-        const documents = this.documentForm.getRawValue();
+        const general: DecisionGeneral = this.generalForm.getRawValue();
+        const documents: DecisionDocuments = this.documentForm.getRawValue();
+
+        const team: DecisionTeam = {
+            deciders: this.destinations.value.map((destination: string) => ({
+                email: destination.toLowerCase(),
+                pending: true,
+                response: 'UNKNOWN',
+            })),
+        };
 
         this.decisionService
             .create(general, team, documents)

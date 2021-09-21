@@ -6,13 +6,30 @@
 </div>
 
 <h1>Review the decision</h1>
+<p>Review feedback from all team members before coming to an agreement.</p>
+
+<h2>Pending responses ({{ feedbackPending.length }})</h2>
+<mat-chip-list [selectable]="false">
+    <mat-chip *ngFor="let decider of feedbackPending">{{ decider.email }}</mat-chip>
+</mat-chip-list>
+
+<h2>Feedback recieved ({{ feedbackRecieved.length }})</h2>
+<mat-chip-list [selectable]="false">
+    <ng-container *ngFor="let decider of feedbackRecieved">
+        <ng-container [ngSwitch]="decider.response">
+            <mat-chip *ngSwitchCase="'APPROVED'" color="primary" selected>{{ decider.email }}</mat-chip>
+            <mat-chip *ngSwitchCase="'REJECTED'" color="warn" selected>{{ decider.email }}</mat-chip>
+            <mat-chip *ngSwitchDefault>{{ decider.email }}</mat-chip>
+        </ng-container>
+    </ng-container>
+</mat-chip-list>
 
 <ng-container *ngIf="decision.responses?.length; else noResponses">
-<div *ngFor="let feedback of decision.responses">
-    <div>{{ feedback.from }}</div>
-    <div>{{ feedback.created | timestamp }}</div>
-    <div class="pre">{{ feedback.body }}</div>
-</div>
+    <div *ngFor="let feedback of decision.responses">
+        <div>{{ feedback.from }}</div>
+        <div>{{ feedback.created | timestamp }}</div>
+        <div class="pre">{{ feedback.body }}</div>
+    </div>
 </ng-container>
 
 <ng-template #noResponses>There have not yet been any responses.</ng-template>

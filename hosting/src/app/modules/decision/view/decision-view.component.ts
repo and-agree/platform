@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, skip, Subject, takeUntil } from 'rxjs';
-import { Decision } from './../../../core/models';
+import { Decision, TeamDecider } from './../../../core/models';
 import { DecisionService } from './../../../core/services/decision.service';
+import { FilterPipe } from './../../../shared/pipes';
 
 @Component({
     templateUrl: './decision-view.component.html',
@@ -13,7 +14,7 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
 
     private isDestroyed: Subject<void> = new Subject<void>();
 
-    constructor(private route: ActivatedRoute, private decisionService: DecisionService) {
+    constructor(private route: ActivatedRoute, private decisionService: DecisionService, private filterPipe: FilterPipe) {
         this.decision = this.route.snapshot.data.decision;
     }
 
@@ -36,5 +37,13 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.isDestroyed.next();
         this.isDestroyed.complete();
+    }
+
+    get feedbackPending(): TeamDecider[] {
+        return this.filterPipe.transform(this.decision.team.deciders, 'pending', true);
+    }
+
+    get feedbackRecieved(): TeamDecider[] {
+        return this.filterPipe.transform(this.decision.team.deciders, 'pending', false);
     }
 }

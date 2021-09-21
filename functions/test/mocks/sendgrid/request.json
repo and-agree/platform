@@ -1,0 +1,22 @@
+{
+    "from": {
+        "email": "aaaaaaaaaaaaaaaaaaaaaaaa@ci.andagree.com",
+        "name": "andAgree"
+    },
+    "subject": "Title",
+    "personalizations": [
+        {
+            "to": [
+                {
+                    "email": "example@test.andagree.com"
+                }
+            ]
+        }
+    ],
+    "content": [
+        {
+            "value": "<!DOCTYPE html>\n<html>\n    <head>\n        <title>Title</title>\n    </head>\n\n    <body>\n        <h1>Title</h1>\n        <p>Goal</p>\n        <p>Background</p>\n        <p>Instructions</p>\n        <p>2021-06-06T12:30:00Z</p>\n    </body>\n</html>\n",
+            "type": "text/html"
+        }
+    ]
+}

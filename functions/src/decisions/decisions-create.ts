@@ -25,8 +25,8 @@ export const DecisionCreate = functions
         const decisionRef = admin.firestore().collection('decisions').doc(context.params.decisionId);
         const decisionData = (await decisionRef.get()).data() as Decision;
 
-        const to = decisionData.team.destination;
-        const from = `${decisionData.uid}@${emailDomain}`;
+        const to = decisionData.team.deciders.map((decider) => decider.email);
+        const from = `andAgree <${decisionData.uid}@${emailDomain}>`;
         const subject = decisionData.general.title;
         const html = await render(emailTemplate('decision.html'), { ...decisionData.general });
 
@@ -35,10 +35,15 @@ export const DecisionCreate = functions
         try {
             await send(payload);
         } catch (error: any) {
-            console.log(error.message);
+            throw new functions.https.HttpsError('internal', error.message);
         }
 
         const batch = admin.firestore().batch();
         batch.update(decisionRef, { status: 'PENDING' });
-        await batch.commit();
+
+        try {
+            await batch.commit();
+        } catch (error: any) {
+            throw new functions.https.HttpsError('data-loss', error.message);
+        }
     });

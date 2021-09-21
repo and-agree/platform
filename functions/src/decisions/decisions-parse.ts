@@ -26,8 +26,7 @@ export const DecisionParse = functions
             });
 
             busboy.end(req.rawBody);
-        } catch (error) {
-            console.log(error);
-            res.status(500).send();
+        } catch (error: any) {
+            throw new functions.https.HttpsError('internal', error.message);
         }
     });

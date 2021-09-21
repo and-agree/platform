@@ -8,8 +8,16 @@ export interface DecisionGeneral {
     deadline: Timestamp;
 }
 
+export interface TeamDecider {
+    email: string;
+    pending: boolean;
+    response: 'UNKNOWN' | 'APPROVED' | 'REJECTED';
+}
+
 export interface DecisionTeam {
-    destination: string[];
+    deciders: TeamDecider[];
+    managers?: string[];
+    viewers?: string[];
 }
 
 export interface DecisionDocuments {

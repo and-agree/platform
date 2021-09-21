@@ -11,10 +11,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthenticatedDirective } from './directives/authenticated.directive';
+import { FilterPipe } from './pipes/filter.pipe';
 import { TimestampPipe } from './pipes/timestamp.pipe';
 
 @NgModule({
-    declarations: [AuthenticatedDirective, TimestampPipe],
+    declarations: [AuthenticatedDirective, FilterPipe, TimestampPipe],
     imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatCardModule, MatChipsModule, MatFormFieldModule, MatIconModule, MatInputModule, MatToolbarModule],
     exports: [
         CommonModule,
@@ -29,8 +30,9 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         MatStepperModule,
         MatToolbarModule,
         AuthenticatedDirective,
+        FilterPipe,
         TimestampPipe,
     ],
-    providers: [DatePipe],
+    providers: [DatePipe, FilterPipe, TimestampPipe],
 })
 export class SharedModule {}
