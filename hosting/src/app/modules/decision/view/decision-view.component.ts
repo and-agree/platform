@@ -40,10 +40,14 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
     }
 
     get feedbackPending(): TeamDecider[] {
-        return this.filterPipe.transform(this.decision.team.deciders, 'pending', true);
+        return this.filterPipe.transform(this.decision.deciders, 'pending', true);
     }
 
     get feedbackRecieved(): TeamDecider[] {
-        return this.filterPipe.transform(this.decision.team.deciders, 'pending', false);
+        return this.filterPipe.transform(this.decision.deciders, 'pending', false);
+    }
+
+    public deleteDecision(): void {
+        console.log('delete decision');
     }
 }

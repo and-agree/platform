@@ -4,3 +4,4 @@ admin.initializeApp();
 
 export * from './decisions/decisions-create';
 export * from './decisions/decisions-parse';
+export * from './decisions/decisions-update';

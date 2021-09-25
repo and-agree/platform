@@ -8,10 +8,10 @@ import { DecisionService } from '../services';
 @Injectable({
     providedIn: 'root',
 })
-export class DecisionListResolve implements Resolve<Decision[]> {
+export class DecisionPendingResolve implements Resolve<Decision[]> {
     constructor(private decisionService: DecisionService) {}
 
     public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Decision[]> {
-        return this.decisionService.findAll().pipe(take(1));
+        return this.decisionService.findAll('PENDING').pipe(take(1));
     }
 }

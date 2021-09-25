@@ -1,5 +1,6 @@
-import { FieldValue, Timestamp } from '@angular/fire/firestore';
+import { Timestamp } from '@angular/fire/firestore';
 
+export type DecisionStatus = 'CREATED' | 'PENDING' | 'COMPLETE' | 'ARCHIVED';
 export interface DecisionGeneral {
     title: string;
     goal: string;
@@ -14,15 +15,10 @@ export interface TeamDecider {
     response: 'UNKNOWN' | 'APPROVED' | 'REJECTED';
 }
 
-export interface DecisionTeam {
-    deciders: TeamDecider[];
-    managers?: string[];
-    viewers?: string[];
-}
-
-export interface DecisionDocuments {
-    decision: string;
-    information: string;
+export interface DecisionDocument {
+    name: string;
+    file: string;
+    attach?: boolean;
 }
 
 export interface DecisionResponse {
@@ -34,10 +30,12 @@ export interface DecisionResponse {
 export interface Decision {
     uid: string;
     general: DecisionGeneral;
-    team: DecisionTeam;
-    documents: DecisionDocuments;
+    deciders: TeamDecider[];
+    documents: DecisionDocument[];
     responses?: DecisionResponse[];
-    status: 'CREATED' | 'PENDING' | 'COMPLETE' | 'ARCHIVED';
-    created: Timestamp | FieldValue;
+    conclusion?: string;
+    status: DecisionStatus;
+    created: Timestamp;
+    completed?: Timestamp;
     companyId: string;
 }

@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { skip, Subject, takeUntil } from 'rxjs';
 import { Decision } from '../../../core/models';
 import { DecisionService } from './../../../core/services/decision.service';
 
 @Component({
-    selector: 'agree-decisions',
-    templateUrl: './decisions.component.html',
-    styleUrls: ['./decisions.component.scss'],
+    selector: 'agree-dashboard-pending',
+    templateUrl: './dashboard-pending.component.html',
+    styleUrls: ['./dashboard-pending.component.scss'],
 })
-export class DecisionsComponent implements OnInit, OnDestroy {
+export class DashboardPendingComponent implements OnInit, OnDestroy {
     public decisions: Decision[] = [];
 
     private isDestroyed: Subject<void> = new Subject<void>();
@@ -17,11 +17,11 @@ export class DecisionsComponent implements OnInit, OnDestroy {
     constructor(private route: ActivatedRoute, private decisionService: DecisionService) {}
 
     public ngOnInit(): void {
-        this.decisions = this.route.snapshot.data.decisionData;
+        this.decisions = this.route.snapshot.data.pendingData;
 
         this.decisionService
-            .findAll()
-            .pipe(takeUntil(this.isDestroyed))
+            .findAll('PENDING')
+            .pipe(skip(1), takeUntil(this.isDestroyed))
             .subscribe((decisions) => (this.decisions = decisions));
     }
 

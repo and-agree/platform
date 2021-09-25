@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { DecisionDocuments, DecisionGeneral, DecisionTeam } from '../../../core/models';
+import { DecisionDocument, DecisionGeneral, TeamDecider } from '../../../core/models';
 import { AuthenticationService, DecisionService } from '../../../core/services';
 
 @Component({
@@ -21,8 +21,8 @@ export class DecisionCreateComponent {
     public user = this.authenticationService.user.value;
     readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-    constructor(private router: Router, private form: FormBuilder, private authenticationService: AuthenticationService, private decisionService: DecisionService) {
-        this.generalForm = this.form.group({
+    constructor(private router: Router, private forms: FormBuilder, private authenticationService: AuthenticationService, private decisionService: DecisionService) {
+        this.generalForm = this.forms.group({
             title: [undefined, [Validators.required]],
             goal: [undefined, []],
             background: [undefined, [Validators.required]],
@@ -30,35 +30,53 @@ export class DecisionCreateComponent {
             deadline: [new Date(), [Validators.required]],
         });
 
-        this.teamForm = this.form.group({
-            destination: this.form.array([], [Validators.required]),
+        this.teamForm = this.forms.group({
+            destinations: this.forms.array([], [Validators.required]),
         });
 
-        this.documentForm = this.form.group({
-            decision: [undefined, []],
-            information: [undefined, []],
+        this.documentForm = this.forms.group({
+            list: this.forms.array([]),
         });
     }
 
     get destinations(): FormArray {
-        return <FormArray>this.teamForm.controls.destination;
+        return <FormArray>this.teamForm.controls.destinations;
     }
 
-    public add(event: MatChipInputEvent): void {
+    get documents(): FormArray {
+        return <FormArray>this.documentForm.controls.list;
+    }
+
+    public addDestination(event: MatChipInputEvent): void {
         const value = event.value.trim();
         if (!value) {
             return;
         }
 
         if (!this.destinations.value.includes(value)) {
-            this.destinations.push(this.form.control(value, Validators.email));
+            this.destinations.push(this.forms.control(value, Validators.email));
         }
 
         event.chipInput?.clear();
     }
 
-    public remove(idx: number): void {
+    public removeDestination(idx: number): void {
         this.destinations.removeAt(idx);
+    }
+
+    public createDocument(): FormGroup {
+        return this.forms.group({
+            name: [undefined, [Validators.required]],
+            file: [undefined, [Validators.required]],
+        });
+    }
+
+    public addDocument(): void {
+        this.documents.push(this.createDocument());
+    }
+
+    public removeDocument(index: number): void {
+        this.documents.removeAt(index);
     }
 
     public performCancel(): void {
@@ -67,18 +85,16 @@ export class DecisionCreateComponent {
 
     public createDecision(): void {
         const general: DecisionGeneral = this.generalForm.getRawValue();
-        const documents: DecisionDocuments = this.documentForm.getRawValue();
+        const documents: DecisionDocument[] = this.documentForm.get('list').value;
 
-        const team: DecisionTeam = {
-            deciders: this.destinations.value.map((destination: string) => ({
-                email: destination.toLowerCase(),
-                pending: true,
-                response: 'UNKNOWN',
-            })),
-        };
+        const deciders: TeamDecider[] = this.destinations.value.map((destination: string) => ({
+            email: destination.toLowerCase(),
+            pending: true,
+            response: 'UNKNOWN',
+        }));
 
         this.decisionService
-            .create(general, team, documents)
+            .create(general, deciders, documents)
             .pipe(map((decision) => this.router.navigate(['/', 'decision', 'view', decision.uid], { replaceUrl: true })))
             .subscribe();
     }

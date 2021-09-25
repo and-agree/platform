@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin';
 
+export type DecisionStatus = 'CREATED' | 'PENDING' | 'COMPLETE' | 'ARCHIVED';
+
 export interface DecisionGeneral {
     title: string;
     goal: string;
@@ -14,23 +16,26 @@ export interface TeamDecider {
     response: 'UNKNOWN' | 'APPROVED' | 'REJECTED';
 }
 
-export interface DecisionTeam {
-    deciders: TeamDecider[];
-    managers?: string[];
-    viewers?: string[];
+export interface DecisionDocument {
+    name: string;
+    file: string;
+    attach?: boolean;
 }
 
-export interface DecisionDocuments {
-    decision: string;
-    information: string;
+export interface DecisionResponse {
+    from: string;
+    body: string;
+    created: admin.firestore.Timestamp;
 }
 
 export interface Decision {
     uid: string;
     general: DecisionGeneral;
-    team: DecisionTeam;
-    documents: DecisionDocuments;
-    status: 'CREATED' | 'PENDING' | 'COMPLETE' | 'ARCHIVED';
+    deciders: TeamDecider[];
+    documents: DecisionDocument[];
+    responses?: DecisionResponse[];
+    conclusion?: string;
+    status: DecisionStatus;
     created: admin.firestore.Timestamp;
     companyId: string;
 }

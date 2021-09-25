@@ -11,19 +11,19 @@ const generateDecision = (companyId) => {
             instructions: lorem.paragraph(2),
             deadline: date.soon(2),
         },
-        team: {
-            deciders: [
-                {
-                    email: internet.email(),
-                    pending: true,
-                    response: 'UNKNOWN',
-                },
-            ],
-        },
-        documents: {
-            decision: internet.url(),
-            information: internet.url(),
-        },
+        deciders: [
+            {
+                email: internet.email(),
+                pending: true,
+                response: 'UNKNOWN',
+            },
+        ],
+        documents: [
+            {
+                name: random.alpha(15),
+                file: internet.url(),
+            },
+        ],
         status: 'CREATED',
     };
 };

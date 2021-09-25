@@ -10,13 +10,10 @@ module.exports = {
         project: ['tsconfig.json', 'tsconfig.dev.json'],
         sourceType: 'module',
     },
-    ignorePatterns: [
-        '/**/*.js',
-        '/lib/**/*',
-        '/test/**/*',
-    ],
+    ignorePatterns: ['/**/*.js', '/lib/**/*', '/test/**/*'],
     plugins: ['@typescript-eslint', 'import'],
     rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
         camelcase: ['error', { allow: ['sender_ip'] }],
         indent: ['error', 4],
         'max-len': ['error', { code: 180 }],

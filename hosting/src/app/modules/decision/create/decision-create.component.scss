@@ -14,3 +14,10 @@ form {
     justify-content: flex-end;
     gap: 1em;
 }
+
+.document-entry {
+    display: grid;
+    grid-template-columns: 2fr 1fr min-content;
+    align-items: center;
+    gap: 1em;
+}

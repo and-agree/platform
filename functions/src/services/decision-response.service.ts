@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { TeamDecider } from '../common/models';
+import { Decision, TeamDecider } from '../common/models';
 
 export type EmailFields = 'to' | 'from' | 'subject' | 'html' | 'text';
 
@@ -54,7 +54,7 @@ export class DecisionResponseService implements DecisionResponseModel {
         const decisionRef = await admin.firestore().collection('decisions').doc(decisionId);
         const responseRef = decisionRef.collection('responses').doc();
 
-        const decisionData = (await decisionRef.get()).data();
+        const decisionData = (await decisionRef.get()).data() as Decision;
 
         if (!decisionData) {
             throw new Error(`${decisionId} not found`);
@@ -72,7 +72,7 @@ export class DecisionResponseService implements DecisionResponseModel {
             decision = 'REJECTED';
         }
 
-        decisionData.team.deciders = decisionData.team.deciders.map((decider: TeamDecider): TeamDecider => {
+        decisionData.deciders = decisionData.deciders.map((decider: TeamDecider): TeamDecider => {
             if (decider.email === from) {
                 decider.pending = false;
                 decider.response = decision;

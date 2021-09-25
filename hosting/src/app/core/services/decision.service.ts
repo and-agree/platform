@@ -1,9 +1,23 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, CollectionReference, doc, docData, docSnapshots, DocumentSnapshot, Firestore, getDoc, orderBy, query, serverTimestamp, setDoc, where } from '@angular/fire/firestore';
+import {
+    collection,
+    collectionData,
+    CollectionReference,
+    doc,
+    docSnapshots,
+    DocumentSnapshot,
+    Firestore,
+    orderBy,
+    query,
+    serverTimestamp,
+    setDoc,
+    Timestamp,
+    where,
+} from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Decision, DecisionDocuments, DecisionGeneral, DecisionTeam } from '../models';
-import { DecisionResponse } from './../models/decision';
+import { Decision, DecisionDocument, DecisionGeneral } from '../models';
+import { DecisionResponse, DecisionStatus, TeamDecider } from './../models/decision';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
@@ -19,12 +33,12 @@ export class DecisionService {
         this.decisionCollection = collection(this.firestore, 'decisions').withConverter<Decision>(null);
     }
 
-    public create(general: DecisionGeneral, team: DecisionTeam, documents: DecisionDocuments): Observable<Decision> {
+    public create(general: DecisionGeneral, deciders: TeamDecider[], documents: DecisionDocument[]): Observable<Decision> {
         const uid = doc(collection(this.firestore, '_')).id;
         const status = 'CREATED';
-        const created = serverTimestamp();
+        const created = serverTimestamp() as Timestamp;
         const companyId = this.companyId;
-        const decision: Decision = { uid, general, team, documents, status, created, companyId };
+        const decision: Decision = { uid, general, deciders, documents, status, created, companyId };
 
         return from(setDoc(doc(this.firestore, `decisions/${uid}`), decision)).pipe(map(() => decision));
     }
@@ -39,8 +53,14 @@ export class DecisionService {
         return collectionData(responseQuery);
     }
 
-    public findAll(): Observable<Decision[]> {
-        const decisionQuery = query<Decision>(this.decisionCollection, where('companyId', '==', this.companyId), orderBy('created', 'desc'));
+    public finalise(decisionId, finaliseData: Partial<Decision>): Observable<void> {
+        finaliseData.status = 'COMPLETE';
+        finaliseData.completed = serverTimestamp() as Timestamp;
+        return from(setDoc(doc(this.firestore, `decisions/${decisionId}`), finaliseData, { merge: true }));
+    }
+
+    public findAll(status: DecisionStatus): Observable<Decision[]> {
+        const decisionQuery = query<Decision>(this.decisionCollection, where('companyId', '==', this.companyId), where('status', '==', status), orderBy('created', 'desc'));
         return collectionData(decisionQuery);
     }
 }

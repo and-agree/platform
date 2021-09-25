@@ -8,6 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthenticatedDirective } from './directives/authenticated.directive';
@@ -16,7 +17,10 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
 
 @NgModule({
     declarations: [AuthenticatedDirective, FilterPipe, TimestampPipe],
-    imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatCardModule, MatChipsModule, MatFormFieldModule, MatIconModule, MatInputModule, MatToolbarModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+    ],
     exports: [
         CommonModule,
         ReactiveFormsModule,
@@ -27,6 +31,7 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatListModule,
         MatStepperModule,
         MatToolbarModule,
         AuthenticatedDirective,
