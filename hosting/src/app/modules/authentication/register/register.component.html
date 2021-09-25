@@ -1,6 +1,5 @@
-<h2>Create account</h2>
-
-<p style="font-size: 0.8em">Note, minimum password length is 8 characters.</p>
+<h1>Create account</h1>
+<h3>Minimum password length is 8 characters.</h3>
 
 <form [formGroup]="registerForm" (submit)="createAccount()" autocomplete="off">
     <mat-form-field appearance="outline" floatLabel="always">
@@ -26,11 +25,7 @@
     </mat-form-field>
 
     <div class="actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="registerForm.invalid">Sign In</button>
-    </div>
-
-    <div class="actions">
-        <a [routerLink]="['/', 'login']">return to login</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="registerForm.invalid"><span>Create</span><mat-icon>chevron_right</mat-icon></button>
+        <a [routerLink]="['/', 'login']">Back to login</a>
     </div>
 </form>
-

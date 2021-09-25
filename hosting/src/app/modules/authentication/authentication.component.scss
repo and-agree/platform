@@ -1,0 +1,13 @@
+.authentication-content {
+    margin: auto;
+    padding: 3rem 0 7rem;
+
+    @media screen and (min-width: 600px) {
+        width: 400px;
+        padding: 5rem 0 10rem;
+    }
+
+    @media screen and (min-width: 960px) {
+        width: 610px;
+    }
+}

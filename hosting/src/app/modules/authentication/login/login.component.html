@@ -1,10 +1,9 @@
-<h2>Welcome back</h2>
+<h1>Welcome back</h1>
+<h3>Sign in below.</h3>
 
-<p>Sign in below</p>
+<div *ngIf="error">{{ error }}</div>
 
 <form [formGroup]="loginForm" (submit)="performLogin()">
-    <div *ngIf="error">{{ error }}</div>
-
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Email address</mat-label>
         <input matInput required formControlName="email" />
@@ -23,11 +22,8 @@
     </mat-form-field>
 
     <div class="actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">Sign In</button>
-    </div>
-
-    <div class="actions">
-        <a [routerLink]="['/', 'register']">create account</a>
-        <a [routerLink]="['/', 'forgotten']">reset password</a>
+        <button mat-button color="primary" type="submit" [disabled]="loginForm.invalid"><span>Sign In</span><mat-icon>chevron_right</mat-icon></button>
+        <a [routerLink]="['/', 'register']">Register</a>
+        <a [routerLink]="['/', 'forgotten']">Forgot password?</a>
     </div>
 </form>

@@ -1,35 +1,57 @@
-<div>
-    <p><strong>Title</strong> {{ decision.general.title }}</p>
-    <p><strong>Goal</strong> {{ decision.general.goal }}</p>
-    <p><strong>ID</strong> {{ decision.uid }}</p>
-    <p><strong>Deadline</strong> {{ decision.general.deadline | timestamp }}</p>
+<div class="summary">
+    <div class="summary-content">
+        <div><strong>Title:</strong> {{ decision.general.title }}</div>
+        <div><strong>Goal:</strong> {{ decision.general.goal }}</div>
+        <div><strong>ID:</strong> {{ decision.uid }}</div>
+        <div><strong>Deadline:</strong> {{ decision.general.deadline | timestamp }}</div>
+    </div>
 </div>
 
-<h1>Review the decision</h1>
-<p>Review feedback from all team members before coming to an agreement.</p>
+<div class="responses">
+    <h1>Review the decision</h1>
+    <div class="mat-subheading-1">Review feedback from all team members before coming to an agreement.</div>
 
-<h2>Pending responses ({{ feedbackPending.length }})</h2>
-<mat-chip-list [selectable]="false">
-    <mat-chip *ngFor="let decider of feedbackPending">{{ decider.email }}</mat-chip>
-</mat-chip-list>
+    <section class="response-section">
+        <header>
+            <h4 class="mat-display-1">Pending responses ({{ feedbackPending.length }})</h4>
+            <div>We still need to receive feedback from these team members.</div>
+        </header>
 
-<h2>Feedback recieved ({{ feedbackRecieved.length }})</h2>
-<mat-chip-list [selectable]="false">
-    <ng-container *ngFor="let decider of feedbackRecieved">
-        <ng-container [ngSwitch]="decider.response">
-            <mat-chip *ngSwitchCase="'APPROVED'" color="primary" selected>{{ decider.email }}</mat-chip>
-            <mat-chip *ngSwitchCase="'REJECTED'" color="warn" selected>{{ decider.email }}</mat-chip>
-            <mat-chip *ngSwitchDefault>{{ decider.email }}</mat-chip>
+        <mat-chip-list [selectable]="false">
+            <mat-chip color="accent" selected *ngFor="let decider of feedbackPending">{{ decider.email }}</mat-chip>
+        </mat-chip-list>
+    </section>
+
+    <section class="response-section">
+        <header>
+            <h4 class="mat-display-1">Feedback recieved ({{ feedbackRecieved.length }})</h4>
+            <div>We have received feedback from these team members.</div>
+        </header>
+
+        <div class="response-states">
+            <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
+                <ng-container *ngFor="let decider of feedbackRecieved">
+                    <ng-container [ngSwitch]="decider.response">
+                        <mat-chip *ngSwitchCase="'APPROVED'" color="primary" selected>{{ decider.email }}</mat-chip>
+                        <mat-chip *ngSwitchCase="'REJECTED'" color="warn" selected>{{ decider.email }}</mat-chip>
+                        <mat-chip *ngSwitchDefault>{{ decider.email }}</mat-chip>
+                    </ng-container>
+                </ng-container>
+            </mat-chip-list>
+        </div>
+
+        <ng-container *ngIf="decision.responses?.length; else noResponses">
+            <section class="response-list">
+                <article class="response-list-item" *ngFor="let feedback of decision.responses">
+                    <header>
+                        <div class="mat-body-2">{{ feedback.from }}</div>
+                        <div class="mat-body-2">{{ feedback.created | timestamp }}</div>
+                    </header>
+                    <div class="pre">{{ feedback.body }}</div>
+                </article>
+            </section>
         </ng-container>
-    </ng-container>
-</mat-chip-list>
 
-<ng-container *ngIf="decision.responses?.length; else noResponses">
-    <div *ngFor="let feedback of decision.responses">
-        <div>{{ feedback.from }}</div>
-        <div>{{ feedback.created | timestamp }}</div>
-        <div class="pre">{{ feedback.body }}</div>
-    </div>
-</ng-container>
-
-<ng-template #noResponses>There have not yet been any responses.</ng-template>
+        <ng-template #noResponses>There have not yet been any responses.</ng-template>
+    </section>
+</div>

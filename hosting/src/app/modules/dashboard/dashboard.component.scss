@@ -1,5 +1,10 @@
+.dashboard {
+    padding: 3rem 0;
+}
+
 .intro {
     display: grid;
     grid-template-columns: auto min-content;
     gap: 1em;
+    margin-bottom: 2rem;
 }

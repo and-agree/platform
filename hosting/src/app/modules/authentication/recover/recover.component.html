@@ -1,14 +1,15 @@
-<h2>Reset your password</h2>
+<h1>Reset password</h1>
+<h3>Enter a new password.</h3>
 
 <div *ngIf="error">{{ error }}</div>
 
 <form [formGroup]="recoverForm" (submit)="resetPassword()">
     <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>New pssword</mat-label>
+        <mat-label>New password</mat-label>
         <input matInput type="password" required formControlName="password" />
     </mat-form-field>
 
     <div class="actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="recoverForm.invalid">Reset Password</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="recoverForm.invalid"><span>Reset Password</span><mat-icon>chevron_right</mat-icon></button>
     </div>
 </form>

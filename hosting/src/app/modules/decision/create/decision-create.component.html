@@ -1,117 +1,119 @@
-<h2>Start a new decision</h2>
-<p>Kick-off a new decision by filling in all the relevant information for your team.</p>
+<div class="start-decision">
+    <h1>Start a new decision</h1>
+    <h3>Kick-off a new decision by filling in all the relevant information for your team.</h3>
 
-<mat-stepper orientation="vertical" [linear]="true" #stepper>
-    <mat-step [stepControl]="generalForm">
-        <ng-template matStepLabel>General</ng-template>
+    <mat-stepper orientation="vertical" [linear]="true" #stepper>
+        <mat-step [stepControl]="generalForm">
+            <ng-template matStepLabel>General</ng-template>
 
-        <form [formGroup]="generalForm">
-            <p>Give your team the key information to help them make a faster decision.</p>
+            <form [formGroup]="generalForm">
+                <p>Give your team the key information to help them make a faster decision.</p>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Title</mat-label>
-                <input matInput required formControlName="title" placeholder="Project X" />
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Title</mat-label>
+                    <input matInput required formControlName="title" placeholder="Project X" />
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Goal</mat-label>
-                <input matInput formControlName="goal" placeholder="To agree the colour of the new logo" />
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Goal</mat-label>
+                    <input matInput formControlName="goal" placeholder="To agree the colour of the new logo" />
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Background</mat-label>
-                <textarea matInput rows="8" required formControlName="background" placeholder="This is the latest version of our 20th anniversairy logo"></textarea>
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Background</mat-label>
+                    <textarea matInput rows="8" required formControlName="background" placeholder="This is the latest version of our 20th anniversairy logo"></textarea>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Instructions</mat-label>
-                <input matInput formControlName="instructions" placeholder="Please review and approve" />
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Instructions</mat-label>
+                    <input matInput formControlName="instructions" placeholder="Please review and approve" />
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Feedback options</mat-label>
-                <mat-chip-list>
-                    <mat-chip [selectable]="false" [removable]="false">Disagree &amp; feedback</mat-chip>
-                    <mat-chip [selectable]="false" [removable]="false">Agree &amp; feedback</mat-chip>
-                </mat-chip-list>
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Feedback options</mat-label>
+                    <mat-chip-list>
+                        <mat-chip [selectable]="false" [removable]="false">Disagree &amp; feedback</mat-chip>
+                        <mat-chip [selectable]="false" [removable]="false">Agree &amp; feedback</mat-chip>
+                    </mat-chip-list>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Deadline</mat-label>
-                <input matInput required formControlName="deadline" [matDatepicker]="picker" />
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </form>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Deadline</mat-label>
+                    <input matInput required formControlName="deadline" [matDatepicker]="picker" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </form>
 
-        <button mat-button matStepperNext type="button">Next: Choose your team</button>
-    </mat-step>
+            <button mat-button matStepperNext type="button">Next: Choose your team</button>
+        </mat-step>
 
-    <mat-step [stepControl]="teamForm">
-        <ng-template matStepLabel>Team</ng-template>
+        <mat-step [stepControl]="teamForm">
+            <ng-template matStepLabel>Team</ng-template>
 
-        <form [formGroup]="teamForm">
-            <p>
-                Select the team members you want to involve in this decision process. Managers (you) are responsible for the overall process from start to finish. Deciders are
-                expected to provide feedback. Viewers are only kept in the loop for main decision milestones.
-            </p>
+            <form [formGroup]="teamForm">
+                <p>
+                    Select the team members you want to involve in this decision process. Managers (you) are responsible for the overall process from start to finish. Deciders are
+                    expected to provide feedback. Viewers are only kept in the loop for main decision milestones.
+                </p>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Managers(s)</mat-label>
-                <mat-chip-list>
-                    <mat-chip [selectable]="false" [removable]="true">{{ user.email }}</mat-chip>
-                </mat-chip-list>
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Managers(s)</mat-label>
+                    <mat-chip-list>
+                        <mat-chip [selectable]="false" [removable]="true">{{ user.email }}</mat-chip>
+                    </mat-chip-list>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Decider(s)</mat-label>
-                <mat-chip-list #deciderList>
-                    <mat-chip *ngFor="let destination of destinations.value; let i = index" [selectable]="false" [removable]="true" (removed)="remove(i)">
-                        {{ destination }}
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
-                    <input
-                        [formControl]="deciderCtrl"
-                        placeholder="Email address..."
-                        [matChipInputFor]="deciderList"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        [matChipInputAddOnBlur]="true"
-                        (matChipInputTokenEnd)="add($event)"
-                    />
-                </mat-chip-list>
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Decider(s)</mat-label>
+                    <mat-chip-list #deciderList>
+                        <mat-chip *ngFor="let destination of destinations.value; let i = index" [selectable]="false" [removable]="true" (removed)="remove(i)">
+                            {{ destination }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                        <input
+                            [formControl]="deciderCtrl"
+                            placeholder="Email address..."
+                            [matChipInputFor]="deciderList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="true"
+                            (matChipInputTokenEnd)="add($event)"
+                        />
+                    </mat-chip-list>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Viewers(s)</mat-label>
-                <mat-chip-list>
-                    <mat-chip [selectable]="false" [removable]="true">{{ user.email }}</mat-chip>
-                </mat-chip-list>
-            </mat-form-field>
-        </form>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Viewers(s)</mat-label>
+                    <mat-chip-list>
+                        <mat-chip [selectable]="false" [removable]="true">{{ user.email }}</mat-chip>
+                    </mat-chip-list>
+                </mat-form-field>
+            </form>
 
-        <button mat-button matStepperNext type="button">Next: Manage documents</button>
-    </mat-step>
+            <button mat-button matStepperNext type="button">Next: Manage documents</button>
+        </mat-step>
 
-    <mat-step>
-        <ng-template matStepLabel>Documents</ng-template>
+        <mat-step>
+            <ng-template matStepLabel>Documents</ng-template>
 
-        <form [formGroup]="documentForm">
-            <p>Share any documents you want your team to review as well as anything else that might give them additional context.</p>
+            <form [formGroup]="documentForm">
+                <p>Share any documents you want your team to review as well as anything else that might give them additional context.</p>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Attach file</mat-label>
-                <input matInput formControlName="decision" placeholder="For decision" />
-            </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Attach file</mat-label>
+                    <input matInput formControlName="decision" placeholder="For decision" />
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" floatLabel="always">
-                <mat-label>Attach file</mat-label>
-                <input matInput formControlName="information" placeholder="For information" />
-            </mat-form-field>
-        </form>
-    </mat-step>
-</mat-stepper>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Attach file</mat-label>
+                    <input matInput formControlName="information" placeholder="For information" />
+                </mat-form-field>
+            </form>
+        </mat-step>
+    </mat-stepper>
 
-<div class="actions">
-    <button (click)="performCancel()" mat-flat-button color="warn">Cancel</button>
-    <button (click)="createDecision()" mat-flat-button color="primary" [disabled]="generalForm.invalid || teamForm.invalid || documentForm.invalid">Start decision</button>
+    <div class="actions">
+        <button (click)="performCancel()" mat-flat-button color="warn">Cancel</button>
+        <button (click)="createDecision()" mat-flat-button color="primary" [disabled]="generalForm.invalid || teamForm.invalid || documentForm.invalid"><span>Start decision</span><mat-icon>chevron_right</mat-icon></button>
+    </div>
 </div>

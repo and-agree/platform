@@ -1,10 +1,19 @@
 <mat-toolbar color="primary">
-    <a [routerLink]="['/']">&amp;Agree</a>
+    <div class="app-bar-content">
+        <div class="logo">
+            <a [routerLink]="['/']">
+                <img src="/assets/logo-white@3x.png" alt="&agree">
+            </a>
+        </div>
 
-    <span class="spacer"></span>
+        <nav class="nav" *agreeAuthenticated="true">
+            <a [routerLink]="['/', 'dashboard']" aria-label="Your decisions" title="Your decisions"><mat-icon>space_dashboard</mat-icon></a>
+            <a [routerLink]="['/', 'decision', 'create']" aria-label="New decision" title="New decision"><mat-icon>add</mat-icon></a>
+        </nav>
 
-    <div class="user" *agreeAuthenticated="true">
-        <div>{{ account.alias }}</div>
-        <button mat-flat-button color="warn" (click)="performLogout()">Logout</button>
+        <div class="user" *agreeAuthenticated="true">
+            <div class="mat-body-1">{{ account.alias }}</div>
+            <button mat-button (click)="performLogout()">Logout</button>
+        </div>
     </div>
 </mat-toolbar>

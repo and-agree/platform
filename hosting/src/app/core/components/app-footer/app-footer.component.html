@@ -1,0 +1,25 @@
+<div class="app-footer">
+    <div class="app-footer-content">
+        <div>
+            <img src="/assets/logo-white@3x.png" alt="&agree">
+        </div>
+        <div>
+            <h4>Website</h4>
+            <ul>
+                <li *agreeAuthenticated="false"><a [routerLink]="['/', 'auth', 'login']">Login</a></li>
+                <li *agreeAuthenticated="true"><a [routerLink]="['/', 'dashboard']">Your decisions</a></li>
+                <li><a href="#">Contact us</a></li>
+                <li><a href="#">Sitemap</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="#">Terms of service</a></li>
+                <li><a href="#">Privacy policy</a></li>
+                <li><a href="#">Cookie policy</a></li>
+            </ul>
+        </div>
+        <div class="disclaimer">Copyright 2021 &amp;Agree. All rights reserved.</div>
+    </div>
+</div>

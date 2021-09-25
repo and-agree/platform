@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppBarModule } from './core/components';
+import { AppFooterModule } from './core/components';
 import { LayoutComponent } from './layout.component';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { LayoutComponent } from './layout.component';
         AppRoutingModule,
         BrowserAnimationsModule,
         AppBarModule,
+        AppFooterModule,
         MatNativeDateModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => {

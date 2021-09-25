@@ -1,8 +1,13 @@
-<h2>Your decisions</h2>
+<div class="dashboard">
+    <div class="intro">
+        <div>
+            <h1>Your decisions</h1>
+            <h3>Track the progress of your decisions below</h3>
+        </div>
+        <div>
+            <button mat-flat-button color="primary" [routerLink]="['/', 'decision', 'create']"><span>Start new decision</span><mat-icon>chevron_right</mat-icon></button>
+        </div>
+    </div>
 
-<div class="intro">
-    <p>Track the progress of your decisions below</p>
-    <button mat-stroked-button color="primary" [routerLink]="['/', 'decision', 'create']">Start new decision</button>
+    <agree-decisions></agree-decisions>
 </div>
-
-<agree-decisions></agree-decisions>

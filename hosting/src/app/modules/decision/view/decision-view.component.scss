@@ -1,3 +1,91 @@
 .pre {
     white-space: pre;
 }
+
+.summary {
+    background: #fafafa;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    padding: 1.5rem 2rem;
+
+    @media screen and (min-width: 600px) {
+        margin-left: calc((-100vw / 2 + 600px / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + 600px / 2) - 2rem);
+    }
+
+    @media screen and (min-width: 960px) {
+        margin-left: calc((-100vw / 2 + 960px / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + 960px / 2) - 2rem);
+    }
+
+    @media screen and (min-width: 1280px) {
+        margin-left: calc((-100vw / 2 + 1280px / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + 1280px / 2) - 2rem);
+    }
+
+    .summary-content {
+        margin: 0 auto;
+        display: grid;
+        grid-template-rows: repeat(1, 1fr);
+        gap: 0.75rem;
+        grid-auto-flow: row;
+        grid-auto-rows: auto;
+
+        @media screen and (min-width: 600px) {
+            width: 540px;
+            grid-template-rows: repeat(2, 1fr);
+            grid-auto-flow: column;
+            grid-auto-columns: 3fr 2fr;
+        }
+
+        @media screen and (min-width: 960px) {
+            width: 900px;
+        }
+
+        @media screen and (min-width: 1280px) {
+            width: 1220px;
+        }
+
+        > div {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+.responses {
+    margin: 3rem 0 4rem;
+}
+
+.response-section {
+    margin-top: 3rem;
+
+    > header {
+        margin-bottom: 2rem;
+
+        h4 {
+            margin: 0 0 0.5rem;
+        }
+    }
+}
+
+.response-list {
+    margin-top: 2rem;
+    display: grid;
+    gap: 1rem;
+
+    .response-list-item {
+        display: grid;
+        gap: 0.5rem;
+        padding: 1rem;
+        border-left: 6px solid #2f2e58;
+        background: #fafafa;
+
+        header {
+            display: grid;
+            grid-template-columns: auto max-content;
+            gap: 0.5rem;
+        }
+    }
+}
