@@ -9,18 +9,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthenticatedDirective } from './directives/authenticated.directive';
+import { CountPipe } from './pipes';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TimestampPipe } from './pipes/timestamp.pipe';
 
 @NgModule({
-    declarations: [AuthenticatedDirective, FilterPipe, TimestampPipe],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-    ],
+    declarations: [AuthenticatedDirective, CountPipe, FilterPipe, TimestampPipe],
+    imports: [CommonModule, ReactiveFormsModule],
     exports: [
         CommonModule,
         ReactiveFormsModule,
@@ -32,12 +31,14 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         MatIconModule,
         MatInputModule,
         MatListModule,
+        MatProgressBarModule,
         MatStepperModule,
         MatToolbarModule,
         AuthenticatedDirective,
+        CountPipe,
         FilterPipe,
         TimestampPipe,
     ],
-    providers: [DatePipe, FilterPipe, TimestampPipe],
+    providers: [CountPipe, DatePipe, FilterPipe, TimestampPipe],
 })
 export class SharedModule {}

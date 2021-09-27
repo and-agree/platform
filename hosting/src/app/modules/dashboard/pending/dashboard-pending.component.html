@@ -4,7 +4,10 @@
 <div class="decisions">
     <mat-card *ngFor="let decision of decisions">
         <h3>{{ decision.general.title }}</h3>
-        <p>{{ decision.status }}</p>
+        <mat-progress-bar mode="determinate" [value]="feedbackPercent(decision)" color="accent"></mat-progress-bar>
+        <p>Feedback: {{ decision.deciders | filter: "pending":false | count }} / {{ decision.deciders | count }}</p>
+        <p>Goal: {{ decision.general.goal }}</p>
+        <p>Deadline: {{ decision.general.deadline | timestamp }}</p>
         <a mat-icon-button [routerLink]="['/', 'decision', 'view', decision.uid]">
             <mat-icon>chevron_right</mat-icon>
         </a>
