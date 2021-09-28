@@ -4,7 +4,11 @@
 
 .intro {
     display: grid;
-    grid-template-columns: auto min-content;
+    grid-template-columns: auto;
     gap: 1em;
     margin-bottom: 2rem;
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: auto min-content;
+    }
 }

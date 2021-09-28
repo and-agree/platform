@@ -1,5 +1,64 @@
+.header {
+    margin-bottom: 2rem;
+
+    h4 {
+        margin: 0 0 0.5rem;
+    }
+}
+
 .decisions {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1em;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 1rem 0 3rem;
+    width: 100%;
+
+    @media screen and (min-width: 600px) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    @media screen and (min-width: 1280px) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+.decision-item {
+
+    mat-card-title {
+        padding: 0 0 1rem;
+
+        h5 {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    mat-progress-bar {
+        height: 0.5rem;
+
+    }
+
+    mat-card-content {
+        padding: 1.25rem 0 0;
+
+        > div {
+            margin-top: 0.33rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    mat-card-actions {
+        text-align: right;
+    }
+
 }

@@ -1,10 +1,12 @@
-<h4>Archived decisions ({{ decisions.length }})</h4>
-<p>Decisions that have been made.</p>
+<div class="header">
+    <h4 class="mat-display-1">Archived decisions ({{ decisions.length }})</h4>
+    <div>Decisions that have been made.</div>
+</div>
 
-<mat-list>
-    <mat-list-item *ngFor="let decision of decisions">
-        <p mat-line>{{ decision.general.title }}</p>
-        <p mat-line>{{ decision.conclusion }}</p>
-        <p mat-line>{{ decision.completed | timestamp }}</p>
-    </mat-list-item>
-</mat-list>
+<div class="archive">
+    <div class="archive-item" *ngFor="let decision of decisions">
+        <div class="archive-item-line">{{ decision.general.title }}</div>
+        <div class="archive-item-line">{{ decision.completed | timestamp }}</div>
+        <div class="archive-item-line">{{ decision.conclusion }}</div>
+    </div>
+</div>
