@@ -54,7 +54,11 @@
 
         <ng-template #noResponses>There have not yet been any responses.</ng-template>
     </section>
-</div>
 
-<button mat-button (click)="deleteDecision()">Delete</button>
-<a mat-flat-button color="primary" [routerLink]="['/', 'decision', 'finalise', decision.uid]">Finalise decision</a>
+    <div class="actions">
+        <button mat-button (click)="deleteDecision()">Delete</button>
+        <a mat-flat-button color="primary" [routerLink]="['/', 'decision', 'finalise', decision.uid]">
+            <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
+        </a>
+    </div>
+</div>

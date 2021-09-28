@@ -1,0 +1,28 @@
+.finalise {
+    margin: 3rem 0 4rem;
+}
+
+section {
+    margin-top: 2.5rem;
+
+    > header {
+        margin-bottom: 2rem;
+
+        h4 {
+            margin: 0 0 0.5rem;
+        }
+    }
+}
+
+mat-form-field,
+textarea {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: 2rem 0;
+}

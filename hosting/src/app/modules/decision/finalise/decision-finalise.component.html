@@ -1,27 +1,39 @@
-<form [formGroup]="finaliseForm" (submit)="finaliseDecision()">
+<div class="finalise">
     <h1>Finalise the decision</h1>
-    <h3>Share the final decision with the rest of your team and archive the outcome.</h3>
+    <div class="mat-subheading-1">Share the final decision with the rest of your team and archive the outcome.</div>
 
-    <h4>Final decision</h4>
-    <p>Share the final decision outcome with your team.</p>
+    <form [formGroup]="finaliseForm">
+        <section>
+            <header>
+                <h4 class="mat-display-1">Final decision</h4>
+                <div>Share the final decision outcome with your team.</div>
+            </header>
 
-    <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Message</mat-label>
-        <textarea matInput rows="8" required formControlName="conclusion" placeholder="This is the latest version of our 20th anniversairy logo"></textarea>
-    </mat-form-field>
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Message</mat-label>
+                <textarea matInput rows="8" required formControlName="conclusion" placeholder="The yellow logo has now been approved. Thanks for your help!"></textarea>
+            </mat-form-field>
+        </section>
 
-    <h4>Final documents</h4>
-    <p>Share the final decision documents with your team.</p>
+        <section>
+            <header>
+                <h4 class="mat-display-1">Final documents</h4>
+                <div>Share the final decision documents with your team.</div>
+            </header>
 
-    <mat-selection-list dense #documents>
-        <mat-list-option *ngFor="let document of decision.documents" [value]="document">
-            <p mat-line>{{ document.name }}</p>
-            <p mat-line>{{ document.file }}</p>
-        </mat-list-option>
-    </mat-selection-list>
+            <mat-selection-list dense #documents>
+                <mat-list-option *ngFor="let document of decision.documents" [value]="document">
+                    <p mat-line>{{ document.name }}</p>
+                    <p mat-line>{{ document.file }}</p>
+                </mat-list-option>
+            </mat-selection-list>
+        </section>
 
-    <div>
-        <button mat-button [routerLink]="['/', 'decision', 'view', decision.uid]">Back</button>
-        <button mat-flat-button color="primary">Finalise decision</button>
-    </div>
-</form>
+        <div class="actions">
+            <button mat-button [routerLink]="['/', 'decision', 'view', decision.uid]">Back</button>
+            <button mat-flat-button color="primary" (ngSubmit)="finaliseDecision()">
+                <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>

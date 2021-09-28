@@ -9,18 +9,18 @@
     padding: 1.5rem 2rem;
 
     @media screen and (min-width: 600px) {
-        margin-left: calc((-100vw / 2 + 600px / 2) - 2rem);
-        margin-right: calc((-100vw / 2 + 600px / 2) - 2rem);
+        margin-left: calc((-100vw / 2 + (600px + 4px) / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + (600px + 4px) / 2) - 2rem);
     }
 
     @media screen and (min-width: 960px) {
-        margin-left: calc((-100vw / 2 + 960px / 2) - 2rem);
-        margin-right: calc((-100vw / 2 + 960px / 2) - 2rem);
+        margin-left: calc((-100vw / 2 + (960px + 4px) / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + (960px + 4px) / 2) - 2rem);
     }
 
     @media screen and (min-width: 1280px) {
-        margin-left: calc((-100vw / 2 + 1280px / 2) - 2rem);
-        margin-right: calc((-100vw / 2 + 1280px / 2) - 2rem);
+        margin-left: calc((-100vw / 2 + (1280px + 4px) / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + (1280px + 4px) / 2) - 2rem);
     }
 
     .summary-content {
@@ -59,7 +59,7 @@
 }
 
 .response-section {
-    margin-top: 3rem;
+    margin: 3rem 0 4rem;
 
     > header {
         margin-bottom: 2rem;
@@ -88,4 +88,12 @@
             gap: 0.5rem;
         }
     }
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: 2rem 0;
 }
