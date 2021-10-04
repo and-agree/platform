@@ -7,17 +7,51 @@ form {
     gap: 1em;
 }
 
+.document-entry {
+    display: grid;
+    grid-template-columns: auto min-content max-content min-content;
+    gap: 0rem;
+    margin-bottom: 1rem;
+    align-items: center;
+
+    mat-form-field {
+        grid-column: span 4;
+    }
+
+    .indicator {
+        padding-right: 1.5rem;
+
+        mat-icon {
+            position: relative;
+            top: 3px;
+        }
+    }
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: auto min-content min-content min-content;
+        align-items: center;
+        margin-bottom: 0;
+
+        mat-form-field {
+            grid-column: auto;
+        }
+
+        .indicator {
+            padding-right: 0;
+        }
+
+        > div {
+            position: relative;
+            top: -0.5rem;
+            padding-left: 2rem;
+        }
+    }
+}
+
 .actions {
     display: grid;
     grid-template-columns: min-content min-content;
     align-items: flex-end;
     justify-content: flex-end;
-    gap: 1em;
-}
-
-.document-entry {
-    display: grid;
-    grid-template-columns: 2fr 1fr min-content;
-    align-items: center;
     gap: 1em;
 }

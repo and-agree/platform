@@ -2,7 +2,7 @@
     <h1>Finalise the decision</h1>
     <div class="mat-subheading-1">Share the final decision with the rest of your team and archive the outcome.</div>
 
-    <form [formGroup]="finaliseForm">
+    <form [formGroup]="finaliseForm" (submit)="finaliseDecision()">
         <section>
             <header>
                 <h4 class="mat-display-1">Final decision</h4>
@@ -30,8 +30,8 @@
         </section>
 
         <div class="actions">
-            <button mat-button [routerLink]="['/', 'decision', 'view', decision.uid]">Back</button>
-            <button mat-flat-button color="primary" (ngSubmit)="finaliseDecision()">
+            <button mat-button type="button" [routerLink]="['/', 'decision', 'view', decision.uid]">Back</button>
+            <button mat-flat-button type="submit" color="primary" >
                 <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
             </button>
         </div>

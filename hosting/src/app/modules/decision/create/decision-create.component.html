@@ -106,10 +106,21 @@
                             <input matInput formControlName="name" />
                         </mat-form-field>
 
-                        <input type="file" formControlName="file" />
+                        <div>
+                            <button mat-button (click)="buttonInput.click()">
+                                Choose file
+                            </button>
+
+                            <input #buttonInput type="file" formControlName="file" />
+                        </div>
+
+                        <div class="indicator" [ngSwitch]="document.valid">
+                            <mat-icon color="primary" *ngSwitchCase="true">check_circle_outline</mat-icon>
+                            <mat-icon color="warn" *ngSwitchDefault>help_outline</mat-icon>
+                        </div>
 
                         <div>
-                            <button mat-mini-fab (click)="removeDocument(i)">
+                            <button mat-icon-button color="warn" aria-label="Remove document" (click)="removeDocument(i)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
@@ -117,7 +128,7 @@
                 </div>
 
                 <div>
-                    <button mat-raised-button (click)="addDocument()">Add file</button>
+                    <button mat-button (click)="addDocument()">Add file</button>
                 </div>
             </form>
         </mat-step>
