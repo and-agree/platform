@@ -7,11 +7,17 @@
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Email address</mat-label>
         <input matInput required formControlName="email" />
+        <mat-error>
+            <agree-error-message [control]="loginForm.get('email')"></agree-error-message>
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Password</mat-label>
         <input matInput [type]="visibility" required formControlName="password" />
+        <mat-error>
+            <agree-error-message [control]="loginForm.get('password')"></agree-error-message>
+        </mat-error>
 
         <button (click)="toggleVisibility($event)" type="button" mat-icon-button matSuffix>
             <ng-container [ngSwitch]="visibility">

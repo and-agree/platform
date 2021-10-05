@@ -12,6 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ErrorMessageModule } from './components/error-message/error-message.module';
 import { AuthenticatedDirective } from './directives/authenticated.directive';
 import { CountPipe } from './pipes';
 import { FilterPipe } from './pipes/filter.pipe';
@@ -19,7 +20,7 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
 
 @NgModule({
     declarations: [AuthenticatedDirective, CountPipe, FilterPipe, TimestampPipe],
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, ErrorMessageModule],
     exports: [
         CommonModule,
         ReactiveFormsModule,
@@ -38,6 +39,7 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         CountPipe,
         FilterPipe,
         TimestampPipe,
+        ErrorMessageModule,
     ],
     providers: [CountPipe, DatePipe, FilterPipe, TimestampPipe],
 })

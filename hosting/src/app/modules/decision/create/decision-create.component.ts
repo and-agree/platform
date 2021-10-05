@@ -23,10 +23,10 @@ export class DecisionCreateComponent {
 
     constructor(private router: Router, private forms: FormBuilder, private authenticationService: AuthenticationService, private decisionService: DecisionService) {
         this.generalForm = this.forms.group({
-            title: [undefined, [Validators.required]],
-            goal: [undefined, []],
-            background: [undefined, [Validators.required]],
-            instructions: [undefined, []],
+            title: [undefined, [Validators.required, Validators.maxLength(100)]],
+            goal: [undefined, [Validators.maxLength(100)]],
+            background: [undefined, [Validators.required, Validators.maxLength(1000)]],
+            instructions: [undefined, [Validators.maxLength(100)]],
             deadline: [new Date(), [Validators.required]],
         });
 
@@ -54,7 +54,7 @@ export class DecisionCreateComponent {
         }
 
         if (!this.destinations.value.includes(value)) {
-            this.destinations.push(this.forms.control(value, Validators.email));
+            this.destinations.push(this.forms.control(value, [Validators.email]));
         }
 
         event.chipInput?.clear();
@@ -66,7 +66,7 @@ export class DecisionCreateComponent {
 
     public createDocument(): FormGroup {
         return this.forms.group({
-            name: [undefined, [Validators.required]],
+            name: [undefined, [Validators.required, Validators.maxLength(100)]],
             file: [undefined, [Validators.required]],
         });
     }

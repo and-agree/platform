@@ -18,8 +18,8 @@ export class AppBarComponent implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.isDestroyed.complete();
         this.isDestroyed.next();
+        this.isDestroyed.complete();
     }
 
     public performLogout(): void {

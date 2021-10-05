@@ -16,7 +16,7 @@ export class RecoverComponent implements OnInit {
 
     public ngOnInit(): void {
         this.recoverForm = this.form.group({
-            password: [undefined, [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
+            password: [undefined, [Validators.required, Validators.minLength(8), Validators.maxLength(100)]],
         });
     }
 

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Decision } from './../../../core/models';
@@ -20,7 +20,7 @@ export class DecisionFinaliseComponent {
         this.decision = this.route.snapshot.data.decision;
 
         this.finaliseForm = this.forms.group({
-            conclusion: [undefined, []],
+            conclusion: [undefined, [Validators.maxLength(1000)]],
         });
     }
 

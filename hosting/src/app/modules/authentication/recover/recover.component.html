@@ -7,6 +7,9 @@
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>New password</mat-label>
         <input matInput type="password" required formControlName="password" />
+        <mat-error>
+            <agree-error-message [control]="recoverForm.get('password')"></agree-error-message>
+        </mat-error>
     </mat-form-field>
 
     <div class="actions">
