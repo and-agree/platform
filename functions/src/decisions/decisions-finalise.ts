@@ -11,28 +11,28 @@ const emailTemplate = (template: string): string => {
     return fs.readFileSync(path.join(__dirname, 'templates', template)).toString();
 };
 
-export const DecisionUpdate = functions
+export const DecisionFinalise = functions
     .region('europe-west2')
     .runWith({
         memory: '256MB',
         timeoutSeconds: 30,
     })
-    .firestore.document('/decisions/{decisionId}')
-    .onUpdate(async (change): Promise<void> => {
+    .https.onCall(async (data) => {
         setApiKey(functions.config().sendgrid.api_key);
         const emailDomain = functions.config().sendgrid.domain;
 
-        const before = change.before.data() as Decision;
-        const after = change.after.data() as Decision;
+        const decisionRef = await admin.firestore().collection('decisions').doc(data.decisionId);
 
-        if (before.status === 'COMPLETE' || after.status !== 'COMPLETE') {
+        const decision = (await decisionRef.get()).data() as Decision;
+
+        if (decision.status === 'ARCHIVED') {
             return;
         }
 
-        const to = after.deciders.map((decider) => decider.email);
-        const from = `andAgree <${after.uid}@${emailDomain}>`;
-        const subject = after.title;
-        const html = await render(emailTemplate('decision-result.html'), after);
+        const to = decision.deciders.map((decider) => decider.email);
+        const from = `andAgree <${decision.uid}@${emailDomain}>`;
+        const subject = decision.title;
+        const html = await render(emailTemplate('decision-result.html'), { ...decision, ...data });
 
         const payload: MailDataRequired = { to, from, subject, html };
 
@@ -43,7 +43,7 @@ export const DecisionUpdate = functions
         }
 
         const batch = admin.firestore().batch();
-        batch.update(change.after.ref, { status: 'ARCHIVED' });
+        batch.update(decisionRef, { completed: admin.firestore.FieldValue.serverTimestamp(), conclusion: data.conclusion, status: 'ARCHIVED' });
 
         try {
             await batch.commit();

@@ -3,28 +3,9 @@
 }
 
 .summary {
-    background: #fafafa;
-    margin-left: -2rem;
-    margin-right: -2rem;
     padding: 1.5rem 2rem;
 
-    @media screen and (min-width: 600px) {
-        margin-left: calc((-100vw / 2 + (600px + 4px) / 2) - 2rem);
-        margin-right: calc((-100vw / 2 + (600px + 4px) / 2) - 2rem);
-    }
-
-    @media screen and (min-width: 960px) {
-        margin-left: calc((-100vw / 2 + (960px + 4px) / 2) - 2rem);
-        margin-right: calc((-100vw / 2 + (960px + 4px) / 2) - 2rem);
-    }
-
-    @media screen and (min-width: 1280px) {
-        margin-left: calc((-100vw / 2 + (1280px + 4px) / 2) - 2rem);
-        margin-right: calc((-100vw / 2 + (1280px + 4px) / 2) - 2rem);
-    }
-
     .summary-content {
-        margin: 0 auto;
         display: grid;
         grid-template-rows: repeat(1, 1fr);
         gap: 0.75rem;
@@ -32,18 +13,9 @@
         grid-auto-rows: auto;
 
         @media screen and (min-width: 600px) {
-            width: 540px;
             grid-template-rows: repeat(2, 1fr);
             grid-auto-flow: column;
             grid-auto-columns: 3fr 2fr;
-        }
-
-        @media screen and (min-width: 960px) {
-            width: 900px;
-        }
-
-        @media screen and (min-width: 1280px) {
-            width: 1220px;
         }
 
         > div {
@@ -74,6 +46,14 @@
     display: grid;
     gap: 1.5em;
 
+    mat-chip {
+        max-width: calc(100% - 0.5rem);
+
+        &.mat-chip-selected.mat-accent {
+            background-color: #8376e3;
+        }
+    }
+
     @media screen and (min-width: 960px) {
         grid-template-columns: 1fr 1fr 1fr;
     }
@@ -88,8 +68,16 @@
         display: grid;
         gap: 0.5rem;
         padding: 1rem;
-        border-left: 5px solid #302d5b;
+        border-left: 5px solid #ccc;
         background: #fafafa;
+
+        &.agree {
+            border-color: #302d5b;
+        }
+
+        &.disagree {
+            border-color: #8376e3;
+        }
 
         header {
             display: grid;
@@ -105,6 +93,12 @@
                 justify-self: flex-end;
             }
         }
+
+        .response-list-item-actions button {
+            position: relative;
+            top: -0.5rem;
+            right: -0.5rem;
+        }
     }
 }
 
@@ -113,5 +107,40 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
-    margin: 2rem 0;
+    margin: 2rem 0 1rem;
+    padding: 1.5rem 2rem;
+
+    @media screen and (min-width: 640px) {
+        padding: 1.5rem 0;
+    }
+}
+
+.actions-info {
+    margin: 0 0 2rem;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: row-reverse;
+
+    @media screen and (min-width: 640px) {
+        padding: 0;
+    }
+
+    p {
+        text-align: right;
+        width: 66%;
+        padding: 0;
+        margin: 0;
+
+        @media screen and (min-width: 640px) {
+            width: 50%;
+        }
+
+        @media screen and (min-width: 960px) {
+            width: 33%;
+        }
+
+        @media screen and (min-width: 1280px) {
+            width: 25%;
+        }
+    }
 }

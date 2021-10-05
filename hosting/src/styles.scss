@@ -127,13 +127,13 @@ strong {
     font-weight: 500;
 }
 
-.mat-button  mat-icon {
+.mat-button span ~ mat-icon {
     position: relative;
     right: -5px;
     transform: scaleX(1.4) scaleY(1.4);
 }
 
-.mat-flat-button mat-icon {
+.mat-flat-button span ~ mat-icon {
     position: relative;
     right: -5px;
     transform: scaleX(1.4) scaleY(1.4);
@@ -145,4 +145,45 @@ strong {
 
 input[type=file] {
     display: none;
+}
+
+.full-viewport {
+    background: #fafafa;
+    margin-left: -2rem;
+    margin-right: -2rem;
+
+    &.clear-bg {
+        background: none;
+    }
+
+    @media screen and (min-width: 600px) {
+        margin-left: calc((-100vw / 2 + (600px + 4px) / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + (600px + 4px) / 2) - 2rem);
+    }
+
+    @media screen and (min-width: 960px) {
+        margin-left: calc((-100vw / 2 + (960px + 4px) / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + (960px + 4px) / 2) - 2rem);
+    }
+
+    @media screen and (min-width: 1280px) {
+        margin-left: calc((-100vw / 2 + (1280px + 4px) / 2) - 2rem);
+        margin-right: calc((-100vw / 2 + (1280px + 4px) / 2) - 2rem);
+    }
+
+    .full-viewport-content {
+        margin: 0 auto;
+
+        @media screen and (min-width: 600px) {
+            width: 540px;
+        }
+
+        @media screen and (min-width: 960px) {
+            width: 900px;
+        }
+
+        @media screen and (min-width: 1280px) {
+            width: 1220px;
+        }
+    }
 }

@@ -12,7 +12,12 @@ defineStep(/^calling the "([^"]*)" endpoint with file "([^"]*)"$/, async functio
     this.response = await this.callEndpoint(functionName, request);
 });
 
-defineStep(/^call the "([^"]*)" create function with:$/, async function (functionName, data) {
+defineStep(/^trigger the "([^"]*)" function with:$/, async function (functionName, data) {
     const params = this.parseObjectData(data.rowsHash());
-    this.response = await this.callCreate(functionName, { params });
+    this.response = await this.callTrigger(functionName, { params });
+});
+
+defineStep(/^call the "([^"]*)" function with:$/, async function (functionName, data) {
+    const payload = this.parseObjectData(data.rowsHash());
+    this.response = await this.callFunction(functionName, payload);
 });

@@ -15,8 +15,9 @@ import {
     Timestamp,
     where,
 } from '@angular/fire/firestore';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 import { writeBatch } from '@firebase/firestore';
-import { forkJoin, from, Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Decision, DecisionDocument, DecisionGeneral } from '../models';
 import { DecisionResponse, DecisionStatus, TeamDecider } from './../models/decision';
@@ -29,7 +30,7 @@ export class DecisionService {
     private companyId = this.authenticationService.user.value.companyId;
     private decisionCollection: CollectionReference<Decision>;
 
-    constructor(private firestore: Firestore, private authenticationService: AuthenticationService) {
+    constructor(private firestore: Firestore, private functions: Functions, private authenticationService: AuthenticationService) {
         this.authenticationService.user.pipe().subscribe((user) => (this.companyId = user.companyId));
 
         this.decisionCollection = collection(this.firestore, 'decisions').withConverter<Decision>(null);
@@ -63,9 +64,8 @@ export class DecisionService {
     }
 
     public finalise(decisionId, finaliseData: Partial<Decision>): Observable<void> {
-        finaliseData.status = 'COMPLETE';
-        finaliseData.completed = serverTimestamp() as Timestamp;
-        return from(setDoc(doc(this.firestore, `decisions/${decisionId}`), finaliseData, { merge: true }));
+        const finalise = httpsCallable<any, void>(this.functions, 'DecisionFinalise');
+        return from(finalise({ decisionId, ...finaliseData })).pipe(map(() => null));
     }
 
     public findAll(status: DecisionStatus, sort = { field: 'feedback', direction: 'desc' }): Observable<Decision[]> {

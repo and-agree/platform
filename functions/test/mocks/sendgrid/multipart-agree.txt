@@ -19,12 +19,12 @@ Content-Disposition: form-data; name="html"
 
 <html>
     <head></head>
-    <body>Approved</body>
+    <body>Agree</body>
 </html>
 
 --xYzZY
 Content-Disposition: form-data; name="text"
 
-Approved
+Agree
 
 --xYzZY--

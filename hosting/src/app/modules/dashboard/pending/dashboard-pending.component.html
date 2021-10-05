@@ -35,4 +35,20 @@
             </a>
         </mat-card-actions>
     </mat-card>
+    <mat-card class="decision-item create-prompt">
+        <mat-card-title>
+            <h5 class="mat-display-1">Start new decision</h5>
+        </mat-card-title>
+        <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+        <mat-card-content>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+        </mat-card-content>
+        <mat-card-actions>
+            <a mat-icon-button [routerLink]="['/', 'decision', 'create']" aria-label="Start new decision" color="primary">
+                <mat-icon>add_circle</mat-icon>
+            </a>
+        </mat-card-actions>
+    </mat-card>
 </div>

@@ -1,0 +1,30 @@
+--xYzZY
+Content-Disposition: form-data; name="to"
+
+andAgree <aaaaaaaaaaaaaaaaaaaaaaaa@dev.andagree.com>
+--xYzZY
+Content-Disposition: form-data; name="from"
+
+Example <example@test.andagree.com>
+--xYzZY
+Content-Disposition: form-data; name="envelope"
+
+{"to":["aaaaaaaaaaaaaaaaaaaaaaaa@dev.andagree.com"],"from":"example@test.andagree.com"}
+--xYzZY
+Content-Disposition: form-data; name="subject"
+
+Re: Title
+--xYzZY
+Content-Disposition: form-data; name="html"
+
+<html>
+    <head></head>
+    <body>Disagree</body>
+</html>
+
+--xYzZY
+Content-Disposition: form-data; name="text"
+
+Disagree
+
+--xYzZY--

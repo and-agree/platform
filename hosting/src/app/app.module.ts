@@ -2,20 +2,21 @@ import { NgModule } from '@angular/core';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, indexedDBLocalPersistence, initializeAuth, provideAuth } from '@angular/fire/auth';
 import { connectFirestoreEmulator, enableMultiTabIndexedDbPersistence, getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { connectFunctionsEmulator, FunctionsModule, getFunctions, provideFunctions } from '@angular/fire/functions';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppBarModule } from './core/components';
-import { AppFooterModule } from './core/components';
+import { AppBarModule, AppFooterModule } from './core/components';
 import { LayoutComponent } from './layout.component';
 
 @NgModule({
     declarations: [AppComponent, LayoutComponent],
     imports: [
         BrowserModule,
+        FunctionsModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         AppBarModule,
@@ -39,6 +40,13 @@ import { LayoutComponent } from './layout.component';
                 () => false
             );
             return firestore;
+        }),
+        provideFunctions(() => {
+            const functions = getFunctions(undefined, 'europe-west2');
+            if (environment.emulator) {
+                connectFunctionsEmulator(functions, 'localhost', 5001);
+            }
+            return functions;
         }),
     ],
     bootstrap: [AppComponent],

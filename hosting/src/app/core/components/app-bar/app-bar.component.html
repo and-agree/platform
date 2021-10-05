@@ -7,8 +7,12 @@
         </div>
 
         <nav class="nav" *agreeAuthenticated="true">
-            <a [routerLink]="['/', 'dashboard']" aria-label="Your decisions" title="Your decisions"><mat-icon>space_dashboard</mat-icon></a>
-            <a [routerLink]="['/', 'decision', 'create']" aria-label="New decision" title="New decision"><mat-icon>add</mat-icon></a>
+            <a [routerLink]="['/', 'dashboard']" aria-label="Your decisions" title="Your decisions">
+                <mat-icon>dashboard_customize</mat-icon>
+            </a>
+            <a [routerLink]="['/', 'decision', 'create']" aria-label="New decision" title="Start new decision">
+                <mat-icon>add</mat-icon>
+            </a>
         </nav>
 
         <div class="user" *agreeAuthenticated="true">

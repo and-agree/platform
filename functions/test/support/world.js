@@ -79,8 +79,8 @@ class World {
         return result;
     }
 
-    async callFunction(name, data) {
-        const result = await testApp.wrap(this.functions[name])(data);
+    async callTrigger(name, params) {
+        const result = await testApp.wrap(this.functions[name])(undefined, params);
 
         for (let mock of this.mocks) {
             mock.done();
@@ -90,8 +90,8 @@ class World {
         return result;
     }
 
-    async callCreate(name, params) {
-        const result = await testApp.wrap(this.functions[name])(undefined, params);
+    async callFunction(name, payload) {
+        const result = await testApp.wrap(this.functions[name])(payload);
 
         for (let mock of this.mocks) {
             mock.done();

@@ -1,3 +1,12 @@
+<div class="full-viewport summary">
+    <div class="full-viewport-content summary-content">
+        <div><strong>Title:</strong> {{ decision.title }}</div>
+        <div><strong>Goal:</strong> {{ decision.goal }}</div>
+        <div><strong>ID:</strong> {{ decision.uid }}</div>
+        <div><strong>Deadline:</strong> {{ decision.deadline | timestamp }}</div>
+    </div>
+</div>
+
 <div class="finalise">
     <h1>Finalise the decision</h1>
     <div class="mat-subheading-2">Share the final decision with the rest of your team and archive the outcome.</div>
@@ -32,11 +41,22 @@
             </mat-selection-list>
         </section>
 
-        <div class="actions">
-            <button mat-button type="button" [routerLink]="['/', 'decision', 'view', decision.uid]">Back</button>
-            <button mat-flat-button type="submit" color="primary" >
-                <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
-            </button>
+        <div class="full-viewport">
+            <div class="full-viewport-content">
+                <div class="actions">
+                    <button mat-button type="button" [routerLink]="['/', 'decision', 'view', decision.uid]">Back</button>
+                    <button mat-flat-button type="submit" color="primary" [disabled]="finaliseForm.invalid">
+                        <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="full-viewport clear-bg">
+            <div class="full-viewport-content">
+                <div class="actions-info">
+                    <p>Archive the decision and send an agreement email to your wider team. It will include your message and documents.</p>
+                </div>
+            </div>
         </div>
     </form>
 </div>

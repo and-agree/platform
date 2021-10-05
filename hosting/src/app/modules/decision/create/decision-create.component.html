@@ -149,10 +149,21 @@
         </mat-step>
     </mat-stepper>
 
-    <div class="actions">
-        <button (click)="performCancel()" mat-flat-button color="warn">Cancel</button>
-        <button (click)="createDecision()" mat-flat-button color="primary" [disabled]="generalForm.invalid || teamForm.invalid || documentForm.invalid">
-            <span>Start decision</span><mat-icon>chevron_right</mat-icon>
-        </button>
+    <div class="full-viewport">
+        <div class="full-viewport-content">
+            <div class="actions">
+                <button (click)="performCancel()" mat-button>Cancel</button>
+                <button (click)="createDecision()" mat-flat-button color="primary" [disabled]="generalForm.invalid || teamForm.invalid || documentForm.invalid">
+                    <span>Start decision</span><mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="full-viewport clear-bg">
+        <div class="full-viewport-content">
+            <div class="actions-info">
+                <p>Send a kick-off email to your team. It will include all the information above as well as clear step-by-step instructions for them to provide feedback.</p>
+            </div>
+        </div>
     </div>
 </div>

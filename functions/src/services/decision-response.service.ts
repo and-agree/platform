@@ -60,8 +60,14 @@ export class DecisionResponseService implements DecisionResponseModel {
             throw new Error(`${decisionId} not found`);
         }
 
-        const approved = ['agree', 'approved', 'approve'].some((word) => body.toLowerCase().includes(word));
-        const rejected = ['disagree', 'rejected', 'reject'].some((word) => body.toLowerCase().includes(word));
+        const words = body
+            .split('\n')
+            .reduce((words: string[], line: string) => [...words, ...line.split(' ')], [])
+            .filter(Boolean)
+            .map((word) => word.toLowerCase());
+
+        const approved = ['agree', 'approved', 'approve'].some((word) => words.includes(word));
+        const rejected = ['disagree', 'rejected', 'reject'].some((word) => words.includes(word));
         let response: 'UNDEFINED' | 'APPROVED' | 'REJECTED' = 'UNDEFINED';
 
         if (approved && !rejected) {

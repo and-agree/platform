@@ -1,5 +1,5 @@
-<div class="summary">
-    <div class="summary-content">
+<div class="full-viewport summary">
+    <div class="full-viewport-content summary-content">
         <div><strong>Title:</strong> {{ decision.title }}</div>
         <div><strong>Goal:</strong> {{ decision.goal }}</div>
         <div><strong>ID:</strong> {{ decision.uid }}</div>
@@ -28,33 +28,33 @@
             <div>We have received feedback from these team members.</div>
         </header>
 
-        <div class="response-states">
-            <ng-container *ngFor="let state of ['APPROVED', 'REJECTED', 'UNDEFINED']">
-                <div>
-                    <h5>
-                        <ng-container [ngSwitch]="state">
-                            <ng-container *ngSwitchCase="'APPROVED'">Agree &amp; feedback</ng-container>
-                            <ng-container *ngSwitchCase="'REJECTED'">Disagree &amp; feedback</ng-container>
-                            <ng-container *ngSwitchCase="'UNDEFINED'">Undefined</ng-container>
-                        </ng-container>
-                        ({{ feedbackRecieved | filter: "response":state | count }})
-                    </h5>
-                    <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
-                        <ng-container *ngFor="let decider of feedbackRecieved | filter: 'response':state">
-                            <mat-chip [color]="state === 'APPROVED' ? 'primary' : 'warn'" [selected]="state !== 'UNDEFINED'">{{ decider.email }}</mat-chip>
-                        </ng-container>
-                    </mat-chip-list>
-                </div>
-            </ng-container>
-        </div>
-
         <ng-container *ngIf="decision.responses?.length; else noResponses">
+            <div class="response-states">
+                <ng-container *ngFor="let state of ['APPROVED', 'REJECTED', 'UNDEFINED']">
+                    <div>
+                        <h5>
+                            <ng-container [ngSwitch]="state">
+                                <ng-container *ngSwitchCase="'APPROVED'">Agree &amp; feedback</ng-container>
+                                <ng-container *ngSwitchCase="'REJECTED'">Disagree &amp; feedback</ng-container>
+                                <ng-container *ngSwitchCase="'UNDEFINED'">Undefined</ng-container>
+                            </ng-container>
+                            ({{ feedbackRecieved | filter: "response":state | count }})
+                        </h5>
+                        <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
+                            <ng-container *ngFor="let decider of feedbackRecieved | filter: 'response':state">
+                                <mat-chip [color]="state === 'APPROVED' ? 'primary' : 'accent'" [selected]="state !== 'UNDEFINED'">{{ decider.email }}</mat-chip>
+                            </ng-container>
+                        </mat-chip-list>
+                    </div>
+                </ng-container>
+            </div>
+
             <section class="response-list">
-                <article class="response-list-item" *ngFor="let response of decision.responses">
+                <article class="response-list-item" *ngFor="let response of decision.responses" [ngClass]="{'agree': response.response === 'APPROVED', 'disagree': response.response === 'REJECTED'}">
                     <header>
                         <div class="mat-body-2">{{ response.from }}</div>
                         <div class="mat-body-2">{{ response.created | timestamp: 'HH:mm - MMM d, YYYY' }}</div>
-                        <div>
+                        <div class="response-list-item-actions">
                             <button mat-button [matMenuTriggerFor]="changeMenu">
                                 <ng-container [ngSwitch]="response.response">
                                     <ng-container *ngSwitchCase="'APPROVED'">Agree &amp; feedback</ng-container>
@@ -74,14 +74,27 @@
                 </article>
             </section>
         </ng-container>
-
-        <ng-template #noResponses>There have not yet been any responses.</ng-template>
     </section>
 
-    <div class="actions">
-        <button mat-button (click)="deleteDecision()">Delete</button>
-        <a mat-flat-button color="primary" [routerLink]="['/', 'decision', 'finalise', decision.uid]">
-            <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
-        </a>
-    </div>
+    <ng-template #noResponses>There have not yet been any responses.</ng-template>
 </div>
+
+<ng-container *ngIf="decision.status !== 'ARCHIVED'">
+    <div class="full-viewport">
+        <div class="full-viewport-content">
+            <div class="actions">
+                <a mat-button (click)="deleteDecision()">Delete</a>
+                <a mat-flat-button color="primary" [routerLink]="['/', 'decision', 'finalise', decision.uid]" aria-label="Finalise decision">
+                    <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="full-viewport clear-bg">
+        <div class="full-viewport-content">
+            <div class="actions-info">
+                <p>Open a new page where you will be able to setup and send an email to share the final outcome with your team.</p>
+            </div>
+        </div>
+    </div>
+</ng-container>

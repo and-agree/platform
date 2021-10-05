@@ -1,5 +1,6 @@
 const { defineStep } = require('@cucumber/cucumber');
 const { expect } = require('chai');
+const checkValues = require('../support/compare');
 
 defineStep(/^there is a collection "([^"]*)" with document "([^"]*)"$/, async function (collectionName, documentId) {
     const parsedId = this.parseTemplate(documentId);
@@ -26,8 +27,8 @@ defineStep(/^the document contains:$/, async function (tableData) {
         throw new Error('No existing document reference');
     }
 
-    const document = (await this.storage.documentRef.get()).data();
+    const actualData = (await this.storage.documentRef.get()).data();
     const expectedData = this.parseObjectData(tableData.rowsHash());
 
-    expect(document).deep.include(expectedData);
+    checkValues(expectedData, actualData, false);
 });

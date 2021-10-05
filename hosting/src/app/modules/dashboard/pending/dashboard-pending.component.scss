@@ -8,11 +8,12 @@
 
 .search {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
 
     @media screen and (min-width: 960px) {
         grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
 
         :first-child {
             grid-column: 2;
@@ -80,4 +81,12 @@
     mat-card-actions {
         text-align: right;
     }
+}
+
+.create-prompt {
+    color: #a1a1a1;
+    background-color: #fafafa;
+    display: grid;
+    gap: 0;
+    grid-template-rows: auto min-content;
 }
