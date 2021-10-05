@@ -6,19 +6,37 @@
             "fields": [
                 {
                     "fieldPath": "companyId",
-                    "mode": "ASCENDING"
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "status",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "created",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "decisions",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "companyId",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "status",
+                    "order": "ASCENDING"
                 },
                 {
                     "fieldPath": "title",
-                    "mode": "ASCENDING"
-                },
-                {
-                    "fieldPath": "status",
-                    "mode": "ASCENDING"
+                    "order": "ASCENDING"
                 },
                 {
                     "fieldPath": "created",
-                    "mode": "DESCENDING"
+                    "order": "DESCENDING"
                 }
             ]
         },
@@ -28,19 +46,19 @@
             "fields": [
                 {
                     "fieldPath": "companyId",
-                    "mode": "ASCENDING"
-                },
-                {
-                    "fieldPath": "feedback",
-                    "mode": "DESCENDING"
+                    "order": "ASCENDING"
                 },
                 {
                     "fieldPath": "status",
-                    "mode": "ASCENDING"
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "responses",
+                    "order": "DESCENDING"
                 },
                 {
                     "fieldPath": "created",
-                    "mode": "DESCENDING"
+                    "order": "DESCENDING"
                 }
             ]
         },
@@ -50,19 +68,19 @@
             "fields": [
                 {
                     "fieldPath": "companyId",
-                    "mode": "ASCENDING"
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "status",
+                    "order": "ASCENDING"
                 },
                 {
                     "fieldPath": "deadline",
-                    "mode": "ASCENDING"
-                },
-                {
-                    "fieldPath": "status",
-                    "mode": "ASCENDING"
+                    "order": "ASCENDING"
                 },
                 {
                     "fieldPath": "created",
-                    "mode": "DESCENDING"
+                    "order": "DESCENDING"
                 }
             ]
         }
