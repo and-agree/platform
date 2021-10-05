@@ -18,7 +18,7 @@ export const DecisionUpdate = functions
         timeoutSeconds: 30,
     })
     .firestore.document('/decisions/{decisionId}')
-    .onUpdate(async (change, context): Promise<void> => {
+    .onUpdate(async (change): Promise<void> => {
         setApiKey(functions.config().sendgrid.api_key);
         const emailDomain = functions.config().sendgrid.domain;
 

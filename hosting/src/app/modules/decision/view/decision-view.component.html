@@ -29,25 +29,48 @@
         </header>
 
         <div class="response-states">
-            <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
-                <ng-container *ngFor="let decider of feedbackRecieved">
-                    <ng-container [ngSwitch]="decider.response">
-                        <mat-chip *ngSwitchCase="'APPROVED'" color="primary" selected>{{ decider.email }}</mat-chip>
-                        <mat-chip *ngSwitchCase="'REJECTED'" color="warn" selected>{{ decider.email }}</mat-chip>
-                        <mat-chip *ngSwitchDefault>{{ decider.email }}</mat-chip>
-                    </ng-container>
-                </ng-container>
-            </mat-chip-list>
+            <ng-container *ngFor="let state of ['APPROVED', 'REJECTED', 'UNDEFINED']">
+                <div>
+                    <h5>
+                        <ng-container [ngSwitch]="state">
+                            <ng-container *ngSwitchCase="'APPROVED'">Agree &amp; feedback</ng-container>
+                            <ng-container *ngSwitchCase="'REJECTED'">Disagree &amp; feedback</ng-container>
+                            <ng-container *ngSwitchCase="'UNDEFINED'">Undefined</ng-container>
+                        </ng-container>
+                        ({{ feedbackRecieved | filter: "response":state | count }})
+                    </h5>
+                    <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
+                        <ng-container *ngFor="let decider of feedbackRecieved | filter: 'response':state">
+                            <mat-chip [color]="state === 'APPROVED' ? 'primary' : 'warn'" [selected]="state !== 'UNDEFINED'">{{ decider.email }}</mat-chip>
+                        </ng-container>
+                    </mat-chip-list>
+                </div>
+            </ng-container>
         </div>
 
         <ng-container *ngIf="decision.responses?.length; else noResponses">
             <section class="response-list">
-                <article class="response-list-item" *ngFor="let feedback of decision.responses">
+                <article class="response-list-item" *ngFor="let response of decision.responses">
                     <header>
-                        <div class="mat-body-2">{{ feedback.from }}</div>
-                        <div class="mat-body-2">{{ feedback.created | timestamp }}</div>
+                        <div class="mat-body-2">{{ response.from }}</div>
+                        <div class="mat-body-2">{{ response.created | timestamp: 'HH:mm - MMM d, YYYY' }}</div>
+                        <div>
+                            <button mat-button [matMenuTriggerFor]="changeMenu">
+                                <ng-container [ngSwitch]="response.response">
+                                    <ng-container *ngSwitchCase="'APPROVED'">Agree &amp; feedback</ng-container>
+                                    <ng-container *ngSwitchCase="'REJECTED'">Disagree &amp; feedback</ng-container>
+                                    <ng-container *ngSwitchCase="'UNDEFINED'">Undefined</ng-container>
+                                </ng-container>
+                                <mat-icon>expand_more</mat-icon>
+                            </button>
+                            <mat-menu #changeMenu>
+                                <button mat-menu-item (click)="changeResponse(response.uid, 'APPROVED')">Agree &amp; feedback</button>
+                                <button mat-menu-item (click)="changeResponse(response.uid, 'REJECTED')">Disagree &amp; feedback</button>
+                                <button mat-menu-item (click)="changeResponse(response.uid, 'UNDEFINED')">Undefined</button>
+                            </mat-menu>
+                        </div>
                     </header>
-                    <div class="pre">{{ feedback.body }}</div>
+                    <div class="pre">{{ response.body }}</div>
                 </article>
             </section>
         </ng-container>

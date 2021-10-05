@@ -62,20 +62,20 @@ export class DecisionResponseService implements DecisionResponseModel {
 
         const approved = ['agree', 'approved', 'approve'].some((word) => body.toLowerCase().includes(word));
         const rejected = ['disagree', 'rejected', 'reject'].some((word) => body.toLowerCase().includes(word));
-        let decision: 'UNKNOWN' | 'APPROVED' | 'REJECTED' = 'UNKNOWN';
+        let response: 'UNDEFINED' | 'APPROVED' | 'REJECTED' = 'UNDEFINED';
 
         if (approved && !rejected) {
-            decision = 'APPROVED';
+            response = 'APPROVED';
         }
 
         if (rejected && !approved) {
-            decision = 'REJECTED';
+            response = 'REJECTED';
         }
 
         decisionData.deciders = decisionData.deciders.map((decider: TeamDecider): TeamDecider => {
             if (decider.email === from) {
                 decider.pending = false;
-                decider.response = decision;
+                decider.response = response;
             }
             return decider;
         });
@@ -83,7 +83,7 @@ export class DecisionResponseService implements DecisionResponseModel {
         decisionData.feedback = (decisionData.deciders.filter((decider: TeamDecider) => !decider.pending).length / decisionData.deciders.length) * 100;
 
         const batch = admin.firestore().batch();
-        batch.set(responseRef, { from, body, created });
+        batch.set(responseRef, { from, body, response, created });
         batch.set(decisionRef, decisionData);
         await batch.commit();
     }

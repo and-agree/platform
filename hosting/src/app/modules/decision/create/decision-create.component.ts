@@ -90,7 +90,7 @@ export class DecisionCreateComponent {
         const deciders: TeamDecider[] = this.destinations.value.map((destination: string) => ({
             email: destination.toLowerCase(),
             pending: true,
-            response: 'UNKNOWN',
+            response: 'UNDEFINED',
         }));
 
         this.decisionService

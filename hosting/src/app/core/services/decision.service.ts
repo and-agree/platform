@@ -15,7 +15,8 @@ import {
     Timestamp,
     where,
 } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
+import { writeBatch } from '@firebase/firestore';
+import { forkJoin, from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Decision, DecisionDocument, DecisionGeneral } from '../models';
 import { DecisionResponse, DecisionStatus, TeamDecider } from './../models/decision';
@@ -53,6 +54,12 @@ export class DecisionService {
         const responseCollection = collection(this.firestore, `decisions/${decisionId}/responses`).withConverter<DecisionResponse>(null);
         const responseQuery = query<DecisionResponse>(responseCollection, orderBy('created', 'asc'));
         return collectionData(responseQuery);
+    }
+
+    public updateResponse(decisionId: string, responseId: string, responseData: Partial<DecisionResponse>): Observable<void> {
+        const batch = writeBatch(this.firestore);
+        batch.update(doc(this.firestore, `decisions/${decisionId}/responses/${responseId}`), responseData);
+        return from(batch.commit());
     }
 
     public finalise(decisionId, finaliseData: Partial<Decision>): Observable<void> {

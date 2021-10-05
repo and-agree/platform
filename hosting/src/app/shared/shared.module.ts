@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -33,6 +34,7 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         MatIconModule,
         MatInputModule,
         MatListModule,
+        MatMenuModule,
         MatProgressBarModule,
         MatSelectModule,
         MatStepperModule,

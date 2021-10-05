@@ -3,9 +3,13 @@ const generateDecision = require('../../generators/decision');
 const generateUser = require('../../generators/user');
 
 defineStep(/^there is a decision created using:$/, async function (data) {
+    const user = generateUser();
     const parsed = this.parseObjectData(data.rowsHash());
 
-    const user = generateUser();
+    if (parsed.deadline) {
+        parsed.deadline = new Date(parsed?.deadline);
+    }
+
     let decision = generateDecision(user.companyId);
     decision = { ...decision, ...parsed };
 
