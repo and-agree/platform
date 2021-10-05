@@ -27,7 +27,7 @@ export const DecisionCreate = functions
 
         const to = decisionData.deciders.map((decider) => decider.email);
         const from = `andAgree <${decisionData.uid}@${emailDomain}>`;
-        const subject = decisionData.general.title;
+        const subject = decisionData.title;
         const html = await render(emailTemplate('decision-create.html'), decisionData);
 
         const payload: MailDataRequired = { to, from, subject, html };

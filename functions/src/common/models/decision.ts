@@ -28,12 +28,12 @@ export interface DecisionResponse {
     created: admin.firestore.Timestamp;
 }
 
-export interface Decision {
+export interface Decision extends DecisionGeneral {
     uid: string;
-    general: DecisionGeneral;
     deciders: TeamDecider[];
     documents: DecisionDocument[];
     responses?: DecisionResponse[];
+    feedback: number;
     conclusion?: string;
     status: DecisionStatus;
     created: admin.firestore.Timestamp;

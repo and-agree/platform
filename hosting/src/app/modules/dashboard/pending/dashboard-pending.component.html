@@ -1,22 +1,37 @@
 <div class="header">
-    <h4 class="mat-display-1">Decisions in progress ({{ decisions.length }})</h4>
+    <h4 class="mat-display-1">Decisions in progress ({{ decisions | count }})</h4>
     <div>Decisions that are currently being made.</div>
 </div>
 
+<form class="search" [formGroup]="searchForm" (submit)="performSearch()">
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Search</mat-label>
+        <input matInput formControlName="search" />
+        <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Sort by</mat-label>
+        <mat-select formControlName="sort">
+            <mat-option *ngFor="let option of sortOptions" [value]="option.field">{{ option.display }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+
 <div class="decisions">
-    <mat-card *ngFor="let decision of decisions" class="decision-item">
+    <mat-card *ngFor="let decision of decisions | filter: 'title': search" class="decision-item">
         <mat-card-title>
-            <h5 class="mat-display-1">{{ decision.general.title }}</h5>
+            <h5 class="mat-display-1">{{ decision.title }}</h5>
         </mat-card-title>
-        <mat-progress-bar mode="determinate" [value]="feedbackPercent(decision)" color="accent"></mat-progress-bar>
+        <mat-progress-bar mode="determinate" [value]="decision.feedback" color="accent"></mat-progress-bar>
         <mat-card-content>
             <div><strong>Feedback:</strong> {{ decision.deciders | filter: "pending":false | count }} / {{ decision.deciders | count }}</div>
-            <div><strong>Goal:</strong> {{ decision.general.goal }}</div>
-            <div><strong>Deadline:</strong> {{ decision.general.deadline | timestamp }}</div>
+            <div><strong>Goal:</strong> {{ decision.goal }}</div>
+            <div><strong>Deadline:</strong> {{ decision.deadline | timestamp }}</div>
         </mat-card-content>
         <mat-card-actions>
-            <a mat-icon-button [routerLink]="['/', 'decision', 'view', decision.uid]" aria-label="View decision">
-                <mat-icon>chevron_right</mat-icon>
+            <a mat-icon-button [routerLink]="['/', 'decision', 'view', decision.uid]" aria-label="View decision" color="primary">
+                <mat-icon>arrow_circle_right</mat-icon>
             </a>
         </mat-card-actions>
     </mat-card>

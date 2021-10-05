@@ -27,12 +27,12 @@ export interface DecisionResponse {
     created: Timestamp;
 }
 
-export interface Decision {
+export interface Decision extends DecisionGeneral {
     uid: string;
-    general: DecisionGeneral;
     deciders: TeamDecider[];
     documents: DecisionDocument[];
     responses?: DecisionResponse[];
+    feedback: number;
     conclusion?: string;
     status: DecisionStatus;
     created: Timestamp;

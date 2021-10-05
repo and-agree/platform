@@ -31,7 +31,7 @@ export const DecisionUpdate = functions
 
         const to = after.deciders.map((decider) => decider.email);
         const from = `andAgree <${after.uid}@${emailDomain}>`;
-        const subject = after.general.title;
+        const subject = after.title;
         const html = await render(emailTemplate('decision-result.html'), after);
 
         const payload: MailDataRequired = { to, from, subject, html };

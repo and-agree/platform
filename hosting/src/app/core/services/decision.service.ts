@@ -8,6 +8,7 @@ import {
     DocumentSnapshot,
     Firestore,
     orderBy,
+    OrderByDirection,
     query,
     serverTimestamp,
     setDoc,
@@ -35,10 +36,11 @@ export class DecisionService {
 
     public create(general: DecisionGeneral, deciders: TeamDecider[], documents: DecisionDocument[]): Observable<Decision> {
         const uid = doc(collection(this.firestore, '_')).id;
+        const feedback = 0;
         const status = 'CREATED';
         const created = serverTimestamp() as Timestamp;
         const companyId = this.companyId;
-        const decision: Decision = { uid, general, deciders, documents, status, created, companyId };
+        const decision: Decision = { ...general, uid, deciders, documents, feedback, status, created, companyId };
 
         return from(setDoc(doc(this.firestore, `decisions/${uid}`), decision)).pipe(map(() => decision));
     }
@@ -59,8 +61,14 @@ export class DecisionService {
         return from(setDoc(doc(this.firestore, `decisions/${decisionId}`), finaliseData, { merge: true }));
     }
 
-    public findAll(status: DecisionStatus): Observable<Decision[]> {
-        const decisionQuery = query<Decision>(this.decisionCollection, where('companyId', '==', this.companyId), where('status', '==', status), orderBy('created', 'desc'));
+    public findAll(status: DecisionStatus, sort = { field: 'feedback', direction: 'desc' }): Observable<Decision[]> {
+        const decisionQuery = query<Decision>(
+            this.decisionCollection,
+            where('companyId', '==', this.companyId),
+            where('status', '==', status),
+            orderBy(sort.field, sort.direction as OrderByDirection),
+            orderBy('created', 'desc')
+        );
         return collectionData(decisionQuery);
     }
 }

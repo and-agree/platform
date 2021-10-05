@@ -3,11 +3,12 @@
     "version": "0.0.1",
     "description": "Decisions, decisions....",
     "scripts": {
-        "start": "npm run build:ui && npm run build:api && npm run start:emu",
-        "start:emu": "firebase emulators:start --project andagree-develop",
+        "start": "npm run build:ui && npm run build:api && npm run emulator:start",
         "build:ui": "(cd hosting; npm run build:local)",
         "build:api": "(cd functions; npm run build)",
-        "postinstall": "(cd hosting; npm i) && (cd functions; npm i)"
+        "postinstall": "(cd hosting; npm i) && (cd functions; npm i)",
+        "emulator:start": "mkdir -p .emulator-backup && firebase emulators:start --import .emulator-backup --project andagree-develop",
+        "emulator:backup": "firebase emulators:export .emulator-backup"
     },
     "dependencies": {
         "firebase-tools": "9.18.0"

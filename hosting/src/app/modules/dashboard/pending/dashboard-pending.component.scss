@@ -6,12 +6,33 @@
     }
 }
 
+.search {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: repeat(3, 1fr);
+
+        :first-child {
+            grid-column: 2;
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        grid-template-columns: repeat(4, 1fr);
+
+        :first-child {
+            grid-column: 3;
+        }
+    }
+}
+
 .decisions {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
     padding: 1rem 0 3rem;
-    width: 100%;
 
     @media screen and (min-width: 600px) {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -27,7 +48,6 @@
 }
 
 .decision-item {
-
     mat-card-title {
         padding: 0 0 1rem;
 
@@ -42,11 +62,11 @@
     }
 
     mat-progress-bar {
-        height: 0.5rem;
-
+        height: 0.75rem;
     }
 
     mat-card-content {
+        margin: 0;
         padding: 1.25rem 0 0;
 
         > div {
@@ -60,5 +80,4 @@
     mat-card-actions {
         text-align: right;
     }
-
 }

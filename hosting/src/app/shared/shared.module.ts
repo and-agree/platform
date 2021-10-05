@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ErrorMessageModule } from './components/error-message/error-message.module';
@@ -33,6 +34,7 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         MatInputModule,
         MatListModule,
         MatProgressBarModule,
+        MatSelectModule,
         MatStepperModule,
         MatToolbarModule,
         AuthenticatedDirective,

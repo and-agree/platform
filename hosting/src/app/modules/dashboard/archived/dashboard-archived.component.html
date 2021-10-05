@@ -5,7 +5,7 @@
 
 <div class="archive">
     <div class="archive-item" *ngFor="let decision of decisions">
-        <div class="archive-item-line">{{ decision.general.title }}</div>
+        <div class="archive-item-line">{{ decision.title }}</div>
         <div class="archive-item-line">{{ decision.completed | timestamp }}</div>
         <div class="archive-item-line">{{ decision.conclusion }}</div>
     </div>

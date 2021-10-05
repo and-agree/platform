@@ -80,6 +80,8 @@ export class DecisionResponseService implements DecisionResponseModel {
             return decider;
         });
 
+        decisionData.feedback = (decisionData.deciders.filter((decider: TeamDecider) => !decider.pending).length / decisionData.deciders.length) * 100;
+
         const batch = admin.firestore().batch();
         batch.set(responseRef, { from, body, created });
         batch.set(decisionRef, decisionData);
