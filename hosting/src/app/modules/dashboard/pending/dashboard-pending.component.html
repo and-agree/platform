@@ -23,7 +23,7 @@
         <mat-card-title>
             <h5 class="mat-display-1">{{ decision.title }}</h5>
         </mat-card-title>
-        <mat-progress-bar mode="determinate" [value]="decision.feedback" color="accent"></mat-progress-bar>
+        <mat-progress-bar mode="determinate" [value]="decision.responses" color="accent"></mat-progress-bar>
         <mat-card-content>
             <div><strong>Feedback:</strong> {{ decision.deciders | filter: "pending":false | count }} / {{ decision.deciders | count }}</div>
             <div><strong>Goal:</strong> {{ decision.goal }}</div>

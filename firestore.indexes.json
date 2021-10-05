@@ -1,4 +1,71 @@
 {
-    "indexes": [],
+    "indexes": [
+        {
+            "collectionGroup": "decisions",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "companyId",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "title",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "status",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "created",
+                    "mode": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "decisions",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "companyId",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "feedback",
+                    "mode": "DESCENDING"
+                },
+                {
+                    "fieldPath": "status",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "created",
+                    "mode": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "decisions",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "companyId",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "deadline",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "status",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "created",
+                    "mode": "DESCENDING"
+                }
+            ]
+        }
+    ],
     "fieldOverrides": []
 }

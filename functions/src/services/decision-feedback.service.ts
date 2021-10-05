@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { Decision, TeamDecider } from '../common/models';
+import { Decision, DecisionFeedbackStatus, TeamDecider } from '../common/models';
 
 export type EmailFields = 'to' | 'from' | 'subject' | 'html' | 'text';
 
@@ -9,7 +9,7 @@ export interface EmailEnvelope {
     from: string;
 }
 
-export interface DecisionResponseModel {
+export interface DecisionFeedbackModel {
     to: string;
     from: string;
     envelope: string;
@@ -18,7 +18,7 @@ export interface DecisionResponseModel {
     text: string;
 }
 
-export class DecisionResponseService implements DecisionResponseModel {
+export class DecisionFeedbackService implements DecisionFeedbackModel {
     public to = '';
     public from = '';
     public subject = '';
@@ -52,7 +52,7 @@ export class DecisionResponseService implements DecisionResponseModel {
         const created = admin.firestore.FieldValue.serverTimestamp();
 
         const decisionRef = await admin.firestore().collection('decisions').doc(decisionId);
-        const responseRef = decisionRef.collection('responses').doc();
+        const feedbackRef = decisionRef.collection('feedback').doc();
 
         const decisionData = (await decisionRef.get()).data() as Decision;
 
@@ -68,28 +68,28 @@ export class DecisionResponseService implements DecisionResponseModel {
 
         const approved = ['agree', 'approved', 'approve'].some((word) => words.includes(word));
         const rejected = ['disagree', 'rejected', 'reject'].some((word) => words.includes(word));
-        let response: 'UNDEFINED' | 'APPROVED' | 'REJECTED' = 'UNDEFINED';
+        let status: DecisionFeedbackStatus = 'UNDEFINED';
 
         if (approved && !rejected) {
-            response = 'APPROVED';
+            status = 'APPROVED';
         }
 
         if (rejected && !approved) {
-            response = 'REJECTED';
+            status = 'REJECTED';
         }
 
         decisionData.deciders = decisionData.deciders.map((decider: TeamDecider): TeamDecider => {
             if (decider.email === from) {
                 decider.pending = false;
-                decider.response = response;
+                decider.status = status;
             }
             return decider;
         });
 
-        decisionData.feedback = (decisionData.deciders.filter((decider: TeamDecider) => !decider.pending).length / decisionData.deciders.length) * 100;
+        decisionData.responses = (decisionData.deciders.filter((decider: TeamDecider) => !decider.pending).length / decisionData.deciders.length) * 100;
 
         const batch = admin.firestore().batch();
-        batch.set(responseRef, { from, body, response, created });
+        batch.set(feedbackRef, { uid: feedbackRef.id, from, body, status, created });
         batch.set(decisionRef, decisionData);
         await batch.commit();
     }

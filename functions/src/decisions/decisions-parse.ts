@@ -1,6 +1,6 @@
 import Busboy from 'busboy';
 import * as functions from 'firebase-functions';
-import { DecisionResponseService, EmailFields } from '../services';
+import { DecisionFeedbackService, EmailFields } from '../services';
 
 export const DecisionParse = functions
     .region('europe-west2')
@@ -16,7 +16,7 @@ export const DecisionParse = functions
 
         try {
             const busboy = new Busboy({ headers: req.headers });
-            const decisionResponse: DecisionResponseService = new DecisionResponseService();
+            const decisionResponse: DecisionFeedbackService = new DecisionFeedbackService();
 
             busboy.on('field', (fieldname: EmailFields, value: string) => (decisionResponse[fieldname] = value));
 

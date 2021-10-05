@@ -12,7 +12,7 @@ Feature:
             | background   | Background                                                                           |
             | instructions | Instructions                                                                         |
             | deadline     | 2021-06-06T12:30:00Z                                                                 |
-            | deciders     | [{ "email": "example@test.andagree.com", "pending": true, "response": "UNDEFINED" }] |
+            | deciders     | [{ "email": "example@test.andagree.com", "pending": true, "feedback": "UNDEFINED" }] |
         And trigger the "DecisionCreate" function with:
             | decisionId | {{ decision.uid }} |
         Then there is a collection "decisions" with document "{{ decision.uid }}"

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, skip, Subject, takeUntil } from 'rxjs';
-import { Decision, DecisionFeedback, TeamDecider } from './../../../core/models';
+import { Decision, DecisionFeedback, DecisionFeedbackStatus, TeamDecider } from './../../../core/models';
 import { DecisionService } from './../../../core/services/decision.service';
 import { FilterPipe } from './../../../shared/pipes';
 
@@ -29,9 +29,9 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
             .subscribe((decision) => (this.decision = decision));
 
         this.decisionService
-            .retrieveResponses(this.route.snapshot.params.decisionId)
+            .retrieveFeedback(this.route.snapshot.params.decisionId)
             .pipe(skip(1), takeUntil(this.isDestroyed))
-            .subscribe((responses) => (this.decision.responses = responses));
+            .subscribe((feedback) => (this.decision.feedback = feedback));
     }
 
     public ngOnDestroy(): void {
@@ -47,8 +47,8 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
         return this.filterPipe.transform(this.decision.deciders, 'pending', false);
     }
 
-    public changeResponse(responseId: string, response: DecisionFeedback): void {
-        this.decisionService.updateResponse(this.decision.uid, responseId, { response })
+    public changeFeedback(feedbackId: string, status: DecisionFeedbackStatus): void {
+        this.decisionService.updateFeedback(this.decision.uid, feedbackId, { status })
     }
 
     public deleteDecision(): void {

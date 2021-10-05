@@ -18,7 +18,7 @@ export class DashboardPendingComponent implements OnInit, OnDestroy {
 
     public sortOptions = [
         { display: 'Title', field: 'title', direction: 'asc' },
-        { display: 'Feedback recieved', field: 'feedback', direction: 'desc' },
+        { display: 'Feedback recieved', field: 'responses', direction: 'desc' },
         { display: 'Deadline', field: 'deadline', direction: 'asc' },
         { display: 'Created date', field: 'created', direction: 'desc' },
     ];
@@ -49,7 +49,7 @@ export class DashboardPendingComponent implements OnInit, OnDestroy {
             )
             .subscribe((decisions) => (this.decisions = decisions));
 
-        this.searchForm.reset({ sort: 'feedback', ...this.route.snapshot.queryParams });
+        this.searchForm.reset({ sort: 'responses', ...this.route.snapshot.queryParams });
         this.searchForm.valueChanges.pipe(debounceTime(500)).subscribe(() => this.performSearch());
     }
 

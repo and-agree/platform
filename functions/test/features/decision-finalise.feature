@@ -12,7 +12,7 @@ Feature:
             | background   | Background                                                                           |
             | instructions | Instructions                                                                         |
             | deadline     | 2021-06-06T12:30:00Z                                                                 |
-            | deciders     | [{ "email": "example@test.andagree.com", "pending": true, "response": "UNDEFINED" }] |
+            | deciders     | [{ "email": "example@test.andagree.com", "pending": true, "feedback": "UNDEFINED" }] |
         And call the "DecisionFinalise" function with:
             | decisionId | {{ decision.uid }} |
             | conclusion | Conclusion         |

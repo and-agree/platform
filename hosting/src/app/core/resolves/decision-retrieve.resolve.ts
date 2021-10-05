@@ -15,9 +15,9 @@ export class DecisionRetrieveResolve implements Resolve<Decision> {
         return this.decisionService.retrieve(route.params.decisionId).pipe(
             take(1),
             switchMap((decision) =>
-                this.decisionService.retrieveResponses(route.params.decisionId).pipe(
+                this.decisionService.retrieveFeedback(route.params.decisionId).pipe(
                     take(1),
-                    map((responses) => ({ ...decision, responses }))
+                    map((feedback) => ({ ...decision, feedback }))
                 )
             )
         );

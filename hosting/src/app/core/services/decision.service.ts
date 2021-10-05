@@ -20,7 +20,7 @@ import { writeBatch } from '@firebase/firestore';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Decision, DecisionDocument, DecisionGeneral } from '../models';
-import { DecisionResponse, DecisionStatus, TeamDecider } from './../models/decision';
+import { DecisionFeedback, DecisionStatus, TeamDecider } from './../models/decision';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
@@ -38,11 +38,11 @@ export class DecisionService {
 
     public create(general: DecisionGeneral, deciders: TeamDecider[], documents: DecisionDocument[]): Observable<Decision> {
         const uid = doc(collection(this.firestore, '_')).id;
-        const feedback = 0;
+        const responses = 0;
         const status = 'CREATED';
         const created = serverTimestamp() as Timestamp;
         const companyId = this.companyId;
-        const decision: Decision = { ...general, uid, deciders, documents, feedback, status, created, companyId };
+        const decision: Decision = { ...general, uid, deciders, documents, responses, status, created, companyId };
 
         return from(setDoc(doc(this.firestore, `decisions/${uid}`), decision)).pipe(map(() => decision));
     }
@@ -51,31 +51,32 @@ export class DecisionService {
         return docSnapshots(doc(this.firestore, `decisions/${decisionId}`)).pipe(map((snapshot: DocumentSnapshot<Decision>) => snapshot.data()));
     }
 
-    public retrieveResponses(decisionId: string): Observable<DecisionResponse[]> {
-        const responseCollection = collection(this.firestore, `decisions/${decisionId}/responses`).withConverter<DecisionResponse>(null);
-        const responseQuery = query<DecisionResponse>(responseCollection, orderBy('created', 'asc'));
-        return collectionData(responseQuery);
-    }
-
-    public updateResponse(decisionId: string, responseId: string, responseData: Partial<DecisionResponse>): Observable<void> {
-        const batch = writeBatch(this.firestore);
-        batch.update(doc(this.firestore, `decisions/${decisionId}/responses/${responseId}`), responseData);
-        return from(batch.commit());
-    }
-
     public finalise(decisionId, finaliseData: Partial<Decision>): Observable<void> {
         const finalise = httpsCallable<any, void>(this.functions, 'DecisionFinalise');
         return from(finalise({ decisionId, ...finaliseData })).pipe(map(() => null));
     }
 
-    public findAll(status: DecisionStatus, sort = { field: 'feedback', direction: 'desc' }): Observable<Decision[]> {
-        const decisionQuery = query<Decision>(
-            this.decisionCollection,
-            where('companyId', '==', this.companyId),
-            where('status', '==', status),
-            orderBy(sort.field, sort.direction as OrderByDirection),
-            orderBy('created', 'desc')
-        );
+    public findAll(status: DecisionStatus, sort = { field: 'responses', direction: 'desc' }): Observable<Decision[]> {
+        let whereClauses = [where('companyId', '==', this.companyId), where('status', '==', status)];
+
+        let orderClauses = [orderBy('created', 'desc')];
+        if (sort.field !== 'created') {
+            orderClauses = [orderBy(sort.field, sort.direction as OrderByDirection), ...orderClauses];
+        }
+
+        const decisionQuery = query<Decision>(this.decisionCollection, ...whereClauses, ...orderClauses);
         return collectionData(decisionQuery);
+    }
+
+    public retrieveFeedback(decisionId: string): Observable<DecisionFeedback[]> {
+        const feedbackCollection = collection(this.firestore, `decisions/${decisionId}/feedback`).withConverter<DecisionFeedback>(null);
+        const feedbackQuery = query<DecisionFeedback>(feedbackCollection, orderBy('created', 'asc'));
+        return collectionData(feedbackQuery);
+    }
+
+    public updateFeedback(decisionId: string, feedbackId: string, feedbackData: Partial<DecisionFeedback>): Observable<void> {
+        const batch = writeBatch(this.firestore);
+        batch.update(doc(this.firestore, `decisions/${decisionId}/feedback/${feedbackId}`), feedbackData);
+        return from(batch.commit());
     }
 }

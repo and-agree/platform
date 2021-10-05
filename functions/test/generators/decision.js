@@ -13,7 +13,7 @@ const generateDecision = (companyId) => {
             {
                 email: internet.email(),
                 pending: true,
-                response: 'UNDEFINED',
+                status: 'UNDEFINED',
             },
         ],
         documents: [

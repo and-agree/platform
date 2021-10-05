@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 
-export type DecisionFeedback = 'UNDEFINED' | 'APPROVED' | 'REJECTED';
+export type DecisionFeedbackStatus = 'UNDEFINED' | 'APPROVED' | 'REJECTED';
 export type DecisionStatus = 'CREATED' | 'PENDING' | 'ARCHIVED';
 
 export interface DecisionGeneral {
@@ -14,7 +14,7 @@ export interface DecisionGeneral {
 export interface TeamDecider {
     email: string;
     pending: boolean;
-    response: DecisionFeedback;
+    status: DecisionFeedbackStatus;
 }
 
 export interface DecisionDocument {
@@ -23,11 +23,11 @@ export interface DecisionDocument {
     attach?: boolean;
 }
 
-export interface DecisionResponse {
+export interface DecisionFeedback {
     uid: string;
     from: string;
     body: string;
-    response: DecisionFeedback;
+    status: DecisionFeedbackStatus;
     created: admin.firestore.Timestamp;
 }
 
@@ -35,8 +35,8 @@ export interface Decision extends DecisionGeneral {
     uid: string;
     deciders: TeamDecider[];
     documents: DecisionDocument[];
-    responses?: DecisionResponse[];
-    feedback: number;
+    feedback?: DecisionFeedback[];
+    responses: number;
     conclusion?: string;
     status: DecisionStatus;
     created: admin.firestore.Timestamp;
