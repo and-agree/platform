@@ -16,7 +16,7 @@
         "node": "14"
     },
     "dependencies": {
-        "@sendgrid/mail": "7.4.6",
+        "@sendgrid/mail": "7.4.7",
         "busboy": "0.3.1",
         "ejs": "3.1.6",
         "firebase-admin": "9.11.1",

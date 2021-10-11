@@ -25,17 +25,21 @@ export const DecisionCreate = functions
         const decisionRef = admin.firestore().collection('decisions').doc(context.params.decisionId);
         const decisionData = (await decisionRef.get()).data() as Decision;
 
+        if (!decisionData) {
+            functions.logger.warn('No decision entry found', context.params.decisionId);
+        }
+
         const to = decisionData.deciders.map((decider) => decider.email);
-        const from = `andAgree <${decisionData.uid}@${emailDomain}>`;
+        const from = `&agree <${decisionData.uid}@${emailDomain}>`;
         const subject = decisionData.title;
-        const html = await render(emailTemplate('decision-create.html'), decisionData);
+        const html = await render(emailTemplate('decision-create.html'), { ...decisionData, from });
 
         const payload: MailDataRequired = { to, from, subject, html };
 
         try {
             await send(payload);
         } catch (error: any) {
-            throw new functions.https.HttpsError('internal', error.message);
+            functions.logger.warn('Failed to send decision email', error.message);
         }
 
         const batch = admin.firestore().batch();
@@ -44,6 +48,6 @@ export const DecisionCreate = functions
         try {
             await batch.commit();
         } catch (error: any) {
-            throw new functions.https.HttpsError('data-loss', error.message);
+            functions.logger.error('Failed to update decision', error.message);
         }
     });

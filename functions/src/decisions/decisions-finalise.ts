@@ -39,7 +39,7 @@ export const DecisionFinalise = functions
         try {
             await send(payload);
         } catch (error: any) {
-            throw new functions.https.HttpsError('internal', error.message);
+            functions.logger.warn('Failed to send decision email', error.message);
         }
 
         const batch = admin.firestore().batch();
@@ -48,6 +48,6 @@ export const DecisionFinalise = functions
         try {
             await batch.commit();
         } catch (error: any) {
-            throw new functions.https.HttpsError('data-loss', error.message);
+            functions.logger.error('Failed to update decision', error.message);
         }
     });

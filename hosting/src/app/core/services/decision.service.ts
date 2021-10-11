@@ -20,7 +20,7 @@ import { writeBatch } from '@firebase/firestore';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Decision, DecisionDocument, DecisionGeneral } from '../models';
-import { DecisionFeedback, DecisionStatus, TeamDecider } from './../models/decision';
+import { DecisionFeedback, DecisionStatus } from './../models/decision';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
@@ -36,13 +36,15 @@ export class DecisionService {
         this.decisionCollection = collection(this.firestore, 'decisions').withConverter<Decision>(null);
     }
 
-    public create(general: DecisionGeneral, deciders: TeamDecider[], documents: DecisionDocument[]): Observable<Decision> {
+    public create(general: DecisionGeneral, team: Pick<Decision, 'managers' | 'deciders' | 'viewers'>, documents: DecisionDocument[]): Observable<Decision> {
+        const user = this.authenticationService.user.value;
         const uid = doc(collection(this.firestore, '_')).id;
         const responses = 0;
         const status = 'CREATED';
         const created = serverTimestamp() as Timestamp;
+        const creator = { uid: user.uid, email: user.email };
         const companyId = this.companyId;
-        const decision: Decision = { ...general, uid, deciders, documents, responses, status, created, companyId };
+        const decision: Decision = { ...general, ...team, uid, documents, responses, status, creator, created, companyId };
 
         return from(setDoc(doc(this.firestore, `decisions/${uid}`), decision)).pipe(map(() => decision));
     }

@@ -11,6 +11,11 @@ export interface DecisionGeneral {
     deadline: Timestamp;
 }
 
+export interface TeamMember {
+    uid?: string;
+    email: string;
+}
+
 export interface TeamDecider {
     email: string;
     pending: boolean;
@@ -33,13 +38,16 @@ export interface DecisionFeedback {
 
 export interface Decision extends DecisionGeneral {
     uid: string;
+    managers: TeamMember[];
     deciders: TeamDecider[];
+    viewers: TeamMember[];
     documents: DecisionDocument[];
     feedback?: DecisionFeedback[];
     responses: number;
     conclusion?: string;
     status: DecisionStatus;
     created: Timestamp;
+    creator: TeamMember;
     completed?: Timestamp;
     companyId: string;
 }

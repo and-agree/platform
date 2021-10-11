@@ -72,15 +72,15 @@
                 <mat-form-field appearance="outline" floatLabel="always">
                     <mat-label>Managers(s)</mat-label>
                     <mat-chip-list>
-                        <mat-chip [selectable]="false" [removable]="true">{{ user.email }}</mat-chip>
+                        <mat-chip *ngFor="let user of managers.value" [selectable]="false" [removable]="false">{{ user.email }}</mat-chip>
                     </mat-chip-list>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" floatLabel="always">
                     <mat-label>Decider(s)</mat-label>
                     <mat-chip-list #deciderList>
-                        <mat-chip *ngFor="let destination of destinations.value; let i = index" [selectable]="false" [removable]="true" (removed)="removeDestination(i)">
-                            {{ destination }}
+                        <mat-chip *ngFor="let decider of deciders.value; let i = index" [selectable]="false" [removable]="true" (removed)="removeDecider(i)">
+                            {{ decider.email }}
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
                         <input
@@ -89,7 +89,7 @@
                             [matChipInputFor]="deciderList"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                             [matChipInputAddOnBlur]="true"
-                            (matChipInputTokenEnd)="addDestination($event)"
+                            (matChipInputTokenEnd)="addDecider($event)"
                         />
                     </mat-chip-list>
                 </mat-form-field>
@@ -97,7 +97,7 @@
                 <mat-form-field appearance="outline" floatLabel="always">
                     <mat-label>Viewers(s)</mat-label>
                     <mat-chip-list>
-                        <mat-chip [selectable]="false" [removable]="true">{{ user.email }}</mat-chip>
+                        <mat-chip *ngFor="let user of viewers.value" [selectable]="false" [removable]="false">{{ user.email }}</mat-chip>
                     </mat-chip-list>
                 </mat-form-field>
             </form>

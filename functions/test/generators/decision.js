@@ -9,6 +9,7 @@ const generateDecision = (companyId) => {
         background: lorem.paragraph(8),
         instructions: lorem.paragraph(2),
         deadline: date.soon(2),
+        managers: [{ uid: random.alphaNumeric(24), email: internet.email() }],
         deciders: [
             {
                 email: internet.email(),
@@ -16,12 +17,15 @@ const generateDecision = (companyId) => {
                 status: 'UNDEFINED',
             },
         ],
+        viewers: [{ uid: random.alphaNumeric(24), email: internet.email() }],
+        viewers: [{ uid: random.alphaNumeric(24), email: internet.email() }],
         documents: [
             {
                 name: random.alpha(15),
                 file: internet.url(),
             },
         ],
+        creator: { uid: random.alphaNumeric(24), email: internet.email() },
         status: 'CREATED',
     };
 };

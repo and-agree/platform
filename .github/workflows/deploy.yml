@@ -29,14 +29,22 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Install dependencies
+      - name: Install firebase
+        run: |
+          npm install -g firebase-tools
+      - name: Install API dependencies
         run: |
           cd functions
           npm install
-      - name: Build Functions
+      - name: Build API
         run: |
           cd functions
           npm run build
+    #   - name: Test Functions (currently issues running email parser on GitHub actions)
+    #     run: |
+    #       cd functions
+    #       firebase functions:config:get --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN} > .runtimeconfig.json
+    #       npm run test
 
   test-ui:
     name: Test UI
@@ -52,11 +60,11 @@ jobs:
         run: |
           cd hosting
           npm install
-      - name: Build Hosting
+      - name: Lint check
         run: |
           cd hosting
           npm run lint
-      - name: Run tests
+      - name: Build site
         run: |
           cd hosting
           npm run build

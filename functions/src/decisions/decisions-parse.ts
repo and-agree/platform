@@ -27,6 +27,6 @@ export const DecisionParse = functions
 
             busboy.end(req.rawBody);
         } catch (error: any) {
-            throw new functions.https.HttpsError('internal', error.message);
+            functions.logger.error('Failed to update decision', error.message);
         }
     });
