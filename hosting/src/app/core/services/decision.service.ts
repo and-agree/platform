@@ -53,7 +53,12 @@ export class DecisionService {
         return docSnapshots(doc(this.firestore, `decisions/${decisionId}`)).pipe(map((snapshot: DocumentSnapshot<Decision>) => snapshot.data()));
     }
 
-    public finalise(decisionId, finaliseData: Partial<Decision>): Observable<void> {
+    public reminders(decisionId: string): Observable<void> {
+        const remind = httpsCallable<any, void>(this.functions, 'DecisionReminder');
+        return from(remind({ decisionId })).pipe(map(() => null));
+    }
+
+    public finalise(decisionId: string, finaliseData: Partial<Decision>): Observable<void> {
         const finalise = httpsCallable<any, void>(this.functions, 'DecisionFinalise');
         return from(finalise({ decisionId, ...finaliseData })).pipe(map(() => null));
     }

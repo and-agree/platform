@@ -22,17 +22,21 @@ export const DecisionFinalise = functions
         const emailDomain = functions.config().sendgrid.domain;
 
         const decisionRef = await admin.firestore().collection('decisions').doc(data.decisionId);
+        const decisionData = (await decisionRef.get()).data() as Decision;
 
-        const decision = (await decisionRef.get()).data() as Decision;
-
-        if (decision.status === 'ARCHIVED') {
+        if (!decisionData) {
+            functions.logger.warn('No decision entry found', data.decisionId);
             return;
         }
 
-        const to = decision.deciders.map((decider) => decider.email);
-        const from = `andAgree <${decision.uid}@${emailDomain}>`;
-        const subject = decision.title;
-        const html = await render(emailTemplate('decision-result.html'), { ...decision, ...data });
+        if (decisionData.status === 'ARCHIVED') {
+            return;
+        }
+
+        const to = decisionData.deciders.map((decider) => decider.email);
+        const from = `andAgree <${decisionData.uid}@${emailDomain}>`;
+        const subject = decisionData.title;
+        const html = await render(emailTemplate('decision-result.html'), { ...decisionData, ...data });
 
         const payload: MailDataRequired = { to, from, subject, html };
 

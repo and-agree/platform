@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { map, skip, Subject, takeUntil } from 'rxjs';
-import { Decision, DecisionFeedback, DecisionFeedbackStatus, TeamDecider } from './../../../core/models';
+import { filter, map, skip, Subject, takeUntil } from 'rxjs';
+import { Decision, DecisionFeedbackStatus, TeamDecider } from './../../../core/models';
 import { DecisionService } from './../../../core/services/decision.service';
 import { FilterPipe } from './../../../shared/pipes';
+import { DecisionReminderDialogComponent } from './dialog/decision-reminder-dialog.component';
 
 @Component({
     templateUrl: './decision-view.component.html',
@@ -14,7 +16,7 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
 
     private isDestroyed: Subject<void> = new Subject<void>();
 
-    constructor(private route: ActivatedRoute, private decisionService: DecisionService, private filterPipe: FilterPipe) {
+    constructor(private route: ActivatedRoute, private dialog: MatDialog, private decisionService: DecisionService, private filterPipe: FilterPipe) {
         this.decision = this.route.snapshot.data.decision;
     }
 
@@ -47,8 +49,16 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
         return this.filterPipe.transform(this.decision.deciders, 'pending', false);
     }
 
+    public sendReminders(): void {
+        const dialogRef = this.dialog.open(DecisionReminderDialogComponent, { disableClose: true });
+        dialogRef
+            .afterClosed()
+            .pipe(filter((result) => !!result))
+            .subscribe(() => this.decisionService.reminders(this.decision.uid));
+    }
+
     public changeFeedback(feedbackId: string, status: DecisionFeedbackStatus): void {
-        this.decisionService.updateFeedback(this.decision.uid, feedbackId, { status })
+        this.decisionService.updateFeedback(this.decision.uid, feedbackId, { status });
     }
 
     public deleteDecision(): void {

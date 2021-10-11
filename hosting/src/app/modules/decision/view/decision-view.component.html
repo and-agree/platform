@@ -20,6 +20,13 @@
         <mat-chip-list [selectable]="false">
             <mat-chip color="accent" selected *ngFor="let decider of feedbackPending">{{ decider.email }}</mat-chip>
         </mat-chip-list>
+
+        <div class="action">
+            <button mat-button (click)="sendReminders()">
+                <span>Send reminders</span>
+                <mat-icon>arrow_circle_right</mat-icon>
+            </button>
+        </div>
     </section>
 
     <section class="feedback-section">

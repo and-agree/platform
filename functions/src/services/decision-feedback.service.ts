@@ -57,6 +57,7 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
         const decisionData = (await decisionRef.get()).data() as Decision;
 
         if (!decisionData) {
+            functions.logger.warn('No decision entry found', decisionId);
             throw new Error(`${decisionId} not found`);
         }
 
