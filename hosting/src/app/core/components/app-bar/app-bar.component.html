@@ -6,18 +6,31 @@
             </a>
         </div>
 
-        <nav class="nav" *agreeAuthenticated="true">
-            <a [routerLink]="['/', 'dashboard']" aria-label="Your decisions" title="Your decisions">
-                <mat-icon>dashboard_customize</mat-icon>
-            </a>
-            <a [routerLink]="['/', 'decision', 'create']" aria-label="New decision" title="Start new decision">
-                <mat-icon>add</mat-icon>
-            </a>
-        </nav>
+        <ng-container *agreeAuthenticated="true">
+            <nav class="nav nav-mobile">
+                <button mat-icon-button [routerLink]="['/', 'dashboard']" aria-label="Your decisions">
+                    <mat-icon>dashboard_customize</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="['/', 'decision', 'create']" aria-label="Start new decision">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </nav>
 
-        <div class="user" *agreeAuthenticated="true">
-            <div class="mat-body-1">{{ account.alias }}</div>
-            <button mat-button (click)="performLogout()">Logout</button>
-        </div>
+            <nav class="nav nav-desktop">
+                <button mat-button [routerLink]="['/', 'dashboard']" aria-label="Your decisions">
+                    <mat-icon>dashboard_customize</mat-icon>
+                    <span>Your decisions</span>
+                </button>
+                <button mat-button [routerLink]="['/', 'decision', 'create']" aria-label="Start new decision">
+                    <mat-icon>add</mat-icon>
+                    <span>Start new decision</span>
+                </button>
+            </nav>
+
+            <div class="user">
+                <div class="mat-body-1">{{ account.alias }}</div>
+                <button mat-button (click)="performLogout()">Logout</button>
+            </div>
+        </ng-container>
     </div>
 </mat-toolbar>

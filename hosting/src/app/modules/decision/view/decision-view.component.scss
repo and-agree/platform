@@ -81,23 +81,31 @@
 
         header {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            justify-items: center;
+            grid-template-columns: 1fr;
             gap: 0.5rem;
 
-            :first-child {
-                justify-self: flex-start;
-            }
-
             :last-child {
-                justify-self: flex-end;
+                justify-self: center;
             }
-        }
 
-        .feedback-list-item-actions button {
-            position: relative;
-            top: -0.5rem;
-            right: -0.5rem;
+            @media screen and (min-width: 640px) {
+                grid-template-columns: 1fr 1fr 1fr;
+                justify-items: center;
+
+                :first-child {
+                    justify-self: flex-start;
+                }
+
+                :last-child {
+                    justify-self: flex-end;
+                }
+
+                .feedback-list-item-actions button {
+                    position: relative;
+                    top: -0.5rem;
+                    right: -0.5rem;
+                }
+            }
         }
     }
 }
