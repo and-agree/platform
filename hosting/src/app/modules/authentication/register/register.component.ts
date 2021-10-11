@@ -1,7 +1,9 @@
+import { catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services';
+import { throwError } from 'rxjs';
 
 @Component({
     templateUrl: './register.component.html',
@@ -9,6 +11,7 @@ import { AuthenticationService } from 'src/app/core/services';
 })
 export class RegisterComponent implements OnInit {
     public registerForm: FormGroup;
+    public error = '';
 
     private _visibility = false;
 
@@ -34,6 +37,14 @@ export class RegisterComponent implements OnInit {
     public createAccount(): void {
         const credentials = this.registerForm.getRawValue();
 
-        this.authenticationService.register(credentials.displayName, credentials.email, credentials.password).subscribe(() => this.router.navigate(['/'], { replaceUrl: true }));
+        this.authenticationService
+            .register(credentials.displayName, credentials.email, credentials.password)
+            .pipe(
+                catchError((err) => {
+                    this.error = err.message;
+                    return throwError(() => new Error(err));
+                })
+            )
+            .subscribe(() => this.router.navigate(['/'], { replaceUrl: true }));
     }
 }
