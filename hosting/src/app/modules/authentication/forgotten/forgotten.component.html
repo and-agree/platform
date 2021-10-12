@@ -3,19 +3,27 @@
 
 <div class="error" *ngIf="error">{{ error }}</div>
 
-<form [formGroup]="forgottenForm" (submit)="recoverAccount()" autocomplete="off">
-    <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Email address</mat-label>
-        <input matInput required formControlName="email" />
-        <mat-error>
-            <agree-error-message [control]="forgottenForm.get('email')"></agree-error-message>
-        </mat-error>
-    </mat-form-field>
+<div *ngIf="!sent">
+    <form [formGroup]="forgottenForm" (submit)="recoverAccount()" autocomplete="off">
+        <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Email address</mat-label>
+            <input matInput required formControlName="email" />
+            <mat-error>
+                <agree-error-message [control]="forgottenForm.get('email')"></agree-error-message>
+            </mat-error>
+        </mat-form-field>
+
+        <div class="actions">
+            <button mat-flat-button color="primary" type="submit" [disabled]="forgottenForm.invalid"><span>Submit</span><mat-icon>chevron_right</mat-icon></button>
+            <a [routerLink]="['/', 'auth']">Back to login</a>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="sent">
+    <div class="message">Check your email for further instructions, you will not recieve an email if no account has been found.</div>
 
     <div class="actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="forgottenForm.invalid"><span>Submit</span><mat-icon>chevron_right</mat-icon></button>
         <a [routerLink]="['/', 'auth']">Back to login</a>
     </div>
-</form>
-
-<div *ngIf="sent">Check your email for further instructions, you will not recieve an email if no account has been found.</div>
+</div>

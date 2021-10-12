@@ -19,22 +19,26 @@
     <div class="home-signup">
         <p class="home-subtitle">Sign up for news and updates.</p>
 
-        <form [formGroup]="signupForm" (submit)="performSignup()">
-            <div>
-                <mat-form-field color="primary" appearance="outline" floatLabel="always">
-                    <mat-label>Email address</mat-label>
-                    <input matInput required formControlName="email" />
-                    <mat-error>
-                        <agree-error-message [control]="signupForm.get('email')"></agree-error-message>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div>
-                <button mat-flat-button color="primary" type="submit" [disabled]="signupForm.invalid" aria-label="Sign up">
-                    <span>Sign up</span>
-                    <mat-icon>chevron_right</mat-icon>
-                </button>
-            </div>
-        </form>
+        <div>
+            <form [formGroup]="signupForm" (submit)="performSignup()">
+                <div>
+                    <mat-form-field color="primary" appearance="outline" floatLabel="always">
+                        <mat-label>Email address</mat-label>
+                        <input matInput required formControlName="email" />
+                        <mat-error>
+                            <agree-error-message [control]="signupForm.get('email')"></agree-error-message>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button mat-flat-button color="primary" type="submit" [disabled]="signupForm.invalid" aria-label="Sign up">
+                        <span>Sign up</span>
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div>You can unsubscribe anytime. For more details please review our <a href="https://app.termly.io/document/privacy-policy/0fb7bdb6-8bdc-437d-b21d-d4acbfe82127" target="_blank">Privacy Notice.</a></div>
     </div>
 </div>

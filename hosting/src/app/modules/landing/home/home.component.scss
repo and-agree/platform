@@ -72,9 +72,16 @@
 
 .home-signup {
     padding: 2rem;
+    display: grid;
+    gap: 0.5rem;
+    grid-auto-rows: min-content;
 
     @media screen and (min-width: 600px) {
         padding: 3rem 4rem;
+    }
+
+    a {
+        color: white;
     }
 
     form {

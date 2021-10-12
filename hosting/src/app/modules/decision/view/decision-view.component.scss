@@ -1,5 +1,5 @@
 .pre {
-    white-space: pre;
+    white-space: pre-line;
 }
 
 .summary {
@@ -18,7 +18,7 @@
             grid-auto-columns: 3fr 2fr;
         }
 
-        > div {
+        > div:nth-child(n+3) {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;

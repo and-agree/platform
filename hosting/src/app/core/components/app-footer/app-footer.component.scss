@@ -23,8 +23,7 @@
         grid-template-columns: minmax(20%, auto) minmax(20%, auto) 1fr;
         grid-template-areas:
             "a b c"
-            "a b c"
-            "a d d";
+            "a b c";
 
         > :nth-child(1) {
             grid-area: a;
@@ -37,10 +36,6 @@
         > :nth-child(3) {
             grid-area: c;
         }
-
-        > :nth-child(4) {
-            grid-area: d;
-        }
     }
 
     @media screen and (min-width: 1280px) {
@@ -48,7 +43,7 @@
     }
 
     img {
-        max-height: 20px;
+        max-height: 28px;
         width: auto;
     }
 }
@@ -63,10 +58,6 @@ li {
 ul li {
     padding-bottom: 0.5rem;
 
-    &:last-child {
-        padding-bottom: 0;
-    }
-
     a {
         color: white;
         text-decoration: none;
@@ -75,10 +66,4 @@ ul li {
         text-decoration: underline;
         }
     }
-}
-
-
-.disclaimer {
-    padding: 1rem 0 0;
-    color: #8988A0;
 }
