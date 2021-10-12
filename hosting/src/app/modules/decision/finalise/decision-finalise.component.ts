@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 import { Decision } from './../../../core/models';
 import { DecisionService } from './../../../core/services';
-import { DecisionFinaliseDialogComponent } from './dialog/decision-finalise-dialog.component';
+import { DecisionFinaliseDialogComponent } from './finalise-dialog/decision-finalise-dialog.component';
 
 @Component({
     templateUrl: './decision-finalise.component.html',
@@ -36,7 +37,9 @@ export class DecisionFinaliseComponent {
     public finaliseDecision(): void {
         const finaliseData = this.finaliseForm.getRawValue();
         finaliseData.documents = this.documents.options.map((option: MatListOption) => ({ ...option.value, attach: option.selected }));
-        this.decisionService.finalise(this.decision.uid, finaliseData).subscribe(() => this.openDialog());
+        of(this.openDialog())
+            .pipe(switchMap(() => this.decisionService.finalise(this.decision.uid, finaliseData)))
+            .subscribe();
     }
 
     private openDialog(): void {

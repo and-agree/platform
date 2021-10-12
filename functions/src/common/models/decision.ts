@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 
 export type DecisionFeedbackStatus = 'UNDEFINED' | 'APPROVED' | 'REJECTED';
-export type DecisionStatus = 'CREATED' | 'PENDING' | 'ARCHIVED';
+export type DecisionStatus = 'CREATED' | 'PENDING' | 'ARCHIVED' | 'DELETED';
 
 export interface DecisionGeneral {
     title: string;

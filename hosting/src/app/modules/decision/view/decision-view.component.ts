@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { filter, map, skip, Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, map, skip, Subject, switchMap, takeUntil } from 'rxjs';
 import { Decision, DecisionFeedbackStatus, TeamDecider } from './../../../core/models';
 import { DecisionService } from './../../../core/services/decision.service';
 import { FilterPipe } from './../../../shared/pipes';
-import { DecisionReminderDialogComponent } from './dialog/decision-reminder-dialog.component';
+import { DecisionDeleteDialogComponent } from './delete-dialog/decision-delete-dialog.component';
+import { DecisionReminderDialogComponent } from './reminder-dialog/decision-reminder-dialog.component';
 
 @Component({
     templateUrl: './decision-view.component.html',
@@ -16,7 +17,13 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
 
     private isDestroyed: Subject<void> = new Subject<void>();
 
-    constructor(private route: ActivatedRoute, private dialog: MatDialog, private decisionService: DecisionService, private filterPipe: FilterPipe) {
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private dialog: MatDialog,
+        private decisionService: DecisionService,
+        private filterPipe: FilterPipe
+    ) {
         this.decision = this.route.snapshot.data.decision;
     }
 
@@ -50,11 +57,14 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
     }
 
     public sendReminders(): void {
-        const dialogRef = this.dialog.open(DecisionReminderDialogComponent, { disableClose: true });
+        const dialogRef = this.dialog.open(DecisionReminderDialogComponent);
         dialogRef
             .afterClosed()
-            .pipe(filter((result) => !!result))
-            .subscribe(() => this.decisionService.reminders(this.decision.uid));
+            .pipe(
+                filter((result) => !!result),
+                switchMap(() => this.decisionService.reminders(this.decision.uid))
+            )
+            .subscribe();
     }
 
     public changeFeedback(feedbackId: string, status: DecisionFeedbackStatus): void {
@@ -62,6 +72,13 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
     }
 
     public deleteDecision(): void {
-        console.log('delete decision');
+        const dialogRef = this.dialog.open(DecisionDeleteDialogComponent);
+        dialogRef
+            .afterClosed()
+            .pipe(
+                filter((result) => !!result),
+                switchMap(() => this.decisionService.remove(this.decision.uid))
+            )
+            .subscribe(() => this.router.navigate(['/', 'dashboard']));
     }
 }

@@ -29,7 +29,7 @@ export const DecisionFinalise = functions
             return;
         }
 
-        if (decisionData.status === 'ARCHIVED') {
+        if (['ARCHIVED', 'DELETED'].includes(decisionData.status)) {
             return;
         }
 

@@ -63,6 +63,12 @@ export class DecisionService {
         return from(finalise({ decisionId, ...finaliseData })).pipe(map(() => null));
     }
 
+    public remove(decisionId: string): Observable<void> {
+        const batch = writeBatch(this.firestore);
+        batch.update(doc(this.firestore, `decisions/${decisionId}`), { status: 'DELETED' });
+        return from(batch.commit());
+    }
+
     public findAll(status: DecisionStatus, sort = { field: 'responses', direction: 'desc' }): Observable<Decision[]> {
         let whereClauses = [where('companyId', '==', this.companyId), where('status', '==', status)];
 
