@@ -1,0 +1,101 @@
+.home-background {
+    background-color: #121315;
+    color: white;
+    background-image: url('/assets/landing-background.jpg');
+    background-size: cover;
+    background-position-x: left;
+    background-position-y: top;
+    background-repeat: no-repeat;
+
+    @media screen and (min-width: 960px) {
+        background-size: 100%;
+    }
+}
+
+.home {
+    display: grid;
+    grid-auto-rows: min-content min-content min-content;
+    gap: 1rem;
+    height: 100%;
+}
+
+.home-title {
+    font-family: 'Poppins', 'Roboto', 'sans-serif';
+    font-size: 3rem;
+    line-height: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+
+    @media screen and (min-width: 600px) {
+        font-size: 4rem;
+        line-height: 4.2rem;
+    }
+}
+
+.home-subtitle {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    font-weight: 300;
+}
+
+.home-header {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: auto min-content;
+    align-items: flex-start;
+    padding: 2rem 2rem;
+
+    img {
+        height: 1.75rem;
+        width: auto;
+
+        @media screen and (min-width: 600px) {
+            height: 2.5rem;
+        }
+    }
+
+    @media screen and (min-width: 600px) {
+        padding: 3rem 4rem;
+    }
+}
+
+.home-banner {
+    float: left;
+    max-width: 80%;
+    padding: 1rem 2rem;
+
+    @media screen and (min-width: 600px) {
+        max-width: 35%;
+        padding: 2rem 4rem;
+    }
+}
+
+.home-signup {
+    padding: 2rem;
+
+    @media screen and (min-width: 600px) {
+        padding: 3rem 4rem;
+    }
+
+    form {
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: auto;
+        color: #444;
+        padding: 2rem;
+        background-color: #fafafa;
+        border-radius: 0.5rem;
+
+        @media screen and (min-width: 600px) {
+            gap: 1rem;
+            grid-template-columns: auto min-content;
+            float: left;
+            padding: 2rem 2rem 1rem;
+        }
+
+        > div:last-child {
+            position: relative;
+            top: 10px;
+        }
+    }
+}

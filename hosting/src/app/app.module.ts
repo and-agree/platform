@@ -10,10 +10,10 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppBarModule, AppFooterModule } from './core/components';
-import { LayoutComponent } from './layout.component';
+import { ApplicationComponent, WebsiteComponent } from './modules/layouts';
 
 @NgModule({
-    declarations: [AppComponent, LayoutComponent],
+    declarations: [AppComponent, ApplicationComponent, WebsiteComponent],
     imports: [
         BrowserModule,
         FunctionsModule,

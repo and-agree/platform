@@ -1,0 +1,22 @@
+.agree-app {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 100vh;
+}
+
+.content {
+    margin: 0 auto;
+    padding: 0;
+
+    @media screen and (min-width: 600px) {
+        width: 600px;
+    }
+
+    @media screen and (min-width: 960px) {
+        width: 960px;
+    }
+
+    @media screen and (min-width: 1280px) {
+        width: 1280px;
+    }
+}

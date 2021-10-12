@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AnonymousGuard, AuthenticatedGuard } from './core/guards';
 import { AuthenticationResolve } from './core/resolves';
-import { LayoutComponent } from './layout.component';
+import { ApplicationComponent, WebsiteComponent } from './modules/layouts';
 
 const routerConfig: ExtraOptions = {
     enableTracing: false,
@@ -13,11 +13,21 @@ const routerConfig: ExtraOptions = {
 const routes: Routes = [
     {
         path: '',
-        component: LayoutComponent,
-        resolve: { loggedIn: AuthenticationResolve },
+        component: WebsiteComponent,
         children: [
             {
                 path: '',
+                loadChildren: () => import('./modules/landing/landing.module').then((m) => m.LandingModule),
+            },
+        ],
+    },
+    {
+        path: '',
+        component: ApplicationComponent,
+        resolve: { loggedIn: AuthenticationResolve },
+        children: [
+            {
+                path: 'auth',
                 loadChildren: () => import('./modules/authentication/authentication.module').then((m) => m.AuthenticationModule),
                 canActivate: [AnonymousGuard],
             },

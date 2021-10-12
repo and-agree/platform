@@ -1,0 +1,40 @@
+<div class="home home-background">
+    <div class="home-header">
+        <h1>
+            <img src="/assets/logo-white@3x.png" alt="&agree">
+        </h1>
+        <div>
+            <a mat-flat-button [routerLink]="['/', 'auth']" color="primary" aria-label="Login">
+                <span>Log in</span>
+                <mat-icon>chevron_right</mat-icon>
+            </a>
+        </div>
+    </div>
+
+    <div class="home-banner">
+        <p class="home-title">Make better decisions.</p>
+        <p class="home-subtitle">We are currently creating a simple email-based tool that helps companies streamline decision making.</p>
+    </div>
+
+    <div class="home-signup">
+        <p class="home-subtitle">Sign up for news and updates.</p>
+
+        <form [formGroup]="signupForm" (submit)="performSignup()">
+            <div>
+                <mat-form-field color="primary" appearance="outline" floatLabel="always">
+                    <mat-label>Email address</mat-label>
+                    <input matInput required formControlName="email" />
+                    <mat-error>
+                        <agree-error-message [control]="signupForm.get('email')"></agree-error-message>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-flat-button color="primary" type="submit" [disabled]="signupForm.invalid" aria-label="Sign up">
+                    <span>Sign up</span>
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
