@@ -1,16 +1,7 @@
-import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
-import { send, setApiKey } from '@sendgrid/mail';
-import { render } from 'ejs';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import * as fs from 'fs';
-import moment from 'moment';
-import * as path from 'path';
 import { Decision } from '../common/models/decision';
-
-const emailTemplate = (template: string): string => {
-    return fs.readFileSync(path.join(__dirname, 'templates', template)).toString();
-};
+import { SendgridEmailService } from '../services';
 
 export const DecisionCreate = functions
     .region('europe-west2')
@@ -20,9 +11,6 @@ export const DecisionCreate = functions
     })
     .firestore.document('/decisions/{decisionId}')
     .onCreate(async (snapshot, context): Promise<void> => {
-        setApiKey(functions.config().sendgrid.api_key);
-        const emailDomain = functions.config().sendgrid.domain;
-
         const decisionRef = admin.firestore().collection('decisions').doc(context.params.decisionId);
         const decisionData = (await decisionRef.get()).data() as Decision;
 
@@ -31,17 +19,13 @@ export const DecisionCreate = functions
             return;
         }
 
-        const to = decisionData.deciders.map((decider) => decider.email);
-        const from = `&agree <${decisionData.uid}@${emailDomain}>`;
-        const subject = decisionData.title;
-        const html = await render(emailTemplate('decision-create.html'), { ...decisionData, from, moment });
-
-        const payload: MailDataRequired = { to, from, subject, html };
+        const sendgridEmailService = new SendgridEmailService(decisionData, 'decision-create.html');
+        const recipients = [...decisionData.managers, ...decisionData.deciders].map((member) => member.email);
 
         try {
-            await send(payload);
+            await sendgridEmailService.send(recipients);
         } catch (error: any) {
-            functions.logger.warn('Failed to send decision email', error.message);
+            functions.logger.error('Failed to send email', error.message);
         }
 
         const batch = admin.firestore().batch();

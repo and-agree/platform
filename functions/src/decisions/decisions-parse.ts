@@ -1,6 +1,6 @@
 import Busboy from 'busboy';
 import * as functions from 'firebase-functions';
-import { DecisionFeedbackService, EmailFields } from '../services';
+import { DecisionFeedbackService, EmailFields, SendgridEmailService } from '../services';
 
 export const DecisionParse = functions
     .region('europe-west2')
@@ -16,12 +16,24 @@ export const DecisionParse = functions
 
         try {
             const busboy = new Busboy({ headers: req.headers });
-            const decisionResponse: DecisionFeedbackService = new DecisionFeedbackService();
+            const decisionFeedbackService: DecisionFeedbackService = new DecisionFeedbackService();
 
-            busboy.on('field', (fieldname: EmailFields, value: string) => (decisionResponse[fieldname] = value));
+            busboy.on('field', (fieldname: EmailFields, value: string) => (decisionFeedbackService[fieldname] = value));
 
             busboy.on('finish', async () => {
-                await decisionResponse.save();
+                const decisionData = await decisionFeedbackService.save();
+
+                if (decisionData?.responses === 100) {
+                    const sendgridEmailService = new SendgridEmailService(decisionData, 'decision-ready.html');
+                    const recipients = decisionData.managers.map((member) => member.email);
+
+                    try {
+                        await sendgridEmailService.send(recipients);
+                    } catch (error: any) {
+                        functions.logger.error('Failed to send email', error.message);
+                    }
+                }
+
                 res.status(202).send();
             });
 

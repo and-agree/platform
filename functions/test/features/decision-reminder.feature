@@ -4,7 +4,7 @@ Feature:
     So that deciders can be sent reminder emails
 
     Scenario: Sending reminder email for a decision
-        Given there is a POST endpoint at "https://api.sendgrid.com:443/v3/mail/send" which will a status of 200 when called with "sendgrid/decision-create.json"
+        Given there is a POST endpoint at "https://api.sendgrid.com:443/v3/mail/send" which will a status of 200 when called with "sendgrid/decision-reminder.json"
         When there is a decision created using:
             | uid          | aaaaaaaaaaaaaaaaaaaaaaaa                                                             |
             | title        | Title                                                                                |

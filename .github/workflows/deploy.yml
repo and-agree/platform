@@ -102,6 +102,7 @@ jobs:
           npm install
       - name: Deploy
         run: |
+          npx firebase functions:config:set website.uri=${WEBSITE_URI} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
           npx firebase functions:config:set sendgrid.api_key=${SENDGRID_API_KEY} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
           npx firebase functions:config:set sendgrid.domain=${SENDGRID_DOMAIN} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
           npx firebase deploy --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN} --force

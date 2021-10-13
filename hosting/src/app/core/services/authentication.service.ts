@@ -23,14 +23,18 @@ import { Account } from '../models';
 })
 export class AuthenticationService {
     public user: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);
+    private storage: Storage = sessionStorage;
 
     constructor(private router: Router, @Optional() private fireAuth: Auth, private firestore: Firestore) {}
 
     public signIn(email: string, password: string): Observable<Account> {
+        const redirect = this.storage.getItem('redirect') || 'dashboard';
+
         return from(signInWithEmailAndPassword(this.fireAuth, email, password)).pipe(
             map((credentials: UserCredential) => credentials.user),
             mergeMap((user: User) => this.retrieveAccount(user.uid)),
-            tap(() => this.router.navigate(['/', 'dashboard']))
+            tap(() => this.router.navigate(['/', ...redirect.split('/').filter(Boolean)])),
+            tap(() => this.storage.removeItem('redirect'))
         );
     }
 

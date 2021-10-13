@@ -8,6 +8,8 @@ import { map, take } from 'rxjs/operators';
     providedIn: 'root',
 })
 export class AuthenticatedGuard implements CanActivate {
+    private storage: Storage = sessionStorage;
+
     constructor(private router: Router, @Optional() private fireAuth: Auth) {}
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -16,7 +18,8 @@ export class AuthenticatedGuard implements CanActivate {
             map((user) => !user),
             map((result) => {
                 if (result) {
-                    this.router.navigate(['/']);
+                    this.storage.setItem('redirect', state.url);
+                    this.router.navigate(['/', 'auth']);
                 }
                 return true;
             })

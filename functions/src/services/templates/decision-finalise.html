@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    lang="en"
+    xml:lang="en"
+    style="font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; box-sizing: border-box"
+>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title><%= title %></title>
+    </head>
+
+    <body
+        style="
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+            background-color: #fff;
+            margin: 0;
+        "
+        bgcolor="#fff"
+    >
+        <table
+            align="center"
+            width="100%"
+            border="0"
+            cellspacing="0"
+            cellpadding="0"
+            style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse; max-width: 544px; margin-right: auto; margin-left: auto; width: 100% !important"
+        >
+            <tr style="box-sizing: border-box">
+                <td align="center" valign="top" style="box-sizing: border-box; padding: 16px">
+                    <center>
+                        <!-- Email headline -->
+                        <table style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td style="text-align: center">
+                                    <h2
+                                        style="
+                                            box-sizing: border-box;
+                                            font-size: 32px;
+                                            font-weight: 700 !important;
+                                            color: #2f2e58;
+                                            padding: 0;
+                                            margin-top: 8px !important;
+                                            margin-bottom: 8px !important;
+                                        "
+                                    >
+                                        &amp;agree
+                                    </h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #fafafa; padding: 16px">
+                                    <p style="box-sizing: border-box; text-align: center; padding: 0; margin: 0">
+                                        A final decision has been made on <strong style="font-weight: 600"><%= title %></strong>. The decision has been successfully archived.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Table introduction -->
+                        <table align="left" width="100%" cellpadding="0" cellspacing="0" border="0" style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse">
+                            <tr>
+                                <td style="padding: 0">
+                                    <h3 style="font-size: 18px; font-weight: 600; padding: 0; margin-top: 16px !important; margin-bottom: 4px !important">Final decision</h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0">
+                                    <p style="padding: 0; margin-top: 0 !important; margin-bottom: 16px !important">The details and outcome of the decision.</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Table of information -->
+                        <table align="left" width="100%" cellpadding="0" cellspacing="0" border="0" style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse">
+                            <tr>
+                                <td style="padding-top: 8px">
+                                    <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
+                                        <strong style="font-weight: 600">Goal:</strong>
+                                        <%= goal %>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 8px">
+                                    <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
+                                        <strong style="font-weight: 600">Decision:</strong>
+                                        <%= conclusion %>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Table closure -->
+                        <table
+                            align="center"
+                            width="100%"
+                            cellpadding="0"
+                            cellspacing="0"
+                            border="0"
+                            style="
+                                box-sizing: border-box;
+                                border-spacing: 0;
+                                border-collapse: collapse;
+                                border-bottom: 1px solid #ccc;
+                                margin-top: 8px !important;
+                                margin-bottom: 20px !important;
+                            "
+                        >
+                            <tr>
+                                <td height="16" style="font-size: 16px; line-height: 16px; box-sizing: border-box; padding: 0">&#160;</td>
+                            </tr>
+                        </table>
+
+                        <!-- Email footer -->
+                        <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0" style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse">
+                            <tr>
+                                <td style="background-color: #fafafa; padding: 12px">
+                                    <table
+                                        width="100%"
+                                        align="center"
+                                        cellpadding="0"
+                                        cellspacing="0"
+                                        border="0"
+                                        style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse"
+                                    >
+                                        <tr>
+                                            <td style="background-color: #fafafa; padding: 4px">
+                                                <p style="box-sizing: border-box; text-align: center; padding: 0; margin: 0; font-size: 12px; line-height: 12px">
+                                                    We use &amp;agree to standardise, speed up and monitor decisions.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="background-color: #fafafa; padding: 4px">
+                                                <p style="box-sizing: border-box; text-align: center; padding: 0; margin: 0; font-size: 12px; line-height: 12px">
+                                                    More info on
+                                                    <a
+                                                        href="<%= uri %>"
+                                                        style="background-color: transparent; box-sizing: border-box; color: #444; text-decoration: underline"
+                                                        ><%= uri %></a
+                                                    >
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

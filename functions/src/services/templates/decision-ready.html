@@ -56,42 +56,17 @@
                             <tr>
                                 <td style="background-color: #fafafa; padding: 16px">
                                     <p style="box-sizing: border-box; text-align: center; padding: 0; margin: 0">
-                                        A final decision has been made on <strong style="font-weight: 600"><%= title %></strong>. The decision has been successfully archived.
+                                        <strong style="font-weight: 600"><%= title %></strong> has recieved feedback from all deciders. You can now review the decision
                                     </p>
                                 </td>
                             </tr>
                         </table>
 
-                        <!-- Table introduction -->
-                        <table align="left" width="100%" cellpadding="0" cellspacing="0" border="0" style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse">
+                        <!-- CTA -->
+                        <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0" style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse">
                             <tr>
-                                <td style="padding: 0">
-                                    <h3 style="font-size: 18px; font-weight: 600; padding: 0; margin-top: 16px !important; margin-bottom: 4px !important">Final decision</h3>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 0">
-                                    <p style="padding: 0; margin-top: 0 !important; margin-bottom: 16px !important">The details and outcome of the decision.</p>
-                                </td>
-                            </tr>
-                        </table>
-
-                        <!-- Table of information -->
-                        <table align="left" width="100%" cellpadding="0" cellspacing="0" border="0" style="box-sizing: border-box; border-spacing: 0; border-collapse: collapse">
-                            <tr>
-                                <td style="padding-top: 8px">
-                                    <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
-                                        <strong style="font-weight: 600">Goal:</strong>
-                                        <%= goal %>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding-top: 8px">
-                                    <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
-                                        <strong style="font-weight: 600">Decision:</strong>
-                                        <%= conclusion %>
-                                    </p>
+                                <td style="text-align: center; padding: 16px">
+                                    <a href="<%= uri %>/decision/view/<%= uid %>" style="background-color: transparent; box-sizing: border-box; color: #444; text-decoration: underline">Review decision</a>
                                 </td>
                             </tr>
                         </table>
@@ -141,9 +116,9 @@
                                                 <p style="box-sizing: border-box; text-align: center; padding: 0; margin: 0; font-size: 12px; line-height: 12px">
                                                     More info on
                                                     <a
-                                                        href="http://www.andagree.com"
+                                                        href="<%= uri %>"
                                                         style="background-color: transparent; box-sizing: border-box; color: #444; text-decoration: underline"
-                                                        >www.andagree.com</a
+                                                        ><%= uri %></a
                                                     >
                                                 </p>
                                             </td>

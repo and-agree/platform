@@ -15,6 +15,7 @@ class World {
         this.firestore = initializeAdminApp({ projectId }).firestore();
         this.functions = require('../../lib/index.js');
         this.setConfig({
+            website: { uri: 'https://test.andagree.com' },
             sendgrid: { api_key: 'SG.xxxxxxxxxx', domain: 'ci.andagree.com' },
         });
     }

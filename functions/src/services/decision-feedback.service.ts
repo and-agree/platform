@@ -34,7 +34,7 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
         this._envelope = JSON.parse(envelope);
     }
 
-    public async save(): Promise<void> {
+    public async save(): Promise<Decision | void> {
         const to = this._envelope.to.find((to: string) => to.endsWith(functions.config().sendgrid.domain));
 
         if (!to) {
@@ -99,5 +99,7 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
         batch.set(feedbackRef, { uid: feedbackRef.id, from, body, status, created });
         batch.set(decisionRef, decisionData);
         await batch.commit();
+
+        return decisionData;
     }
 }

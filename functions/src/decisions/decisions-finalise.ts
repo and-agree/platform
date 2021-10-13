@@ -1,15 +1,7 @@
-import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
-import { send, setApiKey } from '@sendgrid/mail';
-import { render } from 'ejs';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import * as fs from 'fs';
-import * as path from 'path';
 import { Decision } from '../common/models';
-
-const emailTemplate = (template: string): string => {
-    return fs.readFileSync(path.join(__dirname, 'templates', template)).toString();
-};
+import { SendgridEmailService } from '../services';
 
 export const DecisionFinalise = functions
     .region('europe-west2')
@@ -18,9 +10,6 @@ export const DecisionFinalise = functions
         timeoutSeconds: 30,
     })
     .https.onCall(async (data) => {
-        setApiKey(functions.config().sendgrid.api_key);
-        const emailDomain = functions.config().sendgrid.domain;
-
         const decisionRef = await admin.firestore().collection('decisions').doc(data.decisionId);
         const decisionData = (await decisionRef.get()).data() as Decision;
 
@@ -33,17 +22,13 @@ export const DecisionFinalise = functions
             return;
         }
 
-        const to = decisionData.deciders.map((decider) => decider.email);
-        const from = `andAgree <${decisionData.uid}@${emailDomain}>`;
-        const subject = decisionData.title;
-        const html = await render(emailTemplate('decision-result.html'), { ...decisionData, ...data });
-
-        const payload: MailDataRequired = { to, from, subject, html };
+        const sendgridEmailService = new SendgridEmailService({ ...decisionData, ...data }, 'decision-finalise.html');
+        const recipients = decisionData.deciders.map((member) => member.email);
 
         try {
-            await send(payload);
+            await sendgridEmailService.send(recipients);
         } catch (error: any) {
-            functions.logger.warn('Failed to send decision email', error.message);
+            functions.logger.error('Failed to send email', error.message);
         }
 
         const batch = admin.firestore().batch();
