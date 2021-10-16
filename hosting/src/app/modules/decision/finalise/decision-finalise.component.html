@@ -36,7 +36,6 @@
             <mat-selection-list dense #documents>
                 <mat-list-option *ngFor="let document of decision.documents" [value]="document">
                     <p mat-line>{{ document.name }}</p>
-                    <p mat-line>{{ document.file }}</p>
                 </mat-list-option>
             </mat-selection-list>
         </section>

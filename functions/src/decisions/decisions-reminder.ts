@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { firstValueFrom, forkJoin, of } from 'rxjs';
+import { catchError, defaultIfEmpty, mergeMap } from 'rxjs/operators';
 import { Decision } from '../common/models';
 import { SendgridEmailService } from '../services';
 
@@ -24,10 +26,13 @@ export const DecisionReminder = functions
 
         const sendgridEmailService = new SendgridEmailService(decisionData, 'decision-create.html');
         const recipients = decisionData.deciders.map((member) => member.email);
+        const attachmentData = sendgridEmailService.getAttachments(decisionData.documents);
 
-        try {
-            await sendgridEmailService.send(recipients);
-        } catch (error: any) {
-            functions.logger.error('Failed to send email', error.message);
-        }
+        await firstValueFrom(
+            forkJoin(attachmentData).pipe(
+                defaultIfEmpty([]),
+                mergeMap((attachments) => sendgridEmailService.send(recipients, attachments)),
+                catchError((error) => of(functions.logger.error('Decision reminder failed', error.message)))
+            )
+        );
     });

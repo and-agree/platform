@@ -6,13 +6,15 @@ Feature:
     Scenario: Sending of emails when a decision is finalised
         Given there is a POST endpoint at "https://api.sendgrid.com:443/v3/mail/send" which will a status of 200 when called with "sendgrid/decision-finalise.json"
         When there is a decision created using:
-            | uid          | aaaaaaaaaaaaaaaaaaaaaaaa                                                             |
-            | title        | Title                                                                                |
-            | goal         | Goal                                                                                 |
-            | background   | Background                                                                           |
-            | instructions | Instructions                                                                         |
-            | deadline     | 2021-06-06T12:30:00Z                                                                 |
-            | deciders     | [{ "email": "example@test.andagree.com", "pending": true, "feedback": "UNDEFINED" }] |
+            | uid          | aaaaaaaaaaaaaaaaaaaaaaaa                                                              |
+            | title        | Title                                                                                 |
+            | goal         | Goal                                                                                  |
+            | background   | Background                                                                            |
+            | instructions | Instructions                                                                          |
+            | deadline     | 2021-06-06T12:30:00Z                                                                  |
+            | managers     | [{ "uid": "bbbbbbbbbbbbbbbbbbbbbbbb", "email": "manager@test.andagree.com" }]         |
+            | deciders     | [{ "email": "finalise@test.andagree.com", "pending": true, "feedback": "UNDEFINED" }] |
+            | status       | PENDING                                                                               |
         And call the "DecisionFinalise" function with:
             | decisionId | {{ decision.uid }} |
             | conclusion | Conclusion         |

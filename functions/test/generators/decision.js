@@ -19,14 +19,9 @@ const generateDecision = (companyId) => {
         ],
         viewers: [{ uid: random.alphaNumeric(24), email: internet.email() }],
         viewers: [{ uid: random.alphaNumeric(24), email: internet.email() }],
-        documents: [
-            {
-                name: random.alpha(15),
-                file: internet.url(),
-            },
-        ],
+        documents: [],
         creator: { uid: random.alphaNumeric(24), email: internet.email() },
-        status: 'CREATED',
+        status: 'PENDING',
     };
 };
 

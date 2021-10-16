@@ -1,11 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Account, Decision, DecisionDocument, DecisionGeneral } from '../../../core/models';
-import { AuthenticationService, DecisionService } from '../../../core/services';
+import { AuthenticationService, DecisionService, StorageService } from '../../../core/services';
 
 @Component({
     templateUrl: './decision-create.component.html',
@@ -24,6 +24,7 @@ export class DecisionCreateComponent {
         private router: Router,
         private forms: FormBuilder,
         private authenticationService: AuthenticationService,
+        private storageService: StorageService,
         private decisionService: DecisionService
     ) {
         this.generalForm = this.forms.group({
@@ -112,9 +113,32 @@ export class DecisionCreateComponent {
 
     public createDocument(): FormGroup {
         return this.forms.group({
-            name: [undefined, [Validators.required, Validators.maxLength(100)]],
-            file: [undefined, [Validators.required]],
+            name: [{ value: undefined, disabled: true }, [Validators.required, Validators.maxLength(100)]],
+            path: [undefined, [Validators.required]],
+            size: [undefined, [Validators.required]],
+            approved: [false, []],
         });
+    }
+
+    public saveFile(event: any, documentForm: AbstractControl) {
+        event.preventDefault();
+
+        const reader = new FileReader();
+        const file: File = (event.dataTransfer || event.target).files[0];
+
+        reader.addEventListener('load', () => {
+            this.storageService.uploadFile(reader.result as ArrayBuffer).subscribe((data) => {
+                documentForm.get('name').setValue(file.name);
+                documentForm.get('path').setValue(data.metadata.fullPath);
+                documentForm.get('size').setValue(data.metadata.size);
+            });
+        });
+
+        try {
+            reader.readAsArrayBuffer(file);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     public addDocument(): void {
@@ -131,7 +155,7 @@ export class DecisionCreateComponent {
 
     public createDecision(): void {
         const general: DecisionGeneral = this.generalForm.getRawValue();
-        const documents: DecisionDocument[] = this.documentForm.get('upload').value;
+        const documents: DecisionDocument[] = this.documentForm.getRawValue().upload;
         const team: Pick<Decision, 'managers' | 'deciders' | 'viewers'> = this.teamForm.getRawValue();
 
         this.decisionService

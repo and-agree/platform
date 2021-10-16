@@ -3,6 +3,7 @@ import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, indexedDBLocalPersistence, initializeAuth, provideAuth } from '@angular/fire/auth';
 import { connectFirestoreEmulator, enableMultiTabIndexedDbPersistence, getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { connectFunctionsEmulator, FunctionsModule, getFunctions, provideFunctions } from '@angular/fire/functions';
+import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,6 +41,13 @@ import { ApplicationComponent, WebsiteComponent } from './modules/layouts';
                 () => false
             );
             return firestore;
+        }),
+        provideStorage(() => {
+            const storage = getStorage();
+            if (environment.emulator) {
+                connectStorageEmulator(storage, 'localhost', 9199);
+            }
+            return storage;
         }),
         provideFunctions(() => {
             const functions = getFunctions(undefined, 'europe-west2');

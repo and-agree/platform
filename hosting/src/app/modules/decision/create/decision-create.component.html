@@ -27,7 +27,13 @@
 
                 <mat-form-field appearance="outline" floatLabel="always">
                     <mat-label>Background</mat-label>
-                    <textarea matInput rows="8" required formControlName="background" placeholder="This is the latest version of our 20th anniversary logo"></textarea>
+                    <textarea
+                        matInput
+                        rows="8"
+                        required
+                        formControlName="background"
+                        placeholder="This is the latest version of our 20th anniversary logo"
+                    ></textarea>
                     <mat-error>
                         <agree-error-message [control]="generalForm.get('background')"></agree-error-message>
                     </mat-error>
@@ -65,8 +71,8 @@
 
             <form [formGroup]="teamForm">
                 <p>
-                    Select the team members you want to involve in this decision process. Managers (you) are responsible for the overall process from start to finish. Deciders are
-                    expected to provide feedback. Viewers are only kept in the loop for main decision milestones.
+                    Select the team members you want to involve in this decision process. Managers (you) are responsible for the overall process from start to
+                    finish. Deciders are expected to provide feedback. Viewers are only kept in the loop for main decision milestones.
                 </p>
 
                 <mat-form-field appearance="outline" floatLabel="always">
@@ -111,7 +117,7 @@
             <form [formGroup]="documentForm">
                 <p>Share any documents you want your team to review as well as anything else that might give them additional context.</p>
 
-                <div formArrayName="list" *ngFor="let document of documents.controls; let i = index">
+                <div formArrayName="upload" *ngFor="let document of documents.controls; let i = index">
                     <div class="document-entry" [formGroupName]="i">
                         <mat-form-field appearance="outline" floatLabel="always">
                             <mat-label>Name</mat-label>
@@ -122,11 +128,9 @@
                         </mat-form-field>
 
                         <div>
-                            <button mat-button (click)="buttonInput.click()">
-                                Choose file
-                            </button>
+                            <button mat-button (click)="buttonInput.click()">Choose file</button>
 
-                            <input #buttonInput type="file" formControlName="file" />
+                            <input #buttonInput type="file" (change)="saveFile($event, document)" />
                         </div>
 
                         <div class="indicator" [ngSwitch]="document.valid">
@@ -162,7 +166,10 @@
     <div class="full-viewport clear-bg">
         <div class="full-viewport-content">
             <div class="actions-info">
-                <p>Send a kick-off email to your team. It will include all the information above as well as clear step-by-step instructions for them to provide feedback.</p>
+                <p>
+                    Send a kick-off email to your team. It will include all the information above as well as clear step-by-step instructions for them to provide
+                    feedback.
+                </p>
             </div>
         </div>
     </div>

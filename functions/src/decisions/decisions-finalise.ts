@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { firstValueFrom, forkJoin, from, of } from 'rxjs';
+import { catchError, defaultIfEmpty, mergeMap } from 'rxjs/operators';
 import { Decision } from '../common/models';
 import { SendgridEmailService } from '../services';
 
@@ -23,20 +25,19 @@ export const DecisionFinalise = functions
         }
 
         const sendgridEmailService = new SendgridEmailService({ ...decisionData, ...data }, 'decision-finalise.html');
-        const recipients = decisionData.deciders.map((member) => member.email);
+        const recipients = [...decisionData.managers, ...decisionData.deciders].map((member) => member.email);
+        const attachmentData = sendgridEmailService.getAttachments(decisionData.documents, true);
 
-        try {
-            await sendgridEmailService.send(recipients);
-        } catch (error: any) {
-            functions.logger.error('Failed to send email', error.message);
-        }
-
-        const batch = admin.firestore().batch();
-        batch.update(decisionRef, { completed: admin.firestore.FieldValue.serverTimestamp(), conclusion: data.conclusion, status: 'ARCHIVED' });
-
-        try {
-            await batch.commit();
-        } catch (error: any) {
-            functions.logger.error('Failed to update decision', error.message);
-        }
+        await firstValueFrom(
+            forkJoin(attachmentData).pipe(
+                defaultIfEmpty([]),
+                mergeMap((attachments) => sendgridEmailService.send(recipients, attachments)),
+                mergeMap(() => {
+                    const batch = admin.firestore().batch();
+                    batch.update(decisionRef, { completed: admin.firestore.FieldValue.serverTimestamp(), conclusion: data.conclusion, status: 'ARCHIVED' });
+                    return from(batch.commit());
+                }),
+                catchError((error) => of(functions.logger.error('Decision finalise failed', error.message)))
+            )
+        );
     });

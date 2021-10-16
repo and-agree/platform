@@ -1,5 +1,6 @@
 import Busboy from 'busboy';
 import * as functions from 'firebase-functions';
+import { firstValueFrom } from 'rxjs';
 import { DecisionFeedbackService, EmailFields, SendgridEmailService } from '../services';
 
 export const DecisionParse = functions
@@ -28,9 +29,9 @@ export const DecisionParse = functions
                     const recipients = decisionData.managers.map((member) => member.email);
 
                     try {
-                        await sendgridEmailService.send(recipients);
+                        await firstValueFrom(sendgridEmailService.send(recipients));
                     } catch (error: any) {
-                        functions.logger.error('Failed to send email', error.message);
+                        functions.logger.error('Decision parse failed', error.message);
                     }
                 }
 
@@ -39,6 +40,6 @@ export const DecisionParse = functions
 
             busboy.end(req.rawBody);
         } catch (error: any) {
-            functions.logger.error('Failed to update decision', error.message);
+            functions.logger.error('Decision parse failed', error.message);
         }
     });

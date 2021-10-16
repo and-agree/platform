@@ -24,8 +24,9 @@ export interface TeamDecider {
 
 export interface DecisionDocument {
     name: string;
-    file: string;
-    attach?: boolean;
+    path: string;
+    size: boolean;
+    approved: boolean;
 }
 
 export interface DecisionFeedback {
