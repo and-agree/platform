@@ -31,7 +31,7 @@ export const DecisionParse = functions
                     try {
                         await firstValueFrom(sendgridEmailService.send(recipients));
                     } catch (error: any) {
-                        functions.logger.error('Decision parse failed', error.message);
+                        functions.logger.error('Decision parse failed', JSON.stringify(error));
                     }
                 }
 
@@ -40,6 +40,6 @@ export const DecisionParse = functions
 
             busboy.end(req.rawBody);
         } catch (error: any) {
-            functions.logger.error('Decision parse failed', error.message);
+            functions.logger.error('Decision parse failed', JSON.stringify(error));
         }
     });

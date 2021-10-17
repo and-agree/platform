@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { firstValueFrom, forkJoin, from, of } from 'rxjs';
-import { catchError, defaultIfEmpty, mergeMap } from 'rxjs/operators';
+import { catchError, defaultIfEmpty, mergeMap, map } from 'rxjs/operators';
 import { Decision } from '../common/models';
 import { SendgridEmailService } from '../services';
 
@@ -24,27 +24,27 @@ export const DecisionFinalise = functions
             return;
         }
 
-        const update = {
+        const sendgridEmailService = new SendgridEmailService({ ...decisionData, ...data }, 'decision-finalise.html');
+        const recipients = [...decisionData.managers, ...decisionData.deciders].map((member) => member.email);
+
+        const batch = admin.firestore().batch();
+        batch.update(decisionRef, {
             documents: data.documents ?? [],
             conclusion: data.conclusion,
             status: 'ARCHIVED',
             completed: admin.firestore.FieldValue.serverTimestamp(),
-        };
-
-        const sendgridEmailService = new SendgridEmailService({ ...decisionData, ...data }, 'decision-finalise.html');
-        const recipients = [...decisionData.managers, ...decisionData.deciders].map((member) => member.email);
-        const attachmentData = sendgridEmailService.getAttachments(update.documents, true);
+        });
 
         await firstValueFrom(
-            forkJoin(attachmentData).pipe(
+            from(batch.commit()).pipe(
+                mergeMap(() => from(decisionRef.get())),
+                map((decisionDocument) => decisionDocument.data() as Decision),
+                map((decisionData) => sendgridEmailService.setData(decisionData)),
+                map(() => sendgridEmailService.getAttachments(true)),
+                mergeMap((attachmentData) => forkJoin(attachmentData)),
                 defaultIfEmpty([]),
                 mergeMap((attachments) => sendgridEmailService.send(recipients, attachments)),
-                mergeMap(() => {
-                    const batch = admin.firestore().batch();
-                    batch.update(decisionRef, update);
-                    return from(batch.commit());
-                }),
-                catchError((error) => of(functions.logger.error('Decision finalise failed', error.message)))
+                catchError((error) => of(functions.logger.error('Decision finalise failed', JSON.stringify(error))))
             )
         );
     });

@@ -81,16 +81,35 @@
                             <tr>
                                 <td style="padding-top: 8px">
                                     <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
-                                        <strong style="font-weight: 600">Goal:</strong>
-                                        <%= goal %>
+                                        <strong style="font-weight: 600">Decision:</strong>
+                                        <%= conclusion %>
                                     </p>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding-top: 8px">
                                     <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
-                                        <strong style="font-weight: 600">Decision:</strong>
-                                        <%= conclusion %>
+                                        <strong style="font-weight: 600">Manager(s):</strong>
+                                        <%= managers.map((manager) => manager.email).join(', ') %>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 8px">
+                                    <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
+                                        <strong style="font-weight: 600">Outcome:</strong>
+                                        <img height="20" src="<%= uri %>/assets/email/agree-icon.png" />
+                                        <span><%= deciders.filter((decider) => decider.status === 'APPROVED').length %> Agree &amp; feedback</span>
+                                        <img height="20" src="<%= uri %>/assets/email/disagree-icon.png" />
+                                        <span><%= deciders.filter((decider) => decider.status === 'REJECTED').length %> Disagree &amp; feedback</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 8px">
+                                    <p style="box-sizing: border-box; text-align: left; padding: 0; margin: 0">
+                                        <strong style="font-weight: 600">Date:</strong>
+                                        <%= moment(completed.toDate()).utc().endOf('day').format('dddd Do MMMM YYYY') %>
                                     </p>
                                 </td>
                             </tr>

@@ -9,7 +9,6 @@ import * as path from 'path';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { Decision } from '../common/models';
-import { DecisionDocument } from './../common/models/decision';
 
 export interface DecisionEmailModel {
     decisionData: Decision;
@@ -25,8 +24,12 @@ export class SendgridEmailService implements DecisionEmailModel {
         return fs.readFileSync(path.join(__dirname, 'templates', template)).toString();
     }
 
-    public getAttachments(documents: DecisionDocument[], approved = false): Observable<any>[] {
-        return documents
+    public setData(decisionData: Decision): void {
+        this.decisionData = decisionData;
+    }
+
+    public getAttachments(approved = false): Observable<any>[] {
+        return this.decisionData.documents
             .filter((document) => document.approved === approved)
             .map((document) =>
                 of(admin.storage().bucket()).pipe(

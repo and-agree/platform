@@ -26,13 +26,13 @@ export const DecisionReminder = functions
 
         const sendgridEmailService = new SendgridEmailService(decisionData, 'decision-create.html');
         const recipients = decisionData.deciders.map((member) => member.email);
-        const attachmentData = sendgridEmailService.getAttachments(decisionData.documents);
+        const attachmentData = sendgridEmailService.getAttachments();
 
         await firstValueFrom(
             forkJoin(attachmentData).pipe(
                 defaultIfEmpty([]),
                 mergeMap((attachments) => sendgridEmailService.send(recipients, attachments)),
-                catchError((error) => of(functions.logger.error('Decision reminder failed', error.message)))
+                catchError((error) => of(functions.logger.error('Decision reminder failed', JSON.stringify(error))))
             )
         );
     });

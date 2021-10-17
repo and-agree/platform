@@ -27,7 +27,7 @@ export const DecisionCreate = functions
 
         const sendgridEmailService = new SendgridEmailService(decisionData, 'decision-create.html');
         const recipients = [...decisionData.managers, ...decisionData.deciders].map((member) => member.email);
-        const attachmentData = sendgridEmailService.getAttachments(decisionData.documents);
+        const attachmentData = sendgridEmailService.getAttachments();
 
         await firstValueFrom(
             forkJoin(attachmentData).pipe(
