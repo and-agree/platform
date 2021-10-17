@@ -13,6 +13,7 @@ env:
   FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
   SENDGRID_DOMAIN: ${{ secrets.SENDGRID_DOMAIN }}
+  WEBSITE_URI: ${{ secrets.WEBSITE_URI }}
 
 jobs:
   test-api:
