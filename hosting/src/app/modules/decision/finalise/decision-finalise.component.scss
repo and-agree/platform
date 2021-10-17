@@ -14,7 +14,7 @@
             grid-auto-columns: 3fr 2fr;
         }
 
-        > div:nth-child(n+3) {
+        > div:nth-child(n + 3) {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -41,6 +41,51 @@ section {
 mat-form-field,
 textarea {
     width: 100%;
+}
+
+.document-form {
+    margin: 1em 0;
+
+    .document-entry {
+        display: grid;
+        grid-template-columns: auto min-content max-content min-content;
+        gap: 0rem;
+        margin-bottom: 1rem;
+        align-items: center;
+
+        mat-form-field {
+            grid-column: span 4;
+        }
+
+        .indicator {
+            padding-right: 1.5rem;
+
+            mat-icon {
+                position: relative;
+                top: 3px;
+            }
+        }
+
+        @media screen and (min-width: 960px) {
+            grid-template-columns: auto min-content min-content min-content;
+            align-items: center;
+            margin-bottom: 0;
+
+            mat-form-field {
+                grid-column: auto;
+            }
+
+            .indicator {
+                padding-right: 0;
+            }
+
+            > div {
+                position: relative;
+                top: -0.5rem;
+                padding-left: 2rem;
+            }
+        }
+    }
 }
 
 .actions {

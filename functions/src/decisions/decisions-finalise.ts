@@ -24,9 +24,16 @@ export const DecisionFinalise = functions
             return;
         }
 
+        const update = {
+            documents: data.documents ?? [],
+            conclusion: data.conclusion,
+            status: 'ARCHIVED',
+            completed: admin.firestore.FieldValue.serverTimestamp(),
+        };
+
         const sendgridEmailService = new SendgridEmailService({ ...decisionData, ...data }, 'decision-finalise.html');
         const recipients = [...decisionData.managers, ...decisionData.deciders].map((member) => member.email);
-        const attachmentData = sendgridEmailService.getAttachments(decisionData.documents, true);
+        const attachmentData = sendgridEmailService.getAttachments(update.documents, true);
 
         await firstValueFrom(
             forkJoin(attachmentData).pipe(
@@ -34,7 +41,7 @@ export const DecisionFinalise = functions
                 mergeMap((attachments) => sendgridEmailService.send(recipients, attachments)),
                 mergeMap(() => {
                     const batch = admin.firestore().batch();
-                    batch.update(decisionRef, { completed: admin.firestore.FieldValue.serverTimestamp(), conclusion: data.conclusion, status: 'ARCHIVED' });
+                    batch.update(decisionRef, update);
                     return from(batch.commit());
                 }),
                 catchError((error) => of(functions.logger.error('Decision finalise failed', error.message)))

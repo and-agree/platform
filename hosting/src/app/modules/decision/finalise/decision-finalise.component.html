@@ -33,11 +33,48 @@
                 <div>Share the final decision documents with your team.</div>
             </header>
 
-            <mat-selection-list dense #documents>
-                <mat-list-option *ngFor="let document of decision.documents" [value]="document">
-                    <p mat-line>{{ document.name }}</p>
-                </mat-list-option>
-            </mat-selection-list>
+            <ng-container *ngIf="decision.documents.length">
+                <mat-selection-list dense #attachments>
+                    <mat-list-option *ngFor="let document of decision.documents" [value]="document">
+                        <p mat-line>{{ document.name }}</p>
+                    </mat-list-option>
+                </mat-selection-list>
+            </ng-container>
+
+            <form class="document-form" [formGroup]="documentForm">
+                <div formArrayName="upload" *ngFor="let document of documents.controls; let i = index">
+                    <div class="document-entry" [formGroupName]="i">
+                        <mat-form-field appearance="outline" floatLabel="always">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name" />
+                            <mat-error>
+                                <agree-error-message [control]="document.get('name')"></agree-error-message>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <div>
+                            <button mat-button (click)="buttonInput.click()">Choose file</button>
+
+                            <input #buttonInput type="file" (change)="saveFile($event, document)" />
+                        </div>
+
+                        <div class="indicator" [ngSwitch]="document.valid">
+                            <mat-icon color="primary" *ngSwitchCase="true">check_circle_outline</mat-icon>
+                            <mat-icon color="warn" *ngSwitchDefault>help_outline</mat-icon>
+                        </div>
+
+                        <div>
+                            <button mat-icon-button color="warn" aria-label="Remove document" (click)="removeDocument(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button mat-flat-button color="primary" (click)="addDocument()">Add file</button>
+                </div>
+            </form>
         </section>
 
         <div class="full-viewport">
