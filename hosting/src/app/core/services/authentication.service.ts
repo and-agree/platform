@@ -68,7 +68,7 @@ export class AuthenticationService {
         const logout = signOut(this.fireAuth);
         return from(logout).pipe(
             take(1),
-            mergeMap(() => of(this.router.navigate(['/']))),
+            mergeMap(() => of(this.router.navigate(['/', 'auth']))),
             map(() => this.user.next(null))
         );
     }

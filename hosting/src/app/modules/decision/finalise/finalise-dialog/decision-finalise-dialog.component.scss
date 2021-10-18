@@ -1,3 +1,14 @@
 .decision-dialog {
-    padding: 1.5rem;
+    padding: 1rem 0;
+
+    .actions {
+        display: grid;
+        justify-content: flex-end;
+        grid-template-columns: min-content;
+    }
+
+    @media screen and (min-width: 600px) {
+        font-size: 1rem;
+        padding: 1em;
+    }
 }
