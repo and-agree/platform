@@ -21,7 +21,7 @@ export class NotificationComponent implements OnChanges {
         switch (this.code) {
             case 'auth/user-not-found':
                 this.title = 'Authentication error';
-                this.message = 'Invalid credentials, please check username and password.';
+                this.message = `The email address and password you entered didn't match our records. Please double check and try again.`;
                 this.severity = 'warning';
                 break;
             case 'auth/email-already-in-use':
