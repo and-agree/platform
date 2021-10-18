@@ -1,12 +1,14 @@
 <div class="decision-dialog">
     <h2 mat-dialog-title class="mat-title">Are you sure you want to delete this decision?</h2>
     <mat-dialog-content>
-        <p class="mat-subheading-1">This will delete your decision from your decisions dashbaord.</p>
+        <p>This will delete your decision from your decisions dashboard.</p>
     </mat-dialog-content>
     <mat-dialog-actions class="actions">
-        <button mat-button mat-dialog-close color="warn" aria-label="Close dialog" cdkFocusInitial>
-            <span>Cancel</span>
-        </button>
+        <div>
+            <button mat-button mat-dialog-close color="warn" aria-label="Close dialog" cdkFocusInitial>
+                <span>Cancel</span>
+            </button>
+        </div>
         <button mat-flat-button [mat-dialog-close]="true" color="primary" aria-label="Delete decision">
             <span>Delete decision</span>
             <mat-icon>chevron_right</mat-icon>

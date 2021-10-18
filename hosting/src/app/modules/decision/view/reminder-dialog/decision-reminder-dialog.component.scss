@@ -1,18 +1,16 @@
 .decision-dialog {
-    padding: 1rem 0;
+    padding: 0.5rem 0.75rem;
+}
 
-    .actions {
-        display: grid;
-        grid-template-columns: min-content auto;
-    }
+[mat-dialog-title] {
+    font-size: 1.25rem;
+    margin: 0;
+    padding: 0;
+}
 
-    @media screen and (min-width: 600px) {
-        font-size: 1rem;
-        padding: 1em;
-
-        .actions {
-            justify-content: flex-end;
-            grid-template-columns: min-content min-content;
-        }
-    }
+mat-dialog-actions {
+    margin-top: 0.5rem;
+    display: grid;
+    gap: 0;
+    grid-template-columns: auto min-content;
 }
