@@ -71,10 +71,10 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
             .split('\n')
             .reduce((words: string[], line: string) => [...words, ...line.split(' ')], [])
             .filter(Boolean)
-            .map((word) => word.toLowerCase());
+            .map((word) => word.replace(/\W/gi, '').toLowerCase());
 
-        const approved = ['agree', 'approved', 'approve'].some((word) => words.includes(word));
-        const rejected = ['disagree', 'rejected', 'reject'].some((word) => words.includes(word));
+        const approved = ['agree', 'accept', 'accepted', 'approved', 'approve'].some((word) => words.includes(word));
+        const rejected = ['disagree', 'rejected', 'reject', 'deny', 'denied'].some((word) => words.includes(word));
         let status: DecisionFeedbackStatus = 'UNDEFINED';
 
         if (approved && !rejected) {
