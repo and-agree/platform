@@ -18,6 +18,8 @@ export interface DecisionFeedbackModel {
     text: string;
 }
 
+const EMAIL_PARSER_REGEX = /[From|On]:?.+<.+>/;
+
 export class DecisionFeedbackService implements DecisionFeedbackModel {
     public to = '';
     public from = '';
@@ -44,9 +46,12 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
 
         const decisionId = to.split('@')[0];
         const from = this._envelope.from;
-        const body = this.text
-            .split('\n')
-            .filter((line) => !line.startsWith('>'))
+
+        const lines = this.text.split('\n');
+        const original = lines.findIndex((line) => line.startsWith('>') || EMAIL_PARSER_REGEX.test(line));
+        const parsed = original >= 0 ? lines.slice(0, original) : [...lines];
+
+        const body = parsed
             .map((line) => line.trim())
             .join('\n')
             .trim();

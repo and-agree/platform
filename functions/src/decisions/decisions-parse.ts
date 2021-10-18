@@ -19,6 +19,8 @@ export const DecisionParse = functions
             const busboy = new Busboy({ headers: req.headers });
             const decisionFeedbackService: DecisionFeedbackService = new DecisionFeedbackService();
 
+            busboy.on('error', (error: Error) => functions.logger.error('Decision parse failed', error.message));
+
             busboy.on('field', (fieldname: EmailFields, value: string) => (decisionFeedbackService[fieldname] = value));
 
             busboy.on('finish', async () => {
