@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared';
 import { DecisionCreateComponent } from './create/decision-create.component';
+import { DecisionSuccessDialogComponent } from './create/success-dialog/decision-success-dialog.component';
 import { DecisionRoutingModule } from './decision-routing.module';
 import { DecisionComponent } from './decision.component';
 import { DecisionFinaliseComponent } from './finalise/decision-finalise.component';
@@ -17,6 +18,7 @@ import { DecisionReminderDialogComponent } from './view/reminder-dialog/decision
         DecisionFinaliseComponent,
         DecisionFinaliseDialogComponent,
         DecisionReminderDialogComponent,
+        DecisionSuccessDialogComponent,
         DecisionViewComponent,
     ],
     imports: [DecisionRoutingModule, SharedModule],

@@ -1,0 +1,15 @@
+.decision-dialog {
+    padding: 0.75rem;
+}
+
+[mat-dialog-title] {
+    font-size: 1.25rem;
+    margin: 0;
+    padding: 0;
+}
+
+mat-dialog-actions {
+    margin-top: 0.5rem;
+    display: grid;
+    justify-content: flex-end;
+}

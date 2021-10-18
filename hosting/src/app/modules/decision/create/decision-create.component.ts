@@ -2,10 +2,12 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { Account, Decision, DecisionDocument, DecisionGeneral } from '../../../core/models';
 import { AuthenticationService, DecisionService, StorageService } from '../../../core/services';
+import { DecisionSuccessDialogComponent } from './success-dialog/decision-success-dialog.component';
 
 @Component({
     templateUrl: './decision-create.component.html',
@@ -23,6 +25,7 @@ export class DecisionCreateComponent {
     constructor(
         private router: Router,
         private forms: FormBuilder,
+        private dialog: MatDialog,
         private authenticationService: AuthenticationService,
         private storageService: StorageService,
         private decisionService: DecisionService
@@ -160,7 +163,15 @@ export class DecisionCreateComponent {
 
         this.decisionService
             .create(general, team, documents)
-            .pipe(map((decision) => this.router.navigate(['/', 'decision', 'view', decision.uid], { replaceUrl: true })))
+            .pipe(tap((decision: Decision) => this.openDialog(decision)))
             .subscribe();
+    }
+
+    private openDialog(decision: Decision): void {
+        const dialogRef = this.dialog.open(DecisionSuccessDialogComponent, { disableClose: true });
+        dialogRef
+            .afterClosed()
+            .pipe(filter((result) => !!result))
+            .subscribe(() => this.router.navigate(['/', 'decision', 'view', decision.uid], { replaceUrl: true }));
     }
 }
