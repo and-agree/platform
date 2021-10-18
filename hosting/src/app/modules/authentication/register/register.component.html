@@ -1,9 +1,9 @@
 <h1>Create account</h1>
 <h3>Minimum password length is 8 characters.</h3>
 
-<div class="error" *ngIf="error">Error {{ error }}</div>
-
 <form [formGroup]="registerForm" (submit)="createAccount()" autocomplete="off">
+    <agree-notification [code]="error" *ngIf="error"></agree-notification>
+
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Display name</mat-label>
         <input matInput required formControlName="displayName" />

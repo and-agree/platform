@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
             .register(credentials.displayName, credentials.email, credentials.password)
             .pipe(
                 catchError((err) => {
-                    this.error = err.message;
+                    this.error = err.code;
                     return throwError(() => new Error(err));
                 })
             )

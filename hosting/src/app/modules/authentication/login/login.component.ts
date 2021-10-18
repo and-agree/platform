@@ -34,7 +34,7 @@ export class LoginComponent {
 
         this.authenticationService
             .signIn(credentials.email, credentials.password)
-            .pipe(catchError((err) => (this.error = err.message)))
+            .pipe(catchError((err) => (this.error = err.code)))
             .subscribe();
     }
 }
