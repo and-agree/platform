@@ -20,7 +20,7 @@ import { writeBatch } from '@firebase/firestore';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Decision, DecisionDocument, DecisionGeneral } from '../models';
-import { DecisionFeedback, DecisionStatus } from './../models/decision';
+import { DecisionFeedback, DecisionStatus, TeamDecider } from './../models/decision';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
@@ -87,8 +87,9 @@ export class DecisionService {
         return collectionData(feedbackQuery);
     }
 
-    public updateFeedback(decisionId: string, feedbackId: string, feedbackData: Partial<DecisionFeedback>): Observable<void> {
+    public updateFeedback(decisionId: string, deciders: TeamDecider[], feedbackId: string, feedbackData: Partial<DecisionFeedback>): Observable<void> {
         const batch = writeBatch(this.firestore);
+        batch.update(doc(this.firestore, `decisions/${decisionId}`), { deciders });
         batch.update(doc(this.firestore, `decisions/${decisionId}/feedback/${feedbackId}`), feedbackData);
         return from(batch.commit());
     }

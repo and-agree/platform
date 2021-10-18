@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, skip, Subject, switchMap, takeUntil } from 'rxjs';
-import { Decision, DecisionFeedbackStatus, TeamDecider } from './../../../core/models';
+import { Decision, DecisionFeedback, DecisionFeedbackStatus, TeamDecider } from './../../../core/models';
 import { DecisionService } from './../../../core/services/decision.service';
 import { FilterPipe } from './../../../shared/pipes';
 import { DecisionDeleteDialogComponent } from './delete-dialog/decision-delete-dialog.component';
@@ -67,8 +67,9 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
             .subscribe();
     }
 
-    public changeFeedback(feedbackId: string, status: DecisionFeedbackStatus): void {
-        this.decisionService.updateFeedback(this.decision.uid, feedbackId, { status });
+    public changeFeedback(feedback: DecisionFeedback, status: DecisionFeedbackStatus): void {
+        const deciders = this.decision.deciders.map((decider) => (decider.email === feedback.from ? { ...decider, status } : decider));
+        this.decisionService.updateFeedback(this.decision.uid, deciders, feedback.uid, { status });
     }
 
     public deleteDecision(): void {

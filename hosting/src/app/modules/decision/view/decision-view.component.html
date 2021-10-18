@@ -106,9 +106,9 @@
                                 <mat-icon>expand_more</mat-icon>
                             </button>
                             <mat-menu #changeMenu>
-                                <button mat-menu-item (click)="changeFeedback(feedback.uid, 'APPROVED')">Agree &amp; feedback</button>
-                                <button mat-menu-item (click)="changeFeedback(feedback.uid, 'REJECTED')">Disagree &amp; feedback</button>
-                                <button mat-menu-item (click)="changeFeedback(feedback.uid, 'UNDEFINED')">Undefined</button>
+                                <button mat-menu-item (click)="changeFeedback(feedback, 'APPROVED')">Agree &amp; feedback</button>
+                                <button mat-menu-item (click)="changeFeedback(feedback, 'REJECTED')">Disagree &amp; feedback</button>
+                                <button mat-menu-item (click)="changeFeedback(feedback, 'UNDEFINED')">Undefined</button>
                             </mat-menu>
                         </div>
                     </header>
