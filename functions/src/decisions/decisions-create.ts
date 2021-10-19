@@ -17,7 +17,7 @@ export const DecisionCreate = functions
         const decisionData = (await decisionRef.get()).data() as Decision;
 
         if (!decisionData) {
-            functions.logger.warn('No decision entry found', context.params.decisionId);
+            functions.logger.warn('No decision entry found.', context.params.decisionId);
             return;
         }
 
@@ -38,7 +38,7 @@ export const DecisionCreate = functions
                     batch.update(decisionRef, { status: 'PENDING' });
                     return from(batch.commit());
                 }),
-                catchError((error) => of(functions.logger.error('Decision create failed', JSON.stringify(error))))
+                catchError((error) => of(functions.logger.error('Decision create failed.', JSON.stringify(error))))
             )
         );
     });

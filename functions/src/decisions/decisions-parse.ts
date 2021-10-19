@@ -19,7 +19,7 @@ export const DecisionParse = functions
             const busboy = new Busboy({ headers: req.headers });
             const decisionFeedbackService: DecisionFeedbackService = new DecisionFeedbackService();
 
-            busboy.on('error', (error: Error) => functions.logger.error('Decision parse failed', error.message));
+            busboy.on('error', (error: Error) => functions.logger.error('Decision parse failed.', error.message));
 
             busboy.on('field', (fieldname: EmailFields, value: string) => (decisionFeedbackService[fieldname] = value));
 
@@ -33,7 +33,7 @@ export const DecisionParse = functions
                     try {
                         await firstValueFrom(sendgridEmailService.send(recipients));
                     } catch (error: any) {
-                        functions.logger.error('Decision parse failed', JSON.stringify(error));
+                        functions.logger.error('Decision parse failed.', JSON.stringify(error));
                     }
                 }
 
@@ -42,6 +42,6 @@ export const DecisionParse = functions
 
             busboy.end(req.rawBody);
         } catch (error: any) {
-            functions.logger.error('Decision parse failed', JSON.stringify(error));
+            functions.logger.error('Decision parse failed.', JSON.stringify(error));
         }
     });

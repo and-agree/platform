@@ -40,7 +40,7 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
         const to = this._envelope.to.find((to: string) => to.endsWith(functions.config().sendgrid.domain));
 
         if (!to) {
-            functions.logger.warn('Cannot parse email address from sendgrid');
+            functions.logger.warn('Cannot parse email address from sendgrid.');
             return;
         }
 
@@ -63,12 +63,12 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
         const decisionData = (await decisionRef.get()).data() as Decision;
 
         if (!decisionData) {
-            functions.logger.warn('No decision entry found during parse', decisionId);
+            functions.logger.warn('No decision entry found during parse.', decisionId);
             return;
         }
 
         if (decisionData.status !== 'PENDING') {
-            functions.logger.info('Invalid decision status to add feedback', decisionId);
+            functions.logger.info('Invalid decision status to add feedback.', decisionId);
             return;
         }
 

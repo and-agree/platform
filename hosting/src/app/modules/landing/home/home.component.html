@@ -1,6 +1,6 @@
 <div class="home-header">
     <h1>
-        <img src="/assets/logo-ink@3x.png" alt="&agree">
+        <img src="/assets/logo-ink@3x.png" alt="&agree" />
     </h1>
     <div>
         <a mat-flat-button [routerLink]="['/', 'auth']" color="primary" aria-label="Login">
@@ -12,11 +12,13 @@
 
 <div class="home-content">
     <div class="home-banner">
-        <p class="home-title">Make<br><span class="coral">decision<br>making</span><br>better.</p>
+        <p class="home-title">
+            Make<br /><span class="coral">decision<br />making</span><br />better.
+        </p>
         <p class="home-subtitle">We are currently creating a simple email-based tool that helps companies streamline decision making.</p>
     </div>
     <div class="home-image">
-        <img src="/assets/landing-background.jpg">
+        <img src="/assets/landing-background.jpg" />
     </div>
 </div>
 
@@ -34,12 +36,20 @@
                 </mat-form-field>
             </div>
             <div>
-                <button mat-flat-button color="primary" type="submit" [disabled]="signupForm.invalid" aria-label="Sign up">
-                    <span>Sign up</span>
-                    <mat-icon>chevron_right</mat-icon>
+                <button mat-flat-button color="primary" type="submit" [disabled]="signupForm.invalid || subscribed" aria-label="Sign up">
+                    <ng-container *ngIf="subscribed; else subscribe">
+                        <span>Subscribed</span>
+                    </ng-container>
+                    <ng-template #subscribe>
+                        <span>Sign up</span>
+                        <mat-icon>chevron_right</mat-icon>
+                    </ng-template>
                 </button>
             </div>
         </form>
     </div>
-    <div>You can unsubscribe anytime. For more details please review our <a href="https://app.termly.io/document/privacy-policy/0fb7bdb6-8bdc-437d-b21d-d4acbfe82127" target="_blank">Privacy Notice.</a></div>
+    <div>
+        You can unsubscribe anytime. For more details please review our
+        <a href="https://app.termly.io/document/privacy-policy/0fb7bdb6-8bdc-437d-b21d-d4acbfe82127" target="_blank">Privacy Notice.</a>
+    </div>
 </div>

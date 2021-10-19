@@ -13,6 +13,9 @@ env:
   FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
   SENDGRID_DOMAIN: ${{ secrets.SENDGRID_DOMAIN }}
+  MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+  MAILCHIMP_API_URI: ${{ secrets.MAILCHIMP_API_URI }}
+  MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
   WEBSITE_URI: ${{ secrets.WEBSITE_URI }}
 
 jobs:
@@ -103,7 +106,10 @@ jobs:
           npm install
       - name: Deploy
         run: |
-          npx firebase functions:config:set website.uri=${WEBSITE_URI} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
           npx firebase functions:config:set sendgrid.api_key=${SENDGRID_API_KEY} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
           npx firebase functions:config:set sendgrid.domain=${SENDGRID_DOMAIN} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
+          npx firebase functions:config:set mailchimp.api_key=${MAILCHIMP_API_KEY} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
+          npx firebase functions:config:set mailchimp.api_uri=${MAILCHIMP_API_URI} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
+          npx firebase functions:config:set mailchimp.list_id=${MAILCHIMP_LIST_ID} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
+          npx firebase functions:config:set website.uri=${WEBSITE_URI} --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN}
           npx firebase deploy --project ${FIREBASE_PROJECT_ID} --token ${FIREBASE_TOKEN} --force

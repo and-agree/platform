@@ -16,7 +16,7 @@ export const DecisionReminder = functions
         const decisionData = (await decisionRef.get()).data() as Decision;
 
         if (!decisionData) {
-            functions.logger.warn('No decision entry found', data.decisionId);
+            functions.logger.warn('No decision entry found.', data.decisionId);
             return;
         }
 
@@ -32,7 +32,7 @@ export const DecisionReminder = functions
             forkJoin(attachmentData).pipe(
                 defaultIfEmpty([]),
                 mergeMap((attachments) => sendgridEmailService.send(recipients, attachments)),
-                catchError((error) => of(functions.logger.error('Decision reminder failed', JSON.stringify(error))))
+                catchError((error) => of(functions.logger.error('Decision reminder failed.', JSON.stringify(error))))
             )
         );
     });
