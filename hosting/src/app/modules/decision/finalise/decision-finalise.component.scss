@@ -193,6 +193,10 @@ textarea {
             }
         }
     }
+
+    > :last-child {
+        margin-top: 1.5rem;
+    }
 }
 
 .actions {
