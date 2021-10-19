@@ -2,6 +2,15 @@
     white-space: pre-line;
 }
 
+mat-chip {
+    display: grid;
+    grid-template-columns: auto min-content;
+    align-content: center;
+    min-height: 3em;
+    border-radius: 1.5em;
+    padding: 1em 0.75em 1em 1em;
+}
+
 .summary {
     padding: 1.25rem 2rem;
 

@@ -56,6 +56,11 @@ export class DecisionViewComponent implements OnInit, OnDestroy {
         return this.filterPipe.transform(this.decision.deciders, 'pending', false);
     }
 
+    public getFeedback(email: string): string {
+        const feedback = this.decision.feedback.find((message) => message.from === email);
+        return feedback ? feedback.uid : null;
+    }
+
     public sendReminders(): void {
         const dialogRef = this.dialog.open(DecisionReminderDialogComponent);
         dialogRef

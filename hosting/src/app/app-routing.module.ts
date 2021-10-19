@@ -6,8 +6,9 @@ import { ApplicationComponent, WebsiteComponent } from './modules/layouts';
 
 const routerConfig: ExtraOptions = {
     enableTracing: false,
-    scrollPositionRestoration: 'top',
+    scrollPositionRestoration: 'enabled',
     anchorScrolling: 'enabled',
+    scrollOffset: [0, 10],
 };
 
 const routes: Routes = [

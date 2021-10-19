@@ -84,7 +84,10 @@
                         </h5>
                         <mat-chip-list class="mat-chip-list-stacked" [selectable]="false">
                             <ng-container *ngFor="let decider of feedbackRecieved | filter: 'status':state">
-                                <mat-chip [color]="state === 'APPROVED' ? 'primary' : 'accent'" [selected]="state !== 'UNDEFINED'">{{ decider.email }}</mat-chip>
+                                <mat-chip [routerLink]="[]" [fragment]="getFeedback(decider.email)" [color]="state === 'APPROVED' ? 'primary' : 'accent'" [selected]="state !== 'UNDEFINED'">
+                                    {{ decider.email }}
+                                    <mat-icon>arrow_circle_right</mat-icon>
+                                </mat-chip>
                             </ng-container>
                         </mat-chip-list>
                     </div>
@@ -92,7 +95,7 @@
             </div>
 
             <section class="feedback-list">
-                <article class="feedback-list-item" *ngFor="let feedback of decision.feedback" [ngClass]="{'agree': feedback.status === 'APPROVED', 'disagree': feedback.status === 'REJECTED'}">
+                <article [id]="feedback.uid" class="feedback-list-item" *ngFor="let feedback of decision.feedback" [ngClass]="{'agree': feedback.status === 'APPROVED', 'disagree': feedback.status === 'REJECTED'}">
                     <div class="mat-body-2">{{ feedback.from }}</div>
                     <div class="mat-body-2">{{ feedback.created | timestamp: 'HH:mm - MMM d, YYYY' }}</div>
                     <div class="feedback-list-actions">
