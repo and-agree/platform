@@ -93,25 +93,23 @@
 
             <section class="feedback-list">
                 <article class="feedback-list-item" *ngFor="let feedback of decision.feedback" [ngClass]="{'agree': feedback.status === 'APPROVED', 'disagree': feedback.status === 'REJECTED'}">
-                    <header>
-                        <div class="mat-body-2">{{ feedback.from }}</div>
-                        <div class="mat-body-2">{{ feedback.created | timestamp: 'HH:mm - MMM d, YYYY' }}</div>
-                        <div class="feedback-list-item-actions">
-                            <button mat-button [matMenuTriggerFor]="changeMenu">
-                                <ng-container [ngSwitch]="feedback.status">
-                                    <ng-container *ngSwitchCase="'APPROVED'">Agree &amp; feedback</ng-container>
-                                    <ng-container *ngSwitchCase="'REJECTED'">Disagree &amp; feedback</ng-container>
-                                    <ng-container *ngSwitchCase="'UNDEFINED'">Undefined</ng-container>
-                                </ng-container>
-                                <mat-icon>expand_more</mat-icon>
-                            </button>
-                            <mat-menu #changeMenu>
-                                <button mat-menu-item (click)="changeFeedback(feedback, 'APPROVED')">Agree &amp; feedback</button>
-                                <button mat-menu-item (click)="changeFeedback(feedback, 'REJECTED')">Disagree &amp; feedback</button>
-                                <button mat-menu-item (click)="changeFeedback(feedback, 'UNDEFINED')">Undefined</button>
-                            </mat-menu>
-                        </div>
-                    </header>
+                    <div class="mat-body-2">{{ feedback.from }}</div>
+                    <div class="mat-body-2">{{ feedback.created | timestamp: 'HH:mm - MMM d, YYYY' }}</div>
+                    <div class="feedback-list-actions">
+                        <button mat-button [matMenuTriggerFor]="changeMenu" role="menu">
+                            <ng-container [ngSwitch]="feedback.status">
+                                <ng-container *ngSwitchCase="'APPROVED'">Agree &amp; feedback</ng-container>
+                                <ng-container *ngSwitchCase="'REJECTED'">Disagree &amp; feedback</ng-container>
+                                <ng-container *ngSwitchCase="'UNDEFINED'">Undefined</ng-container>
+                            </ng-container>
+                            <mat-icon>expand_more</mat-icon>
+                        </button>
+                        <mat-menu #changeMenu>
+                            <button mat-menu-item (click)="changeFeedback(feedback, 'APPROVED')">Agree &amp; feedback</button>
+                            <button mat-menu-item (click)="changeFeedback(feedback, 'REJECTED')">Disagree &amp; feedback</button>
+                            <button mat-menu-item (click)="changeFeedback(feedback, 'UNDEFINED')">Undefined</button>
+                        </mat-menu>
+                    </div>
                     <div class="pre">{{ feedback.body }}</div>
                 </article>
             </section>

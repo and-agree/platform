@@ -184,11 +184,16 @@
     gap: 1rem;
 
     .feedback-list-item {
-        display: grid;
-        gap: 0.5rem;
         padding: 1rem;
         border-left: 5px solid #ccc;
         background: #fafafa;
+        display: grid;
+        grid-template-columns: minmax(20%, auto);
+        gap: 0.5rem;
+        grid-template-areas:
+            "a b b"
+            "c c c"
+            "d d d";
 
         &.agree {
             border-color: #302d5b;
@@ -198,32 +203,45 @@
             border-color: #8376e3;
         }
 
-        header {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
+        > :nth-child(1) {
+            grid-area: a;
+            word-break: break-all;
+        }
 
-            :last-child {
-                justify-self: center;
+        > :nth-child(2) {
+            grid-area: b;
+            text-align: right;
+        }
+
+        > :nth-child(3),
+        .feedback-list-actions {
+            grid-area: d;
+            text-align: right;
+
+            button {
+                position: relative;
+                right: -0.5rem;
+                bottom: -0.5rem;
+            }
+        }
+
+        > :nth-child(4) {
+            grid-area: c;
+        }
+
+        @media screen and (min-width: 960px) {
+            grid-template-areas:
+            "a b d"
+            "c c c";
+
+            > :nth-child(2) {
+                text-align: center;
             }
 
-            @media screen and (min-width: 640px) {
-                grid-template-columns: 1fr 1fr 1fr;
-                justify-items: center;
-
-                :first-child {
-                    justify-self: flex-start;
-                }
-
-                :last-child {
-                    justify-self: flex-end;
-                }
-
-                .feedback-list-item-actions button {
-                    position: relative;
-                    top: -0.5rem;
-                    right: -0.5rem;
-                }
+            > :nth-child(3) button,
+            .feedback-list-actions {
+                top: -0.5rem;
+                bottom: 0;
             }
         }
     }
