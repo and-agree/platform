@@ -45,6 +45,6 @@ export class RegisterComponent implements OnInit {
                     return throwError(() => new Error(err));
                 })
             )
-            .subscribe(() => this.router.navigate(['/'], { replaceUrl: true }));
+            .subscribe(() => this.router.navigate(['/', 'auth'], { replaceUrl: true }));
     }
 }
