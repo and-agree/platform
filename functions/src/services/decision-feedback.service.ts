@@ -53,6 +53,7 @@ export class DecisionFeedbackService implements DecisionFeedbackModel {
 
         const body = parsed
             .map((line) => line.trim())
+            .filter((line) => !['Sent from my iPhone'].includes(line))
             .join('\n')
             .trim();
         const created = admin.firestore.FieldValue.serverTimestamp();

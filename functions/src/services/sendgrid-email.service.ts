@@ -51,12 +51,13 @@ export class SendgridEmailService implements DecisionEmailModel {
 
         const uri = functions.config().website.uri;
         const to = [...new Set(recipients)];
-        const from = `&agree <${this.decisionData.uid}@${this.emailDomain}>`;
+        const from = { name: '&agree', email: `${this.decisionData.uid}@${this.emailDomain}` };
+        const replyTo = { email: from.email };
         const subject = this.decisionData.title;
         const template = render(this.loadTemplate(this.emailTemplate), { ...this.decisionData, uri, from, moment });
 
         return of(template).pipe(
-            map((html): MailDataRequired => ({ to, from, subject, html, attachments })),
+            map((html): MailDataRequired => ({ to, from, replyTo, subject, html, attachments })),
             mergeMap((payload: MailDataRequired) => send(payload))
         );
     }

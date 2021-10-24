@@ -3,6 +3,9 @@
         "email": "aaaaaaaaaaaaaaaaaaaaaaaa@ci.andagree.com",
         "name": "&agree"
     },
+    "reply_to": {
+        "email": "aaaaaaaaaaaaaaaaaaaaaaaa@ci.andagree.com"
+    },
     "subject": "Title",
     "personalizations": [
         {
