@@ -11,6 +11,7 @@ const routes: Routes = [
             pendingData: DecisionPendingResolve,
             archivedData: DecisionArchivedResolve,
         },
+        data: { title: 'Dashboard' },
     },
 ];
 

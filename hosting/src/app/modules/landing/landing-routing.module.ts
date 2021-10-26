@@ -11,6 +11,7 @@ const routes: Routes = [
             {
                 path: '',
                 component: HomeComponent,
+                data: { title: 'Landing page' },
             },
         ],
     },

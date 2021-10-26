@@ -14,16 +14,19 @@ const routes: Routes = [
             {
                 path: 'create',
                 component: DecisionCreateComponent,
+                data: { title: 'Decision create' },
             },
             {
                 path: 'view/:decisionId',
                 component: DecisionViewComponent,
                 resolve: { decision: DecisionRetrieveResolve },
+                data: { title: 'Decision view' },
             },
             {
                 path: 'finalise/:decisionId',
                 component: DecisionFinaliseComponent,
                 resolve: { decision: DecisionRetrieveResolve },
+                data: { title: 'Decision finalise' },
             },
         ],
     },

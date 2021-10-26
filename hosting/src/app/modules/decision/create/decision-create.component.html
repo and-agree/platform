@@ -192,7 +192,7 @@
         <div class="full-viewport-content">
             <div class="actions">
                 <button (click)="performCancel()" mat-button>Cancel</button>
-                <button (click)="createDecision()" mat-flat-button color="primary" [disabled]="generalForm.invalid || teamForm.invalid || documentForm.invalid">
+                <button (click)="createDecision()" mat-flat-button color="primary" [disabled]="generalForm.invalid || teamForm.invalid || documentForm.invalid" [agreeAnalytics]="['decision', 'created']">
                     <span>Start decision</span><mat-icon>chevron_right</mat-icon>
                 </button>
             </div>

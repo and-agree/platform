@@ -116,7 +116,7 @@
             <div class="full-viewport-content">
                 <div class="actions">
                     <button mat-button type="button" [routerLink]="['/', 'decision', 'view', decision.uid]">Back</button>
-                    <button mat-flat-button type="submit" color="primary" [disabled]="finaliseForm.invalid">
+                    <button mat-flat-button type="submit" color="primary" [disabled]="finaliseForm.invalid" [agreeAnalytics]="['decision', 'finalised']">
                         <span>Finalise decision</span><mat-icon>chevron_right</mat-icon>
                     </button>
                 </div>

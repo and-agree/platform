@@ -14,18 +14,22 @@ const routes: Routes = [
             {
                 path: '',
                 component: LoginComponent,
+                data: { title: 'Login' },
             },
             {
                 path: 'register',
                 component: RegisterComponent,
+                data: { title: 'Register' },
             },
             {
                 path: 'forgotten',
                 component: ForgottenComponent,
+                data: { title: 'Password forgotten' },
             },
             {
                 path: 'recover',
                 component: RecoverComponent,
+                data: { title: 'Password reset' },
             },
         ],
     },

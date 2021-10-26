@@ -1,3 +1,4 @@
+import { AnalyticsService } from './analytics.service';
 import { Injectable, Optional } from '@angular/core';
 import {
     Auth,
@@ -25,15 +26,16 @@ export class AuthenticationService {
     public user: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);
     private storage: Storage = sessionStorage;
 
-    constructor(private router: Router, @Optional() private fireAuth: Auth, private firestore: Firestore) {}
+    constructor(private router: Router, @Optional() private fireAuth: Auth, private firestore: Firestore, private analyticsService: AnalyticsService) {}
 
     public signIn(email: string, password: string): Observable<Account> {
         const redirect = this.storage.getItem('redirect') || 'dashboard';
 
         return from(signInWithEmailAndPassword(this.fireAuth, email, password)).pipe(
+            tap(() => this.analyticsService.login()),
             map((credentials: UserCredential) => credentials.user),
             mergeMap((user: User) => this.retrieveAccount(user.uid)),
-            tap(() => this.router.navigate(['/', ...redirect.split('/').filter(Boolean)])),
+            tap(() => this.router.navigate(['/', ...redirect.split('/').filter(Boolean)], { replaceUrl: true })),
             tap(() => this.storage.removeItem('redirect'))
         );
     }
@@ -42,10 +44,11 @@ export class AuthenticationService {
         const companyId = doc(collection(this.firestore, '_')).id;
 
         return from(createUserWithEmailAndPassword(this.fireAuth, email, password)).pipe(
+            tap(() => this.analyticsService.signup()),
             map((credentials: UserCredential) => credentials.user),
             mergeMap((user: User) => from(updateProfile(user, { displayName })).pipe(map(() => user))),
             mergeMap((user: User) => this.updateUser({ ...user, companyId })),
-            mergeMap((user: User) => this.retrieveAccount(user.uid))
+            mergeMap(() => this.signIn(email, password))
         );
     }
 
@@ -68,6 +71,7 @@ export class AuthenticationService {
         const logout = signOut(this.fireAuth);
         return from(logout).pipe(
             take(1),
+            tap(() => this.analyticsService.logout()),
             mergeMap(() => of(this.router.navigate(['/', 'auth']))),
             map(() => this.user.next(null))
         );

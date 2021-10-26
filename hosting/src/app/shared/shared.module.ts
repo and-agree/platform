@@ -18,13 +18,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ErrorMessageModule } from './components/error-message/error-message.module';
 import { NotificationModule } from './components/notification/notification.module';
-import { AuthenticatedDirective } from './directives/authenticated.directive';
-import { CountPipe } from './pipes';
-import { FilterPipe } from './pipes/filter.pipe';
-import { TimestampPipe } from './pipes/timestamp.pipe';
+import { AnalyticsDirective, AuthenticatedDirective } from './directives';
+import { CountPipe, FilterPipe, TimestampPipe } from './pipes';
 
 @NgModule({
-    declarations: [AuthenticatedDirective, CountPipe, FilterPipe, TimestampPipe],
+    declarations: [AuthenticatedDirective, AnalyticsDirective, CountPipe, FilterPipe, TimestampPipe],
     imports: [CommonModule, ReactiveFormsModule, ErrorMessageModule, NotificationModule],
     exports: [
         CommonModule,
@@ -44,6 +42,7 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         MatStepperModule,
         MatToolbarModule,
         AuthenticatedDirective,
+        AnalyticsDirective,
         CountPipe,
         FilterPipe,
         TimestampPipe,
