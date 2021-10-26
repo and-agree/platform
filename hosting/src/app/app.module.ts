@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, indexedDBLocalPersistence, initializeAuth, provideAuth } from '@angular/fire/auth';
 import { connectFirestoreEmulator, enableMultiTabIndexedDbPersistence, getFirestore, provideFirestore } from '@angular/fire/firestore';
@@ -24,6 +25,7 @@ import { ApplicationComponent, WebsiteComponent } from './modules/layouts';
         AppFooterModule,
         MatNativeDateModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAnalytics(() => getAnalytics()),
         provideAuth(() => {
             const auth = initializeAuth(getApp(), { persistence: indexedDBLocalPersistence });
             if (environment.emulator) {
