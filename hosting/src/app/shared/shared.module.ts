@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -49,6 +50,6 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
         ErrorMessageModule,
         NotificationModule,
     ],
-    providers: [CountPipe, DatePipe, FilterPipe, TimestampPipe],
+    providers: [CountPipe, DatePipe, FilterPipe, TimestampPipe, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
 export class SharedModule {}
