@@ -1,7 +1,7 @@
 <h1>Reset password</h1>
 <h3>Enter a new password.</h3>
 
-<div class="error" *ngIf="error">{{ error }}</div>
+<agree-notification [code]="error" *ngIf="error"></agree-notification>
 
 <form [formGroup]="recoverForm" (submit)="resetPassword()">
     <mat-form-field appearance="outline" floatLabel="always">

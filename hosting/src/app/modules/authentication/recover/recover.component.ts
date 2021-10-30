@@ -21,7 +21,7 @@ export class RecoverComponent implements OnInit {
     }
 
     public resetPassword(): void {
-        const code = this.route.snapshot.queryParams.code;
+        const code = this.route.snapshot.queryParams.oobCode;
         const credentials = this.recoverForm.getRawValue();
 
         this.authenticationService

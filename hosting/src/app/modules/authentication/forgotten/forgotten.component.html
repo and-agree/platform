@@ -1,7 +1,7 @@
 <h1>Password recovery</h1>
 <h3>Enter your account email below.</h3>
 
-<div class="error" *ngIf="error">{{ error }}</div>
+<agree-notification [code]="error" *ngIf="error"></agree-notification>
 
 <div *ngIf="!sent">
     <form [formGroup]="forgottenForm" (submit)="recoverAccount()" autocomplete="off">
