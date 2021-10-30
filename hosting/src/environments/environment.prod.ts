@@ -10,4 +10,5 @@ export const environment = {
         appId: '{{ FIREBASE_APP_ID }}',
         measurementId: '{{ FIREBASE_MEASUREMENT_ID }}',
     },
+    sendgridDomain: '{{ SENDGRID_DOMAIN }}'
 };

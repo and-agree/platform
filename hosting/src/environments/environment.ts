@@ -19,4 +19,5 @@ export const environment = {
         appId: 'appId',
         measurementId: 'measurementId',
     },
+    sendgridDomain: 'sendgridDomain'
 };

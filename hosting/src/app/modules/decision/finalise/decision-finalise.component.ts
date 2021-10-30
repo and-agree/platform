@@ -5,6 +5,7 @@ import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Decision } from './../../../core/models';
 import { DecisionService, StorageService } from './../../../core/services';
 import { DecisionFinaliseDialogComponent } from './finalise-dialog/decision-finalise-dialog.component';
@@ -17,6 +18,7 @@ export class DecisionFinaliseComponent {
     public decision: Decision;
     public finaliseForm: FormGroup;
     public documentForm: FormGroup;
+    public emailDomain = environment.sendgridDomain;
 
     @ViewChild('attachments')
     public attachments: MatSelectionList;
@@ -87,7 +89,7 @@ export class DecisionFinaliseComponent {
         finaliseData.documents = (this.attachments?.options || []).map((option: MatListOption) => ({ ...option.value, approved: option.selected }));
 
         const documentData = this.documentForm.getRawValue().upload;
-        finaliseData.documents = [ ...finaliseData.documents, ...documentData ];
+        finaliseData.documents = [...finaliseData.documents, ...documentData];
 
         of(this.openDialog())
             .pipe(switchMap(() => this.decisionService.finalise(this.decision.uid, finaliseData)))

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, skip, Subject, switchMap, takeUntil } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Decision, DecisionFeedback, DecisionFeedbackStatus, TeamDecider } from './../../../core/models';
 import { DecisionService } from './../../../core/services/decision.service';
 import { FilterPipe } from './../../../shared/pipes';
@@ -14,6 +15,7 @@ import { DecisionReminderDialogComponent } from './reminder-dialog/decision-remi
 })
 export class DecisionViewComponent implements OnInit, OnDestroy {
     public decision: Decision;
+    public emailDomain = environment.sendgridDomain;
 
     private isDestroyed: Subject<void> = new Subject<void>();
 
