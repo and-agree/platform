@@ -20,6 +20,7 @@ export class NotificationComponent implements OnChanges {
     private processCode(): void {
         switch (this.code) {
             case 'auth/user-not-found':
+            case 'auth/wrong-password':
                 this.title = 'Authentication error';
                 this.message = `The email address and password you entered didn't match our records. Please double check and try again.`;
                 this.severity = 'warning';
@@ -30,7 +31,9 @@ export class NotificationComponent implements OnChanges {
                 this.severity = 'warning';
                 break;
             default:
-                console.log(this.code);
+                this.title = 'Unknown error';
+                this.message = `An unknown error has occured (${this.code}). Please try again later, if this continues please contact us.`;
+                this.severity = 'error';
         }
     }
 }
